@@ -7,14 +7,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title text-danger" id="exampleModalLabel">Registro Empresa</h5>
+          <h5 class="modal-title text-black" id="exampleModalLabel">Registro Empresa</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="container">
               <div class="row">
-                <div class="col-lg-12 offset-lg">
-                  <form novalidate  class="billing-form bg-light float-start p-3">
+                <div class="col-lg-16">
+                  <form novalidate  class="billing-form float-start">
                     <div class="row g-3 p-1">
                       <div class="form-group col-md-6">
                           <input type="text" class="form-control" placeholder="Nombre">
@@ -54,43 +54,86 @@
                         <input type="email" class="form-control" placeholder="Email">
                       </div>
                       <div class="form-group p-1">
+                        <input type="password" class="form-control" placeholder="Contraseña">
+                      </div>
+                      <div class="form-group p-1">
                         <input type="text" class="form-control" placeholder="Actividad principal">
                       </div>
-                      <label for="inputState">Referencias personales</label>
+                      <div class="form-group p-1">
+                        <input type="password" class="form-control" placeholder="Descripción">
+                      </div>
                       <div class="row g-3 p-1">
+                        <div class="form-group col-md-2">
+                          <label for="inputState" class="col-sm-2 col-form-label">Horario:</label>
+                        </div>
+                          <div class="form-group col-md-4">
+                              <input type="time" class="form-control" name="inicio" min="00:00" max="11:59" value="08:00">
+                              <input type="time" class="form-control my-2" name="inicio" min="12:00" max="18:00" value="14:00">
+                          </div>
+                          <div class="form-group col-md-4">
+                            <input type="time" class="form-control" name="fin" min="00:00" max="11:59" value="12:00">
+                            <input type="time" class="form-control my-2" name="fin" min="12:00" max="18:00" value="18:00">
+                          </div>
+                      </div>
+                      <div class="row g-3 p-1">
+                        <div class="form-group col-md-2">
+                          <label for="inputState" class="col-sm-2 col-form-label">Domicilio:</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <select id="inputState" class="form-control">
+                            <option selected>Seleccione...</option>
+                            <option>Si</option>
+                            <option>No</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group p-1">
+                        <input type="password" class="form-control" placeholder="Servicios separados por ','">
+                      </div>
+                      <div class="form-group p-1">
+                        <textarea rows="3" class="form-control" placeholder="Informacion adicional"></textarea>
+                      </div>
+                      <label class="p-1" for="inputState">Referencias Comerciales</label>
+                      <div class="row g-2 p-1">
+                        <label for="inputState">Referencia 1:</label>
                         <div class="form-group col-md-6">
                           <input type="text" class="form-control" placeholder="Nombre">
                         </div>
                         <div class="form-group col-md-6">
                           <input type="tel" class="form-control" placeholder="Celular">
                         </div>
+                        <div class="form-group sinpadding">
+                          <input type="tel" class="form-control" placeholder="Ocupación">
+                        </div>
+                      </div>
+                      <div class="row g-2 p-1">
+                        <label for="inputState">Referencia 2:</label>
+                        <div class="form-group col-md-6">
+                          <input type="text" class="form-control" placeholder="Nombre">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <input type="tel" class="form-control" placeholder="Celular">
+                        </div>
+                        <div class="form-group sinpadding">
+                          <input type="tel" class="form-control" placeholder="Ocupación">
+                        </div>
                       </div>
                       <div class="form-group col-md-5 p-1">
                         <input type="number" class="form-control" placeholder="Código asesor">
                     </div>
-                      <div class="form-group p-1">
-                        <input type="password" class="form-control" placeholder="Contraseña">
-                      </div>
-                      <div class="form-group col-md-2">
-                        <label for="inputZip">Zip</label>
-                        <input type="text" class="form-control" id="inputZip">
-                      </div>
-                    <div class="form-group">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck">
-                        <label class="form-check-label" for="gridCheck">
-                          Check me out
-                        </label>
+                    <div class="form-group p-1">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Acepto <a href="https://drive.google.com/file/d/1kOrLPaslIo3188vqqyokwBqedH4YIclW/view?usp=sharing"  target="_blank">Terminos y condiciones</a></label>
                       </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Sign in</button>
                   </form>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary rounded-pill mr-auto">Siguiente</button>
+               </div>
               </div>
             </div>  
           </div> 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
-        </div>
       </div>
     </div>
   </div>
