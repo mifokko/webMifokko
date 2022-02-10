@@ -11,14 +11,12 @@ import { RegisterModule } from './shared/components/register/register.module';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    RegisterComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HeaderModule,
-    RegisterModule,
+    HeaderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,69 +1,321 @@
+<img src="https://images7.alphacoders.com/987/thumb-1920-987066.jpg" class="img-fluid" id="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100; opacity: 7;">
 <div class="container">
-  <img src="https://images7.alphacoders.com/987/thumb-1920-987066.jpg" class="img-fluid" id="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100; opacity: 7;">
-    <form class="row justify-content-center aling-items-center my-2">
-      <div class="form-group row col-sm-9 p-2">
+    <form class="row justify-content-center aling-items-center my-5">
+      <div class="form-group row col-xs-9 col-sm-9 col-md-9">
         <h2 class="text-center">QUE BUSCAS?</h2>
         <div class="input-group rounded">
-          <input type="search" class="form-control form-control-lg rounded-pill" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-          <span class="input-group-text border-0" id="search-addon">
+            <input type="search" class="form-control form-control-lg rounded-pill icon_placeholder" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
             </svg>
-          </span>
         </div>
       </div>
-      <fieldset class="form-group ">
         <div class="row justify-content-center aling-items-center">
-          <div class="col-sm-6">
+          <div class="col-sm-6 center">
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-              <label class="form-check-label" for="gridRadios1">
+              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1">
+              <label class="form-check-label tamaño" for="gridRadios1">
                 INDEPENDIENTES
               </label>
             </div>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-              <label class="form-check-label" for="gridRadios2">
+              <label class="form-check-label tamaño" for="gridRadios2">
                 EMPRESAS
               </label>
             </div>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3">
-              <label class="form-check-label" for="gridRadios3">
+              <label class="form-check-label tamaño" for="gridRadios3">
                 OFERTAS
               </label>
             </div>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option4">
-              <label class="form-check-label" for="gridRadios4">
+              <label class="form-check-label tamaño" for="gridRadios4">
                 TODOS
               </label>
             </div>
           </div>
         </div>
-      </fieldset>
-      <div class=" my-4 container-fluid col-md-3 p-2">
-        <div class="form-group rounded">
-          <label for="exampleDataList" class="form-label center">ELIGE TU CIUDAD</label>
-          <input type="search" class="form-control form-control rounded-pill" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-          <button type="search" class="btn btn-primary btn-block rounded-pill col-sm-12 my-2">Buscar</button>
-        </div>   
-      </div>  
+      <div class="form-group row center my-2">
+        <div class="col-xs-3 col-sm-6 col-md-2 p-1">
+          <label class="center">ELIGE TU CIUDAD</label>
+          <div class="input-group rounded">
+            <select id="inputState" class="form-control rounded-pill">
+              <option>Choose...</option>
+              <option>...</option>
+            </select>
+          </div>
+        </div>
+        <div class="center">
+          <button type="search" class="btn btn-primary btn-block rounded-pill col-xs-6 col-sm-6 col-md-2">Buscar</button>
+        </div>
+      </div>
     </form>
 </div>
 <div class="container">
-  <div class="row">
-    <div class="col-lg-4 d-flex align-items-stretch" id="padre">
-      <img class="img-fluid rounded" src="https://assets.entrepreneur.com/content/3x2/2000/1634353069-Depositphotos-199444784-L.jpg?auto=webp&quality=95&crop=2:1&width=400" style="filter: brightness(70%);">
-      <h2 class="center2">EMPRESA</h2>
+  <div class="row center">
+    <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
+      <div id="padre" >
+        <a data-bs-toggle="collapse" href="#collapseEmpresa" role="button" aria-expanded="false" aria-controls="collapseEmpresa">
+          <img class="img-fluid rounded" src="https://assets.entrepreneur.com/content/3x2/2000/1634353069-Depositphotos-199444784-L.jpg?auto=webp&quality=95&crop=2:1&width=400" style="filter: brightness(70%);">
+          <h2 class="center2">EMPRESA</h2>
+        </a>
+      </div>
+      <div class="collapse rounded my-2" id="collapseEmpresa">
+        <div class="card card-body">
+          <h5 class="card-title">QUIENES SON?</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal">ÚNETE</a>
+        </div>
+      </div>
     </div>
-    <div class="col-lg-4 d-flex align-items-stretch" id="padre">
-      <img class="img-fluid rounded" src="https://corporativo.compensar.com/afiliaciones/PublishingImages/Carrusel-simulador-aportes-Independiente.jpg" style="filter: brightness(70%);">
-      <h2 class="center2">INDEPENDIENTE</h2>
+    <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
+      <div id="padre">
+        <a data-bs-toggle="collapse" href="#collapseIndependiente" role="button" aria-expanded="false" aria-controls="collapseIndependiente">
+          <img class="img-fluid rounded" src="https://corporativo.compensar.com/afiliaciones/PublishingImages/Carrusel-simulador-aportes-Independiente.jpg" style="filter: brightness(70%);">
+          <h2 class="center2">INDEPENDIENTE</h2>
+        </a>
+      </div>
+      <div class="collapse rounded my-2" id="collapseIndependiente">
+        <div class="card card-body">
+          <h5 class="card-title">QUIENES SON?</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary rounded-pill">ÚNETE</a>
+        </div>
+      </div>
     </div>
-    <div class="col-lg-4 d-flex align-items-stretch" id="padre">
-      <img class="img-fluid rounded" src="https://marvel-b1-cdn.bc0a.com/f00000000216283/www.fortinet.com/content/dam/fortinet/images/promos/tile-general-user-400x200.jpg" style="filter: brightness(70%);">
-      <h2 class="center2">GENERAL</h2>
+    <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
+      <div id="padre">
+        <a data-bs-toggle="collapse" href="#collapseGeneral" role="button" aria-expanded="false" aria-controls="collapse">
+          <img class="img-fluid rounded" src="https://marvel-b1-cdn.bc0a.com/f00000000216283/www.fortinet.com/content/dam/fortinet/images/promos/tile-general-user-400x200.jpg" style="filter: brightness(70%);">
+          <h2 class="center2">GENERAL</h2>
+        </a>
+      </div>
+      <div class="collapse rounded my-2" id="collapseGeneral">
+        <div class="card card-body">
+          <h5 class="card-title">QUIENES SON?</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary rounded-pill" routerLink="/register" data-bs-toggle="modal" data-bs-target="#exampleModal">ÚNETE</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-black" id="exampleModalLabel">Registro Empresa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-16">
+                <form novalidate  class="billing-form float-start" (ngSubmit)="OnSave()" [formGroup]="empresaForm">
+                  <div class="row g-3 p-1">
+                    <div class="form-group col-md-6">
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre" [class]="isValidField('name')">
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('nombre')?.hasError('required')">
+                          Por favor ingrese el nombre.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="number" class="form-control" placeholder="NIT" formControlName="nitE" [class]="isValidField('nitE')">
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('nitE')?.hasError('required')">
+                          Por favor ingrese el NIT.
+                        </div>
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('nitE')?.hasError('pattern')">
+                          NIT invalido, debe tener la siguiente estructura --------------.
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row g-3 p-1">
+                    <div class="form-group col-md-6">
+                      <label for="inputState">Departamento</label>
+                      <select id="inputState" class="form-control" formControlName="departamento" [class]="isValidField('departamento')">
+                        <option selected>Choose...</option>
+                        <option>...</option>
+                      </select>
+                      <div class="invalid-feedback" *ngIf="empresaForm.get('departamento')?.hasError('required')">
+                        Seleccione un departamento.
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputState">Ciudad</label>
+                      <select id="inputState" class="form-control" formControlName="ciudad" [class]="isValidField('ciudad')">
+                        <option selected>Choose...</option>
+                        <option>...</option>
+                      </select>
+                      <div class="invalid-feedback" *ngIf="empresaForm.get('departamento')?.hasError('required')">
+                        Seleccione una ciudad.
+                      </div>
+                    </div>
+                  </div>
+                    <div class="form-group p-1">
+                      <input type="text" class="form-control" placeholder="Dirección" formControlName="direccion" [class]="isValidField('direccion')">
+                      <div class="invalid-feedback" *ngIf="empresaForm.get('direccion')?.hasError('required')">
+                        Por favor ingrese dirección.
+                      </div>
+                    </div>
+                    <div class="row g-3 p-1">
+                      <div class="form-group col-md-6">
+                          <input type="tel" class="form-control" placeholder="Telefono" formControlName="telefono" [class]="notRequiredHasValue('telefono')">
+                      </div>
+                      <div class="form-group col-md-6">
+                          <input type="tel" class="form-control" placeholder="Celular" formControlName="celular" [class]="isValidField('celular')">
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('celular')?.hasError('required')">
+                            Por favor ingrese # celular.
+                          </div>
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('celular')?.hasError('pattern')">
+                            # Celular invalido.
+                          </div>
+                      </div>
+                    </div>
+                    <div class="form-group p-1">
+                      <input type="email" class="form-control" placeholder="Email" formControlName="email" [class]="isValidField('email')">
+                      <div class="invalid-feedback" *ngIf="empresaForm.get('email')?.hasError('required')">
+                        Por favor ingrese email.
+                      </div>
+                      <div class="invalid-feedback" *ngIf="empresaForm.get('email')?.hasError('pattern')">
+                        Email invalido.
+                      </div>
+                    </div>
+                    <div class="form-group p-1">
+                      <input type="password" class="form-control" placeholder="Contraseña" formControlName="contraseña" [class]="isValidField('contraseña')">
+                      <div class="invalid-feedback" *ngIf="empresaForm.get('contraseña')?.hasError('required')">
+                        Por favor ingrese contraseña.
+                      </div>
+                      <div class="invalid-feedback" *ngIf="empresaForm.get('contraseña')?.hasError('minLength')">
+                        Contraseña de minimo 8 caracteres.
+                      </div>
+                    </div>
+                    <div class="form-group p-1">
+                      <input type="text" class="form-control" placeholder="Actividad principal" formControlName="actPrincipal" [class]="isValidField('actPrincipal')">
+                      <div class="invalid-feedback" *ngIf="empresaForm.get('contraseña')?.hasError('required')">
+                        Por favor ingrese su Actividad Principal.
+                      </div>
+                    </div>
+                    <div class="form-group p-1">
+                      <textarea rows="3" class="form-control" placeholder="Descripción" formControlName="descripcion" [class]="isValidField('descripcion')">
+                        <div class="invalid-feedback"  *ngIf="empresaForm.get('descripcion')?.hasError('required')">
+                          Por favor ingrese la descripción.
+                      </div>
+                      <div class="invalid-feedback"  *ngIf="empresaForm.get('descripcion')?.hasError('minlength')">
+                          Debe ser mayor a {{empresaForm.get('descripcion')?.errors?.['minlength'].requiredLength}} caracteres
+                      </div>
+                      <div class="invalid-feedback"  *ngIf="empresaForm.get('descripcion')?.hasError('maxlength')">
+                          Debe ser menor o igual a {{empresaForm.get('descripcion')?.errors?.['maxlength'].requiredLength}} caracteres.
+                      </div>
+                    </div>
+                    <div class="row g-3 p-1">
+                      <div class="form-group col-md-2">
+                        <label for="inputState" class="col-sm-2 col-form-label">Horario:</label>
+                      </div>
+                        <div class="form-group col-md-4">
+                            <input type="time" class="form-control" name="inicio" min="00:00" max="11:59" value="08:00" formControlName="horario" [class]="notRequiredHasValue('horario')">
+                            <input type="time" class="form-control my-2" name="inicio" min="12:00" max="18:00" value="14:00">
+                        </div>
+                        <div class="form-group col-md-4">
+                          <input type="time" class="form-control" name="fin" min="00:00" max="11:59" value="12:00">
+                          <input type="time" class="form-control my-2" name="fin" min="12:00" max="18:00" value="18:00">
+                        </div>
+                    </div>
+                    <div class="row g-3 p-1">
+                      <div class="form-group col-md-2">
+                        <label for="inputState" class="col-sm-2 col-form-label">Domicilio:</label>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <select id="inputState" class="form-control" formControlName="domicilio" [class]="isValidField('domicilio')">
+                          <option selected>Seleccione...</option>
+                          <option>Si</option>
+                          <option>No</option>
+                        </select>
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('domicilio')?.hasError('required')">
+                          Por favor seleccione una opción.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group p-1">
+                      <input type="text" class="form-control" placeholder="Servicios separados por ','" formControlName="servicios" [class]="isValidField('servicios')">
+                      <div class="invalid-feedback" *ngIf="empresaForm.get('servicios')?.hasError('required')">
+                        Por favor ingrese sus servicios.
+                      </div>
+                    </div>
+                    <div class="form-group p-1">
+                      <textarea rows="3" class="form-control" placeholder="Informacion adicional" formControlName="infoAdd" [class]="notRequiredHasValue('infoAdd')"></textarea>
+                    </div>
+                    <label class="p-1" for="inputState">Referencias Comerciales</label>
+                    <div class="row g-2 p-1">
+                      <label for="inputState">Referencia 1:</label>
+                      <div class="form-group col-md-6">
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="nomRef1" [class]="isValidField('nomRef1')">
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('nomRef1')?.hasError('required')">
+                          Por favor ingrese un nombre.
+                        </div>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <input type="tel" class="form-control" placeholder="Celular" formControlName="celRef1" [class]="isValidField('celRef1')">
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('celRef1')?.hasError('required')">
+                          Por favor ingrese celular.
+                        </div>
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('celRef1')?.hasError('pattern')">
+                          # Celular invalido.
+                        </div>
+                      </div>
+                      <div class="form-group sinpadding">
+                        <input type="text" class="form-control" placeholder="Ocupación" formControlName="ocupRef1" [class]="isValidField('ocupRef1')">
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('ocupRef1')?.hasError('required')">
+                          Por favor ingrese ocupación.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row g-2 p-1">
+                      <label for="inputState">Referencia 2:</label>
+                      <div class="form-group col-md-6">
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="nomRef2" [class]="isValidField('nomRef2')">
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('nomRef2')?.hasError('required')">
+                          Por favor ingrese un nombre.
+                        </div>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <input type="tel" class="form-control" placeholder="Celular" formControlName="celRef2" [class]="isValidField('celRef2')">
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('celRef2')?.hasError('required')">
+                          Por favor ingrese celular.
+                        </div>
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('celRef2')?.hasError('pattern')">
+                          # Celular invalido.
+                        </div>
+                      </div>
+                      <div class="form-group sinpadding">
+                        <input type="text" class="form-control" placeholder="Ocupación" formControlName="ocupRef2" [class]="isValidField('ocupRef2')">
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('ocupRef2')?.hasError('required')">
+                          Por favor ingrese ocupación.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-5 p-1">
+                      <input type="number" class="form-control" placeholder="Código asesor" formControlName="codigoA" [class]="isValidField('codigoA')">
+                  </div>
+                  <div class="form-group p-1">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" formControlName="tyC" [class]="isValidField('tyC')">
+                      <label class="form-check-label" for="flexSwitchCheckChecked">Acepto <a href="https://drive.google.com/file/d/1kOrLPaslIo3188vqqyokwBqedH4YIclW/view?usp=sharing"  target="_blank">Terminos y condiciones</a></label>
+                      <div class="invalid-feedback" *ngIf="empresaForm.get('ocupRef2')?.hasError('required')">
+                        Debe aceptar terminos y condiciones.
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary rounded-pill mr-auto">Enviar</button>
+             </div>
+            </div>
+          </div>  
+        </div> 
     </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     User Login
-  </button>
+</button>
   <!-- Modal Registro Empresa-->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -14,60 +14,108 @@
             <div class="container">
               <div class="row">
                 <div class="col-lg-16">
-                  <form novalidate  class="billing-form float-start">
+                  <form novalidate  class="billing-form float-start" (ngSubmit)="OnSave()" [formGroup]="empresaForm">
                     <div class="row g-3 p-1">
                       <div class="form-group col-md-6">
-                          <input type="text" class="form-control" placeholder="Nombre">
+                          <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre" [class]="isValidField('name')">
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('nombre')?.hasError('required')">
+                            Por favor ingrese el nombre.
+                          </div>
                       </div>
                       <div class="form-group col-md-6">
-                          <input type="text" class="form-control" placeholder="NIT">
+                          <input type="number" class="form-control" placeholder="NIT" formControlName="nitE" [class]="isValidField('nitE')">
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('nitE')?.hasError('required')">
+                            Por favor ingrese el NIT.
+                          </div>
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('nitE')?.hasError('pattern')">
+                            NIT invalido, debe tener la siguiente estructura --------------.
+                          </div>
                       </div>
                     </div>
                     <div class="row g-3 p-1">
                       <div class="form-group col-md-6">
                         <label for="inputState">Departamento</label>
-                        <select id="inputState" class="form-control">
+                        <select id="inputState" class="form-control" formControlName="departamento" [class]="isValidField('departamento')">
                           <option selected>Choose...</option>
                           <option>...</option>
                         </select>
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('departamento')?.hasError('required')">
+                          Seleccione un departamento.
+                        </div>
                       </div>
                       <div class="form-group col-md-6">
                         <label for="inputState">Ciudad</label>
-                        <select id="inputState" class="form-control">
+                        <select id="inputState" class="form-control" formControlName="ciudad" [class]="isValidField('ciudad')">
                           <option selected>Choose...</option>
                           <option>...</option>
                         </select>
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('departamento')?.hasError('required')">
+                          Seleccione una ciudad.
+                        </div>
                       </div>
                     </div>
                       <div class="form-group p-1">
-                        <input type="text" class="form-control" placeholder="Dirección">
+                        <input type="text" class="form-control" placeholder="Dirección" formControlName="direccion" [class]="isValidField('direccion')">
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('direccion')?.hasError('required')">
+                          Por favor ingrese dirección.
+                        </div>
                       </div>
                       <div class="row g-3 p-1">
                         <div class="form-group col-md-6">
-                            <input type="number" class="form-control" placeholder="Telefono">
+                            <input type="tel" class="form-control" placeholder="Telefono" formControlName="telefono" [class]="notRequiredHasValue('telefono')">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="number" class="form-control" placeholder="Celular">
+                            <input type="tel" class="form-control" placeholder="Celular" formControlName="celular" [class]="isValidField('celular')">
+                            <div class="invalid-feedback" *ngIf="empresaForm.get('celular')?.hasError('required')">
+                              Por favor ingrese # celular.
+                            </div>
+                            <div class="invalid-feedback" *ngIf="empresaForm.get('celular')?.hasError('pattern')">
+                              # Celular invalido.
+                            </div>
                         </div>
                       </div>
                       <div class="form-group p-1">
-                        <input type="email" class="form-control" placeholder="Email">
+                        <input type="email" class="form-control" placeholder="Email" formControlName="email" [class]="isValidField('email')">
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('email')?.hasError('required')">
+                          Por favor ingrese email.
+                        </div>
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('email')?.hasError('pattern')">
+                          Email invalido.
+                        </div>
                       </div>
                       <div class="form-group p-1">
-                        <input type="password" class="form-control" placeholder="Contraseña">
+                        <input type="password" class="form-control" placeholder="Contraseña" formControlName="contraseña" [class]="isValidField('contraseña')">
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('contraseña')?.hasError('required')">
+                          Por favor ingrese contraseña.
+                        </div>
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('contraseña')?.hasError('minLength')">
+                          Contraseña de minimo 8 caracteres.
+                        </div>
                       </div>
                       <div class="form-group p-1">
-                        <input type="text" class="form-control" placeholder="Actividad principal">
+                        <input type="text" class="form-control" placeholder="Actividad principal" formControlName="actPrincipal" [class]="isValidField('actPrincipal')">
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('contraseña')?.hasError('required')">
+                          Por favor ingrese su Actividad Principal.
+                        </div>
                       </div>
                       <div class="form-group p-1">
-                        <input type="password" class="form-control" placeholder="Descripción">
+                        <textarea rows="3" class="form-control" placeholder="Descripción" formControlName="descripcion" [class]="isValidField('descripcion')">
+                          <div class="invalid-feedback"  *ngIf="empresaForm.get('message')?.hasError('required')">
+                            Por favor ingrese la descripción.
+                        </div>
+                        <div class="invalid-feedback"  *ngIf="empresaForm.get('message')?.hasError('minlength')">
+                            Debe ser mayor a {{empresaForm.get('message')?.errors?.['minlength'].requiredLength}} caracteres
+                        </div>
+                        <div class="invalid-feedback"  *ngIf="empresaForm.get('message')?.hasError('maxlength')">
+                            Debe ser menor o igual a {{empresaForm.get('message')?.errors?.['maxlength'].requiredLength}} caracteres.
+                        </div>
                       </div>
                       <div class="row g-3 p-1">
                         <div class="form-group col-md-2">
                           <label for="inputState" class="col-sm-2 col-form-label">Horario:</label>
                         </div>
                           <div class="form-group col-md-4">
-                              <input type="time" class="form-control" name="inicio" min="00:00" max="11:59" value="08:00">
+                              <input type="time" class="form-control" name="inicio" min="00:00" max="11:59" value="08:00" formControlName="horario" [class]="notRequiredHasValue('horario')">
                               <input type="time" class="form-control my-2" name="inicio" min="12:00" max="18:00" value="14:00">
                           </div>
                           <div class="form-group col-md-4">
@@ -80,56 +128,89 @@
                           <label for="inputState" class="col-sm-2 col-form-label">Domicilio:</label>
                         </div>
                         <div class="form-group col-md-6">
-                          <select id="inputState" class="form-control">
+                          <select id="inputState" class="form-control" formControlName="domicilio" [class]="isValidField('domicilio')">
                             <option selected>Seleccione...</option>
                             <option>Si</option>
                             <option>No</option>
                           </select>
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('domicilio')?.hasError('required')">
+                            Por favor seleccione una opción.
+                          </div>
                         </div>
                       </div>
                       <div class="form-group p-1">
-                        <input type="password" class="form-control" placeholder="Servicios separados por ','">
+                        <input type="text" class="form-control" placeholder="Servicios separados por ','" formControlName="servicios" [class]="isValidField('servicios')">
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('servicios')?.hasError('required')">
+                          Por favor ingrese sus servicios.
+                        </div>
                       </div>
                       <div class="form-group p-1">
-                        <textarea rows="3" class="form-control" placeholder="Informacion adicional"></textarea>
+                        <textarea rows="3" class="form-control" placeholder="Informacion adicional" formControlName="infoAdd" [class]="notRequiredHasValue('infoAdd')"></textarea>
                       </div>
                       <label class="p-1" for="inputState">Referencias Comerciales</label>
                       <div class="row g-2 p-1">
                         <label for="inputState">Referencia 1:</label>
                         <div class="form-group col-md-6">
-                          <input type="text" class="form-control" placeholder="Nombre">
+                          <input type="text" class="form-control" placeholder="Nombre" formControlName="nomRef1" [class]="isValidField('nomRef1')">
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('nomRef1')?.hasError('required')">
+                            Por favor ingrese un nombre.
+                          </div>
                         </div>
                         <div class="form-group col-md-6">
-                          <input type="tel" class="form-control" placeholder="Celular">
+                          <input type="tel" class="form-control" placeholder="Celular" formControlName="celRef1" [class]="isValidField('celRef1')">
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('celRef1')?.hasError('required')">
+                            Por favor ingrese celular.
+                          </div>
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('celRef1')?.hasError('pattern')">
+                            # Celular invalido.
+                          </div>
                         </div>
                         <div class="form-group sinpadding">
-                          <input type="tel" class="form-control" placeholder="Ocupación">
+                          <input type="text" class="form-control" placeholder="Ocupación" formControlName="ocupRef1" [class]="isValidField('ocupRef1')">
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('ocupRef1')?.hasError('required')">
+                            Por favor ingrese ocupación.
+                          </div>
                         </div>
                       </div>
                       <div class="row g-2 p-1">
                         <label for="inputState">Referencia 2:</label>
                         <div class="form-group col-md-6">
-                          <input type="text" class="form-control" placeholder="Nombre">
+                          <input type="text" class="form-control" placeholder="Nombre" formControlName="nomRef2" [class]="isValidField('nomRef2')">
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('nomRef2')?.hasError('required')">
+                            Por favor ingrese un nombre.
+                          </div>
                         </div>
                         <div class="form-group col-md-6">
-                          <input type="tel" class="form-control" placeholder="Celular">
+                          <input type="tel" class="form-control" placeholder="Celular" formControlName="celRef2" [class]="isValidField('celRef2')">
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('celRef2')?.hasError('required')">
+                            Por favor ingrese celular.
+                          </div>
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('celRef2')?.hasError('pattern')">
+                            # Celular invalido.
+                          </div>
                         </div>
                         <div class="form-group sinpadding">
-                          <input type="tel" class="form-control" placeholder="Ocupación">
+                          <input type="text" class="form-control" placeholder="Ocupación" formControlName="ocupRef2" [class]="isValidField('ocupRef2')">
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('ocupRef2')?.hasError('required')">
+                            Por favor ingrese ocupación.
+                          </div>
                         </div>
                       </div>
                       <div class="form-group col-md-5 p-1">
-                        <input type="number" class="form-control" placeholder="Código asesor">
+                        <input type="number" class="form-control" placeholder="Código asesor" formControlName="codigoA" [class]="isValidField('codigoA')">
                     </div>
                     <div class="form-group p-1">
                       <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" formControlName="tyC" [class]="isValidField('tyC')">
                         <label class="form-check-label" for="flexSwitchCheckChecked">Acepto <a href="https://drive.google.com/file/d/1kOrLPaslIo3188vqqyokwBqedH4YIclW/view?usp=sharing"  target="_blank">Terminos y condiciones</a></label>
+                        <div class="invalid-feedback" *ngIf="empresaForm.get('ocupRef2')?.hasError('required')">
+                          Debe aceptar terminos y condiciones.
+                        </div>
                       </div>
                     </div>
                   </form>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary rounded-pill mr-auto">Siguiente</button>
+                    <button type="submit" class="btn btn-primary rounded-pill mr-auto">Siguiente</button>
                </div>
               </div>
             </div>  
