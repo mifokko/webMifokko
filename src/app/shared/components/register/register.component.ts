@@ -10,7 +10,6 @@ export class RegisterComponent implements OnInit {
   empresaForm!: FormGroup;
   private isNIT= "^([0-9]{0,15}-[0-9]{1})?$";
   private isCel= "\(3[0-9]{2}\) [0-9]{3}[ -][0-9]{4}";
-  private isDireccion= "";
   private isEmail= /\S+@\S+\.\S+/;
   
   constructor(private fb: FormBuilder) { }
@@ -49,7 +48,7 @@ export class RegisterComponent implements OnInit {
     email: ['', [Validators.required, Validators.pattern(this.isEmail)]],
     contraseña: ['', [Validators.required, Validators.minLength(8)]],
     actPrincipal: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
-    descirpcion: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
+    descripcion: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
     horario: [''],
     domicilio: [''],
     servicios: ['', [Validators.required]],
@@ -64,5 +63,10 @@ export class RegisterComponent implements OnInit {
     tyC: ['', [Validators.required]],
   })
 
+  }
+
+  clear() {
+    console.log("clear clicked")
+    this.empresaForm.reset();
   }
 }

@@ -12,11 +12,13 @@ import { RegisterModule } from './shared/components/register/register.module';
   declarations: [
     AppComponent,
     HeaderComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HeaderModule
+    HeaderModule,
+    RegisterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

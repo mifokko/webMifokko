@@ -8,22 +8,22 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-black" id="exampleModalLabel">Registro Empresa</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clear()"></button>
           </div>
           <div class="modal-body">
             <div class="container">
               <div class="row">
                 <div class="col-lg-16">
-                  <form novalidate  class="billing-form float-start" (ngSubmit)="OnSave()" [formGroup]="empresaForm">
+                  <form novalidate  class="billing-form float-start"  (ngSubmit)="OnSave()" [formGroup]="empresaForm">
                     <div class="row g-3 p-1">
                       <div class="form-group col-md-6">
-                          <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre" [class]="isValidField('name')">
-                          <div class="invalid-feedback" *ngIf="empresaForm.get('nombre')?.hasError('required')">
+                          <input type="text" class="form-control" placeholder="Nombre" formControlName="nombreE" [class]="isValidField('nombreE')">
+                          <div class="invalid-feedback" *ngIf="empresaForm.get('nombreE')?.hasError('required')">
                             Por favor ingrese el nombre.
                           </div>
                       </div>
                       <div class="form-group col-md-6">
-                          <input type="number" class="form-control" placeholder="NIT" formControlName="nitE" [class]="isValidField('nitE')">
+                          <input type="tel" class="form-control" placeholder="NIT" formControlName="nitE" [class]="isValidField('nitE')">
                           <div class="invalid-feedback" *ngIf="empresaForm.get('nitE')?.hasError('required')">
                             Por favor ingrese el NIT.
                           </div>
@@ -36,8 +36,9 @@
                       <div class="form-group col-md-6">
                         <label for="inputState">Departamento</label>
                         <select id="inputState" class="form-control" formControlName="departamento" [class]="isValidField('departamento')">
-                          <option selected>Choose...</option>
-                          <option>...</option>
+                          <option selected>Seleccione...</option>
+                          <option>Caldas</option>
+                          <option>Valle del Cauca</option>
                         </select>
                         <div class="invalid-feedback" *ngIf="empresaForm.get('departamento')?.hasError('required')">
                           Seleccione un departamento.
@@ -46,8 +47,9 @@
                       <div class="form-group col-md-6">
                         <label for="inputState">Ciudad</label>
                         <select id="inputState" class="form-control" formControlName="ciudad" [class]="isValidField('ciudad')">
-                          <option selected>Choose...</option>
-                          <option>...</option>
+                          <option selected>Seleccione...</option>
+                          <option>Andalucia</option>
+                          <option>Tuluá</option>
                         </select>
                         <div class="invalid-feedback" *ngIf="empresaForm.get('departamento')?.hasError('required')">
                           Seleccione una ciudad.
@@ -99,15 +101,15 @@
                         </div>
                       </div>
                       <div class="form-group p-1">
-                        <textarea rows="3" class="form-control" placeholder="Descripción" formControlName="descripcion" [class]="isValidField('descripcion')">
-                          <div class="invalid-feedback"  *ngIf="empresaForm.get('message')?.hasError('required')">
-                            Por favor ingrese la descripción.
+                        <textarea rows="3" class="form-control" placeholder="Descripción" formControlName="descripcion" [class]="isValidField('descripcion')"></textarea>
+                        <div class="invalid-feedback"  *ngIf="empresaForm.get('descripcion')?.hasError('required')">
+                          Por favor ingrese la descripción.
                         </div>
-                        <div class="invalid-feedback"  *ngIf="empresaForm.get('message')?.hasError('minlength')">
-                            Debe ser mayor a {{empresaForm.get('message')?.errors?.['minlength'].requiredLength}} caracteres
+                        <div class="invalid-feedback"  *ngIf="empresaForm.get('descripcion')?.hasError('minlength')">
+                          Debe ser mayor a {{empresaForm.get('descripcion')?.errors?.['minlength'].requiredLength}} caracteres
                         </div>
-                        <div class="invalid-feedback"  *ngIf="empresaForm.get('message')?.hasError('maxlength')">
-                            Debe ser menor o igual a {{empresaForm.get('message')?.errors?.['maxlength'].requiredLength}} caracteres.
+                        <div class="invalid-feedback"  *ngIf="empresaForm.get('descripcion')?.hasError('maxlength')">
+                          Debe ser menor o igual a {{empresaForm.get('descripcion')?.errors?.['maxlength'].requiredLength}} caracteres.
                         </div>
                       </div>
                       <div class="row g-3 p-1">
@@ -115,7 +117,7 @@
                           <label for="inputState" class="col-sm-2 col-form-label">Horario:</label>
                         </div>
                           <div class="form-group col-md-4">
-                              <input type="time" class="form-control" name="inicio" min="00:00" max="11:59" value="08:00" formControlName="horario" [class]="notRequiredHasValue('horario')">
+                              <input type="time" class="form-control" name="inicio" min="00:00" max="11:59" value="08:00">
                               <input type="time" class="form-control my-2" name="inicio" min="12:00" max="18:00" value="14:00">
                           </div>
                           <div class="form-group col-md-4">
@@ -208,10 +210,11 @@
                         </div>
                       </div>
                     </div>
+                    <a href=""></a>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary rounded-pill mr-auto" data-bs-dismiss="modal" aria-label="Close">Enviar</button>
+                    </div>
                   </form>
-                  <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary rounded-pill mr-auto">Siguiente</button>
-               </div>
               </div>
             </div>  
           </div> 
