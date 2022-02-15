@@ -7,18 +7,22 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { HeaderModule } from './shared/components/header/header.module';
 import { RegisterComponent } from './shared/components/register/register.component';
 import { RegisterModule } from './shared/components/register/register.module';
+import { LoginComponent } from './shared/components/login/login.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    LoginComponent
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HeaderModule,
-    RegisterModule
+    RegisterModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
