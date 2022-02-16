@@ -1,28 +1,45 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataService } from '../../services/dataRegE.services';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
+  providers: [DataService]
 })
 export class RegisterComponent implements OnInit {
   empresaForm!: FormGroup;
   private isNIT= "^([0-9]{0,15}-[0-9]{1})?$";
-  private isCel= "\(3[0-9]{2}\) [0-9]{3}[ -][0-9]{4}";
+  private isCel= "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
   private isEmail= /\S+@\S+\.\S+/;
   
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private dataSvc: DataService) { }
 
   ngOnInit(): void {
     this.initForm();
   }
   
-  OnSave(): void {
+  async OnSave(): Promise<void> {
     if (this.empresaForm.valid) {
-      console.log(this.empresaForm.value);
+      try {
+        const formValue = this.empresaForm.value;
+        await this.dataSvc.onSaveEmpresa(formValue); 
+        //Notificación de confirmación
+        Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
+        this.empresaForm.reset() 
+      } catch (e) {
+        alert(e);
+      }
+
     } else {
-      console.log('No Valid');
+      //Notificacion de error
+      Swal.fire(
+        'Error',
+        'Revisar información ingresada',
+        'error'
+      );
     }
   }
 
@@ -38,29 +55,32 @@ export class RegisterComponent implements OnInit {
 
   private initForm(): void {
   this.empresaForm = this.fb.group({
-    nombreE: ['', [Validators.required]],
-    nitE: ['', [Validators.required, Validators.pattern(this.isNIT)]],
+    nombre: ['', [Validators.required]],
+    nit: ['', [Validators.required, Validators.pattern(this.isNIT)]],
     departamento: ['', [Validators.required]],
     ciudad: ['', [Validators.required]],
     direccion: ['', [Validators.required]],
     telefono: [''],
     celular: ['', [Validators.required, Validators.pattern(this.isCel)]],
-    email: ['', [Validators.required, Validators.pattern(this.isEmail)]],
+    correo: ['', [Validators.required, Validators.pattern(this.isEmail)]],
     contraseña: ['', [Validators.required, Validators.minLength(8)]],
-    actPrincipal: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
+    actividadPrincipal: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
     descripcion: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
-    horario: [''],
+    horaMañanaInicio: [''],
+    horaMañanaFin: [''],
+    horaTardeInicio: [''],
+    horaTardeFin: [''],
     domicilio: [''],
     servicios: ['', [Validators.required]],
-    infoAdd: [''],
-    nomRef1: ['', [Validators.required]],
-    celRef1: ['', [Validators.required, Validators.pattern(this.isCel)]],
-    ocupRef1: ['', [Validators.required]],
-    nomRef2: ['', [Validators.required]],
-    celRef2: ['', [Validators.required, Validators.pattern(this.isCel)]],
-    ocupRef2: ['', [Validators.required]],
-    codigoA: [''],
-    tyC: ['', [Validators.required]],
+    informacionAdicional: [''],
+    nombreReferencia1: ['', [Validators.required]],
+    celularReferencia1: ['', [Validators.required, Validators.pattern(this.isCel)]],
+    ocupacionReferencia1: ['', [Validators.required]],
+    nombreReferencia2: ['', [Validators.required]],
+    celularReferencia2: ['', [Validators.required, Validators.pattern(this.isCel)]],
+    ocupacionReferencia2: ['', [Validators.required]],
+    codigoAsesor: [''],
+    terminosyCondiciones: ['', [Validators.required]],
   })
 
   }
