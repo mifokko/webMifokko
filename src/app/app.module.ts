@@ -9,6 +9,13 @@ import { RegisterComponent } from './shared/components/register/register.compone
 import { RegisterModule } from './shared/components/register/register.module';
 import { LoginComponent } from './shared/components/login/login.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideDatabase,getDatabase } from '@angular/fire/database';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideStorage,getStorage } from '@angular/fire/storage';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestore } from '@angular/fire/compat/firestore'
 
 @NgModule({
   declarations: [
@@ -22,9 +29,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     HeaderModule,
     RegisterModule,
-    NgbModule
+    NgbModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
-  providers: [],
+  providers: [AngularFirestore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
