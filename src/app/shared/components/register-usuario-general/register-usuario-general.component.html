@@ -1,0 +1,134 @@
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  User Login
+</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-black" id="exampleModalLabel">Registro Usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clear()"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-16">
+                  <form novalidate  class="billing-form float-start"  (ngSubmit)="OnSave()" [formGroup]="usuarioForm">
+                    <div class="row g-3 p-1">
+                      <!--Nombre y validación de nombre-->
+                      <div class="form-group col-md-6">
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre" [class]="isValidField('nombre')">
+                        <div class="invalid-feedback" *ngIf="usuarioForm.get('nombre')?.hasError('required')">
+                          Por favor ingrese el nombre.
+                        </div>
+                      </div>
+                      <!--Apellidos y validación de apellidos-->
+                      <div class="form-group col-md-6">
+                        <input type="text" class="form-control" placeholder="Apellidos" formControlName="apellidos" [class]="isValidField('apellidos')">
+                        <div class="invalid-feedback" *ngIf="usuarioForm.get('apellidos')?.hasError('required')">
+                          Por favor ingrese su apellido.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row g-3 p-1">
+                      <!--Celular y validación de celular-->
+                      <div class="form-group col-md-6">
+                        <input type="tel" class="form-control" placeholder="Celular" formControlName="celular" [class]="isValidField('celular')">
+                        <div class="invalid-feedback" *ngIf="usuarioForm.get('celular')?.hasError('required')">
+                          Por favor ingrese # celular.
+                        </div>
+                        <div class="invalid-feedback" *ngIf="usuarioForm.get('celular')?.hasError('pattern')">
+                          # Celular invalido.
+                        </div>
+                      </div>
+                      <!--Fecha de nacimiento y validación-->
+                      <div class="col-xs-12 col-12 col-md-6 form-group">
+                        <mat-form-field class="example-full-width" appearance="fill" style="z-index: 100;">
+                          <mat-label>Elegir fecha</mat-label>
+                          <input matInput [matDatepicker]="picker" (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change',$event)">
+                          <mat-datepicker-toggle matSuffix [for]="picker">
+                              <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+                          </mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <div class="example-events">
+                          <div *ngFor="let e of events">{{e}}</div>
+                        </div>
+                      </div>
+                    </div>
+                     <!--Genero y validación de seleccion de genero-->
+                    <div class="form-group col-md-6 p-1">
+                      <label for="inputState">Genero</label>
+                      <select id="inputState" class="form-control" formControlName="genero" [class]="isValidField('genero')">
+                        <option>Femenino</option>
+                        <option>Masculino</option>
+                        <option>Otro</option>
+                      </select>
+                    </div>
+                    <!--Correo y validación de correo-->
+                    <div class="form-group p-1">
+                      <input type="email" class="form-control" placeholder="Correo" formControlName="correo" [class]="isValidField('correo')">
+                      <div class="invalid-feedback" *ngIf="usuarioForm.get('correo')?.hasError('required')">
+                        Por favor ingrese correo.
+                      </div>
+                      <div class="invalid-feedback" *ngIf="usuarioForm.get('correo')?.hasError('pattern')">
+                        Correo invalido.
+                      </div>
+                    </div>
+                    <!--Contraseña y validación de contraseña-->
+                    <div class="form-group p-1">
+                      <input type="password" class="form-control" placeholder="Contraseña" formControlName="contraseña" [class]="isValidField('contraseña')">
+                      <div class="invalid-feedback" *ngIf="usuarioForm.get('contraseña')?.hasError('required')">
+                        Por favor ingrese contraseña.
+                      </div>
+                      <div class="invalid-feedback" *ngIf="usuarioForm.get('contraseña')?.hasError('minLength')">
+                        Contraseña de minimo 8 caracteres.
+                      </div>
+                    </div>
+                    <!--Seleccion de Departamento y validacón-->
+                    <div class="row g-3 p-1">
+                      <div class="form-group col-md-6">
+                        <label for="inputState">Departamento</label>
+                        <select id="inputState" class="form-control" formControlName="departamento" [class]="isValidField('departamento')">
+                          <option selected>Seleccione...</option>
+                          <option>Caldas</option>
+                          <option>Valle del Cauca</option>
+                        </select>
+                        <div class="invalid-feedback" *ngIf="usuarioForm.get('departamento')?.hasError('required')">
+                          Seleccione un departamento.
+                        </div>
+                      </div>
+                      <!--Selección de ciudad y validación-->
+                      <div class="form-group col-md-6">
+                        <label for="inputState">Ciudad</label>
+                        <select id="inputState" class="form-control" formControlName="ciudad" [class]="isValidField('ciudad')">
+                          <option selected>Seleccione...</option>
+                          <option>Andalucia</option>
+                          <option>Tuluá</option>
+                        </select>
+                        <div class="invalid-feedback" *ngIf="usuarioForm.get('ciudad')?.hasError('required')">
+                          Seleccione una ciudad.
+                        </div>
+                      </div>
+                    </div>
+                    <!--Terminos y condiciones-->  
+                    <div class="form-group p-1">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" formControlName="terminosyCondiciones" [class]="isValidField('terminosyCondiciones')">
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Acepto <a href="https://drive.google.com/file/d/1kOrLPaslIo3188vqqyokwBqedH4YIclW/view?usp=sharing"  target="_blank">Terminos y condiciones</a></label>
+                        <div class="invalid-feedback" *ngIf="usuarioForm.get('terminosyCondiciones')?.hasError('required')">
+                          Debe aceptar terminos y condiciones.
+                        </div>
+                      </div>
+                    </div>
+                    <!--Enviar información y confirmación de registro-->
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary rounded-pill mr-auto" data-bs-dismiss="modal" aria-label="Close">Enviar</button>
+                    </div>
+                  </form>
+              </div>
+            </div>  
+          </div> 
+      </div>
+    </div>
+  </div>

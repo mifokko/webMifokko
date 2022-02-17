@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { RegisterIndependienteComponent } from './shared/components/register-independiente/register-independiente.component';
+import { RegisterUsuarioGeneralComponent } from './shared/components/register-usuario-general/register-usuario-general.component';
 import { RegisterComponent } from './shared/components/register/register.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: 'register', component: RegisterComponent},
+  { path: 'register-usuario-general', component:RegisterUsuarioGeneralComponent},
+  { path: 'register-independiente', component:RegisterIndependienteComponent },
   { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule) },
   { path: 'buscarTodo', loadChildren: () => import('./pages/buscar-todo/buscar-todo.module').then(m => m.BuscarTodoModule) },
   { path: 'busquedaEmpresa', loadChildren: () => import('./pages/busqueda-empresa/busqueda-empresa.module').then(m => m.BusquedaEmpresaModule) },
