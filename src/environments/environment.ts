@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: "AIzaSyCjjZpyMrtSGImwY36YwcqYqmOrin95asY",
-    authDomain: "appmifokko.firebaseapp.com",
-    projectId: "appmifokko",
-    storageBucket: "appmifokko.appspot.com",
-    messagingSenderId: "973917078773",
-    appId: "1:973917078773:web:1ff8a8ceab70f555ab71bc",
-    measurementId: "G-GKK3CEXYXS"
+    apiKey: "AIzaSyCEGSz9rAg_x4cZYWg_WqqMCMG9_EkSVVQ",
+    authDomain: "mifokko-b3088.firebaseapp.com",
+    projectId: "mifokko-b3088",
+    storageBucket: "mifokko-b3088.appspot.com",
+    messagingSenderId: "1081752850514",
+    appId: "1:1081752850514:web:4b0f94431b6fd5599a0f8b",
+    measurementId: "G-YSNR2NZ9NC"
   }
 };
 

@@ -1,14 +1,6 @@
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    User Login
-</button>
-  <!-- Modal Registro Empresa-->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title">Registro Empresa</h2>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clear()"></button>
+          <h5 class="modal-title">Registro Empresa</h5>
+          <button type="button" class="btn-close" ria-label="Close" (click)="modal.close()"></button>
         </div>
           <div class="modal-body">
             <div class="container">
@@ -28,7 +20,7 @@
                             Por favor ingrese el NIT.
                           </div>
                           <div class="invalid-feedback" *ngIf="empresaForm.get('nit')?.hasError('pattern')">
-                            NIT invalido, debe tener la siguiente estructura --------------.
+                            NIT invalido, debe tener la siguiente estructura XXXXXXXXX-Y.
                           </div>
                       </div>
                     </div>
@@ -211,13 +203,10 @@
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary rounded-pill mr-auto" data-bs-dismiss="modal">Enviar</button>
+                      <button type="submit" class="btn btn-primary rounded-pill mr-auto" (click)="modal.close()">Enviar</button>
                     </div>
                   </form>
               </div>
             </div>  
           </div> 
       </div>
-    </div>
-  </div>
-</div>

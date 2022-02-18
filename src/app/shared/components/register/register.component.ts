@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../services/dataRegE.services';
 import Swal from 'sweetalert2';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,7 @@ export class RegisterComponent implements OnInit {
   private isCel= "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
   private isEmail= /\S+@\S+\.\S+/;
   
-  constructor(private fb: FormBuilder, private dataSvc: DataService) { }
+  constructor( public modal: NgbActiveModal, private fb: FormBuilder, private dataSvc: DataService) { }
 
   ngOnInit(): void {
     this.initForm();

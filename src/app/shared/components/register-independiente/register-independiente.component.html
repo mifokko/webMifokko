@@ -1,33 +1,26 @@
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  User Login
-</button>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title text-black" id="exampleModalLabel">Registro Independiente</h2>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clear()"></button>
+<div class="modal-header">
+  <h5 class="modal-title text-black" id="exampleModalLabel">Registro Independiente</h5>
+  <button type="button" class="btn-close" (click)="modal.close()"></button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-16">
+        <form novalidate  class="billing-form float-start"  (ngSubmit)="OnSave()" [formGroup]="independienteForm">
+          <div class="row g-3 p-1">
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre" [class]="isValidField('nombre')">
+              <div class="invalid-feedback" *ngIf="independienteForm.get('nombre')?.hasError('required')">
+                Por favor ingrese el nombre.
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <input type="tel" class="form-control" placeholder="ID" formControlName="id" [class]="isValidField('id')">
+                <div class="invalid-feedback" *ngIf="independienteForm.get('id')?.hasError('required')">
+                  Por favor ingrese su documento de identificación.
+                </div>
+            </div>
           </div>
-          <div class="modal-body">
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-16">
-                  <form novalidate  class="billing-form float-start"  (ngSubmit)="OnSave()" [formGroup]="independienteForm">
-                    <div class="row g-3 p-1">
-                      <div class="form-group col-md-6">
-                          <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre" [class]="isValidField('nombre')">
-                          <div class="invalid-feedback" *ngIf="independienteForm.get('nombre')?.hasError('required')">
-                            Por favor ingrese el nombre.
-                          </div>
-                      </div>
-                      <div class="form-group col-md-6">
-                          <input type="tel" class="form-control" placeholder="ID" formControlName="id" [class]="isValidField('id')">
-                          <div class="invalid-feedback" *ngIf="independienteForm.get('id')?.hasError('required')">
-                            Por favor ingrese su documento de identificación.
-                          </div>
-                      </div>
-                    </div>
                     <div class="form-group p-1">
                         <input type="text" class="form-control" placeholder="Profesión" formControlName="profesion" [class]="isValidField('profesion')">
                         <div class="invalid-feedback" *ngIf="independienteForm.get('profesion')?.hasError('required')">
@@ -192,12 +185,10 @@
                     </div>
                     <a href=""></a>
                     <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary rounded-pill mr-auto" data-bs-dismiss="modal" aria-label="Close">Enviar</button>
+                      <button type="button" class="btn btn-primary rounded-pill mr-auto" (click)="modal.close()">Enviar</button>
                     </div>
                   </form>
               </div>
             </div>  
           </div> 
       </div>
-    </div>
-  </div>

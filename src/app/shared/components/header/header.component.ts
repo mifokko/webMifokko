@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../login/login.component';
 
 @Component({
@@ -8,14 +8,14 @@ import { LoginComponent } from '../login/login.component';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
+  closeResult = '';
+  
   constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
   }
 
-
-  open(login: any){
-    const modelRef = this.modalService.open(LoginComponent, {centered: true});
+  openLogin(){
+    const modalRef = this.modalService.open(LoginComponent);
   }
 }

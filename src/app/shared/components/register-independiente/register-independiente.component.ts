@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { DataService1 } from '../../services/dataRegIndependiente.services';
 
@@ -14,7 +15,7 @@ export class RegisterIndependienteComponent implements OnInit {
   private isCel= "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
   private isEmail= /\S+@\S+\.\S+/;
 
-  constructor(private fb: FormBuilder, private dataSvc: DataService1) { }
+  constructor(private fb: FormBuilder, private dataSvc: DataService1, public modal: NgbActiveModal) { }
 
   ngOnInit(): void {
     this.initForm();
