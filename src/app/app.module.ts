@@ -13,7 +13,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { RegisterIndependienteModule } from './shared/components/register-independiente/register-independiente.module';
 import { RegisterUsuarioGeneralModule } from './shared/components/register-usuario-general/register-usuario-general.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [

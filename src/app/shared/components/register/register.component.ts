@@ -81,7 +81,7 @@ export class RegisterComponent implements OnInit {
     ocupacionReferencia2: ['', [Validators.required]],
     codigoAsesor: [''],
     terminosyCondiciones: ['', [Validators.required]],
-  })
+  });
 
   }
 

@@ -23,6 +23,7 @@ export class RegisterIndependienteComponent implements OnInit {
   async OnSave(): Promise<void> {
     if (this.independienteForm.valid) {
       try {
+        //console.log(this.independienteForm.value)
         const formValue = this.independienteForm.value;
         await this.dataSvc.onSaveIndependiente(formValue); 
         //Notificación de confirmación

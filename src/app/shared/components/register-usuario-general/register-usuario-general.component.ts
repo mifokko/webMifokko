@@ -2,21 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService2 } from '../../services/dataRegUsuario.services';
 import Swal from 'sweetalert2';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { NgbModal, NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-register-usuario-general',
   templateUrl: './register-usuario-general.component.html',
   styleUrls: ['./register-usuario-general.component.scss'],
-  providers: [DataService2]
+  providers: [DataService2, NgbDatepickerConfig]
 })
 export class RegisterUsuarioGeneralComponent implements OnInit {
   usuarioForm!: FormGroup;
   private isCel= "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
   private isEmail= /\S+@\S+\.\S+/;
-  events: string[] = [];
+  closeResult = '';
 
-  constructor(private fb: FormBuilder, private dataSvc: DataService2) { }
+  constructor(private fb: FormBuilder, private dataSvc: DataService2, config: NgbDatepickerConfig) { 
+    config.minDate = {year: 1900, month:1, day: 1};
+    config.maxDate = {year: 2022, month:12, day:31};
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -25,11 +29,11 @@ export class RegisterUsuarioGeneralComponent implements OnInit {
   async OnSave(): Promise<void> {
     if (this.usuarioForm.valid) {
       try {
-        console.log(this.usuarioForm.value);
-        //const formValue = this.usuarioForm.value;
-        //await this.dataSvc.onSaveUsuario(formValue); 
+        //console.log(this.usuarioForm.value);
+        const formValue = this.usuarioForm.value;
+        await this.dataSvc.onSaveUsuario(formValue); 
         //Notificación de confirmación
-        //Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
+        Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
         this.usuarioForm.reset() 
       } catch (e) {
         alert(e);
@@ -61,18 +65,14 @@ export class RegisterUsuarioGeneralComponent implements OnInit {
     apellidos: ['', [Validators.required]],
     genero: ['', [Validators.required]],
     celular: ['', [Validators.required, Validators.pattern(this.isCel)]],
+    fechanacimiento: ['', [Validators.required]],
     correo: ['', [Validators.required, Validators.pattern(this.isEmail)]],
     contraseña: ['', [Validators.required, Validators.minLength(8)]],
     departamento: ['', [Validators.required]],
     ciudad: ['', [Validators.required]],
-    fechanacimiento: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
     terminosyCondiciones: ['', [Validators.required]],
   })
 
-  }
-
-  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.events.push('${type}: ${event.value}');
   }
 
   clear() {

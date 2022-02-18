@@ -3,13 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterUsuarioGeneralComponent } from './register-usuario-general.component';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatInputModule } from '@angular/material/input'
-import { MatIconModule } from '@angular/material/icon'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -19,12 +13,7 @@ import { MatIconModule } from '@angular/material/icon'
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatIconModule
+    NgbModule
   ]
 })
 export class RegisterUsuarioGeneralModule { }
