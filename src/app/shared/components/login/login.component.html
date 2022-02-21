@@ -1,10 +1,26 @@
-<div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
-  <button type="button" class="btn-close" aria-label="Close" (click)="modal.close()"></button>
-</div>
-<div class="modal-body">
-  <p>Hello, World!</p>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Save</button>
-</div>
+		<div class="modal-content">
+			<div class="modal-header">				
+				<h4 class="modal-title">Iniciar Sesión</h4>
+                <button type="button" class="btn-close" ria-label="Close" (click)="modal.close()"></button>
+			</div>
+			<div class="modal-body">
+				<form action="/examples/actions/confirmation.php" method="post">
+					<div class="form-group">
+						<div class="input-group mb-2">
+							<input type="text" class="form-control rounded" name="correo" placeholder="Correo" required="required">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+							<input type="password" class="form-control rounded" name="Contraseña" placeholder="Contraseña" required="required">
+						</div>
+					</div>
+          <p class="hint-text"><a href="#">¿Has olvidado la contraseña?</a></p>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">No tienes cuenta? <a href="#">Crear cuenta</a></div>
+		</div>

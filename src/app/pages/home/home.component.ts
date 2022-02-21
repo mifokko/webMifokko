@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PlanEmpresaComponent } from 'src/app/shared/components/plan-empresa/plan-empresa.component';
+import { PlanIndependienteComponent } from 'src/app/shared/components/plan-independiente/plan-independiente.component';
 import { RegisterIndependienteComponent } from 'src/app/shared/components/register-independiente/register-independiente.component';
 import { RegisterUsuarioGeneralComponent } from 'src/app/shared/components/register-usuario-general/register-usuario-general.component';
 import { RegisterComponent } from 'src/app/shared/components/register/register.component';
@@ -16,12 +18,12 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
   
-  openRegisterEmpresa(){
-    const modalRef = this.modalService.open(RegisterComponent);
+  openPlanEmpresa(){
+    const modalRef = this.modalService.open(PlanEmpresaComponent);
   }
 
-  openRegisterIndependiente(){
-    const modalRef1 = this.modalService.open(RegisterIndependienteComponent);
+  openPlanIndependiente(){
+    const modalRef1 = this.modalService.open(PlanIndependienteComponent);
   }
 
   openRegisterUsuario(){

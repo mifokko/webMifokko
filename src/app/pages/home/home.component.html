@@ -77,7 +77,7 @@
         <div class="card card-body">
           <h5 class="card-title">QUIENES SON?</h5>
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a class="btn btn-primary rounded-pill" data-bs-toggle="modal" href="#empresaModalToggle" role="button">ÚNETE</a>
+          <a class="btn btn-primary rounded-pill" (click)="openPlanEmpresa()" role="button">ÚNETE</a>
         </div>
       </div>
     </div>
@@ -92,7 +92,7 @@
         <div class="card card-body">
           <h5 class="card-title">QUIENES SON?</h5>
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a class="btn btn-primary rounded-pill" data-bs-toggle="modal" href="#independienteModalToggle" role="button">ÚNETE</a>
+          <a class="btn btn-primary rounded-pill"(click)="openPlanIndependiente()" role="button">ÚNETE</a>
         </div>
       </div>
     </div>
@@ -107,7 +107,7 @@
         <div class="card card-body">
           <h5 class="card-title">QUIENES SON?</h5>
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal">ÚNETE</a>
+          <a href="#" class="btn btn-primary rounded-pill" (click)="openRegisterUsuario()">ÚNETE</a>
         </div>
       </div>
     </div>
@@ -116,109 +116,6 @@
 
 </section>
 
-<!--Panel de planes empresa-->
-<div class="modal fade" id="empresaModalToggle" aria-hidden="true" aria-labelledby="empresaModalToggleLabel" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalToggleLabel">PLANES</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-
-        <!--Plan empresarial oro-->
-        <div>
-          <h5>EMPRESARIAL ORO</h5>
-          <div class="row center">
-            <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-              <button class="btn btn-primary tamaño" data-bs-dismiss="modal" aria-label="Close" (click)="openRegisterEmpresa()">VALOR $220.000
-                <br>UNICO PAGO ANUAL
-              </button>
-            </div>
-            <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-              <button class="btn btn-primary tamaño" data-bs-dismiss="modal" aria-label="Close" (click)="openRegisterEmpresa()">VALOR $88.000
-                <br>UNICO PAGO ANUAL
-              </button>
-            </div>
-            <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-              <button class="btn btn-primary tamaño" data-bs-dismiss="modal" aria-label="Close" (click)="openRegisterEmpresa()">VALOR $48.000
-                <br>UNICO PAGO ANUAL
-              </button>
-            </div>
-          </div>
-        </div>
-        <!--Plan empresarial plata-->
-        <div>
-          <h5>EMPRESARIAL PLATA</h5>
-          <div class="row center">
-            <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-              <button class="btn btn-primary tamaño" data-bs-dismiss="modal" aria-label="Close" (click)="openRegisterEmpresa()">VALOR $170.000
-                <br>UNICO PAGO ANUAL
-              </button>
-            </div>
-            <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-              <button class="btn btn-primary tamaño" data-bs-dismiss="modal" aria-label="Close" (click)="openRegisterEmpresa()">VALOR $68.000
-                <br>UNICO PAGO ANUAL
-              </button>
-            </div>
-            <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-              <button class="btn btn-primary tamaño" data-bs-dismiss="modal" aria-label="Close" (click)="openRegisterEmpresa()">VALOR $37.000
-                <br>UNICO PAGO ANUAL
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!--Panel de planes independiente-->
-<div class="modal fade" id="independienteModalToggle" aria-hidden="true" aria-labelledby="independienteModalToggleLabel" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalToggleLabel">PLANES</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-
-        <!--Plan independientes oro-->
-        <div>
-          <h5>INDEPENDIENTE ORO</h5>
-          <div class="row center">
-            <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-              <button class="btn btn-warning tamaño" data-bs-dismiss="modal" aria-label="Close" (click)="openRegisterIndependiente()">VALOR $100.000
-                <br>UNICO PAGO ANUAL
-              </button>
-            </div>
-            <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-              <button class="btn btn-warning tamaño" data-bs-dismiss="modal" aria-label="Close" (click)="openRegisterIndependiente()">VALOR $40.000
-                <br>UNICO PAGO ANUAL
-              </button>
-            </div>
-          </div>
-        </div>
-        <!--Plan indeoendientes plata-->
-        <div>
-          <h5>EMPRESARIAL PLATA</h5>
-          <div class="row center">
-            <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-              <button class="btn btn-warning tamaño" data-bs-dismiss="modal" aria-label="Close" (click)="openRegisterIndependiente()">VALOR $70.000
-                <br>UNICO PAGO ANUAL
-              </button>
-            </div>
-            <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-              <button class="btn btn-warning tamaño" data-bs-dismiss="modal" aria-label="Close" (click)="openRegisterIndependiente()">VALOR $28.000
-                <br>UNICO PAGO ANUAL
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <!--Información sobre empresa-->

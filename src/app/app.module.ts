@@ -14,12 +14,16 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { RegisterIndependienteModule } from './shared/components/register-independiente/register-independiente.module';
 import { RegisterUsuarioGeneralModule } from './shared/components/register-usuario-general/register-usuario-general.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PlanEmpresaComponent } from './shared/components/plan-empresa/plan-empresa.component';
+import { PlanIndependienteComponent } from './shared/components/plan-independiente/plan-independiente.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    LoginComponent
+    LoginComponent,
+    PlanEmpresaComponent,
+    PlanIndependienteComponent
   ],
   imports: [
     BrowserModule,

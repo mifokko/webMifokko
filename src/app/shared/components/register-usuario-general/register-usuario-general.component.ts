@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService2 } from '../../services/dataRegUsuario.services';
 import Swal from 'sweetalert2';
-import { NgbModal, NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbDatepickerConfig, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class RegisterUsuarioGeneralComponent implements OnInit {
   private isEmail= /\S+@\S+\.\S+/;
   closeResult = '';
 
-  constructor(private fb: FormBuilder, private dataSvc: DataService2, config: NgbDatepickerConfig) { 
+  constructor(private fb: FormBuilder, private dataSvc: DataService2, config: NgbDatepickerConfig, public modal: NgbActiveModal) { 
     config.minDate = {year: 1900, month:1, day: 1};
     config.maxDate = {year: 2022, month:12, day:31};
   }

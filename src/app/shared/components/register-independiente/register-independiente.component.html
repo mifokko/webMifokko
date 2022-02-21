@@ -29,8 +29,8 @@
                       </div>
                     <div class="row g-3 p-1">
                       <div class="form-group col-md-6">
-                        <label for="inputState">Departamento</label>
-                        <select id="inputState" class="form-control" formControlName="departamento" [class]="isValidField('departamento')">
+                        <label for="inputStatedep">Departamento</label>
+                        <select id="inputStatedep" class="form-control" formControlName="departamento" [class]="isValidField('departamento')">
                           <option selected>Seleccione...</option>
                           <option>Caldas</option>
                           <option>Valle del Cauca</option>
@@ -40,8 +40,8 @@
                         </div>
                       </div>
                       <div class="form-group col-md-6">
-                        <label for="inputState">Ciudad</label>
-                        <select id="inputState" class="form-control" formControlName="ciudad" [class]="isValidField('ciudad')">
+                        <label for="inputStateciu">Ciudad</label>
+                        <select id="inputStatecui" class="form-control" formControlName="ciudad" [class]="isValidField('ciudad')">
                           <option selected>Seleccione...</option>
                           <option>Andalucia</option>
                           <option>Tuluá</option>
@@ -103,10 +103,10 @@
                       </div>
                       <div class="row g-3 p-1">
                         <div class="form-group col-md-2">
-                          <label for="inputState" class="col-sm-2 col-form-label">Domicilio:</label>
+                          <label for="inputStateDom" class="col-sm-2 col-form-label">Domicilio:</label>
                         </div>
                         <div class="form-group col-md-6">
-                          <select id="inputState" class="form-control" formControlName="domicilio" [class]="isValidField('domicilio')">
+                          <select id="inputStateDom" class="form-control" formControlName="domicilio" [class]="isValidField('domicilio')">
                             <option selected>Seleccione...</option>
                             <option>Si</option>
                             <option>No</option>
@@ -122,9 +122,9 @@
                           Por favor ingrese sus servicios.
                         </div>
                       </div>
-                      <label class="p-1" for="inputState">Referencias Comerciales</label>
+                      <label class="p-1" for="inputStateRef">Referencias Comerciales</label>
                       <div class="row g-2 p-1">
-                        <label for="inputState">Referencia 1:</label>
+                        <label for="inputStateRef1">Referencia 1:</label>
                         <div class="form-group col-md-6">
                           <input type="text" class="form-control" placeholder="Nombre" formControlName="nombreReferencia1" [class]="isValidField('nombreReferencia1')">
                           <div class="invalid-feedback" *ngIf="independienteForm.get('nombreReferencia1')?.hasError('required')">
@@ -148,7 +148,7 @@
                         </div>
                       </div>
                       <div class="row g-2 p-1">
-                        <label for="inputState">Referencia 2:</label>
+                        <label for="inputStateRef2">Referencia 2:</label>
                         <div class="form-group col-md-6">
                           <input type="text" class="form-control" placeholder="Nombre" formControlName="nombreReferencia2" [class]="isValidField('nombreReferencia2')">
                           <div class="invalid-feedback" *ngIf="independienteForm.get('nombreReferencia2')?.hasError('required')">
@@ -185,7 +185,7 @@
                     </div>
                     <a href=""></a>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-primary rounded-pill mr-auto" (click)="modal.close()">Enviar</button>
+                      <button type="submit" class="btn btn-primary rounded-pill" (click)="modal.close()">Enviar</button>
                     </div>
                   </form>
               </div>
