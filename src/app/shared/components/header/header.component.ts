@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
@@ -15,7 +16,12 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openLogin(){
-    const modalRef = this.modalService.open(LoginComponent);
+  options: NgbModalOptions = {
+    size: 'sm',
+    centered: true
+  };
+
+  openLogin( ){
+    const modalRef = this.modalService.open(LoginComponent, this.options);
   }
 }

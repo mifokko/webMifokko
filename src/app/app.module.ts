@@ -17,6 +17,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PlanEmpresaComponent } from './shared/components/plan-empresa/plan-empresa.component';
 import { PlanIndependienteComponent } from './shared/components/plan-independiente/plan-independiente.component';
 
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +36,8 @@ import { PlanIndependienteComponent } from './shared/components/plan-independien
     AngularFireModule.initializeApp(environment.firebaseConfig),
     RegisterIndependienteModule,
     RegisterUsuarioGeneralModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]

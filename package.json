@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
+    "@firebase/auth": "^0.19.9",
     "@ng-bootstrap/ng-bootstrap": "^12.0.0",
     "@popperjs/core": "^2.10.2",
     "bootstrap": "^5.1.3",

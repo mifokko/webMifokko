@@ -1,0 +1,33 @@
+.tamaño {
+    font-size: 13px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.center1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-redondo {
+    border-radius: 12px;
+}
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    padding: 6px 0px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
+.btn-fondo {
+    background-color: darkorange;
+    box-shadow: 8px 5px 5px 1px rgba(0,0,0,0.5);
+    margin: 5px;
+}
