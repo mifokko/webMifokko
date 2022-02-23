@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../login/login.component';
+import { UneteComponent } from '../unete/unete.component';
 
 @Component({
   selector: 'app-header',
@@ -20,6 +21,10 @@ export class HeaderComponent implements OnInit {
     size: 'sm',
     centered: true
   };
+
+  openUnete(){
+    this.modalService.open(UneteComponent, this.options);
+  }
 
   openLogin( ){
     const modalRef = this.modalService.open(LoginComponent, this.options);

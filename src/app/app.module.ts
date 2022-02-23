@@ -18,6 +18,8 @@ import { PlanEmpresaComponent } from './shared/components/plan-empresa/plan-empr
 import { PlanIndependienteComponent } from './shared/components/plan-independiente/plan-independiente.component';
 
 import { FormsModule } from '@angular/forms';
+import { UneteComponent } from './shared/components/unete/unete.component';
+import { RecuperarContrasenaComponent } from './shared/components/recuperar-contrasena/recuperar-contrasena.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     LoginComponent,
     PlanEmpresaComponent,
-    PlanIndependienteComponent
+    PlanIndependienteComponent,
+    UneteComponent,
+    RecuperarContrasenaComponent
   ],
   imports: [
     BrowserModule,

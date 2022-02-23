@@ -11,21 +11,27 @@
     justify-content: center;
   }
 
-  .center2 {
-    left: 50%;
-    top: 55%;
-    position: absolute;    /* posición absolute con respecto al padre */
-    bottom: 0;             /* posicionada en la esquina inferior derecha */
-    right: 1rem;
-    font-size: 33px;
-    color: #fff;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: center;
-  }
+.center2 {
+  left: 50%;
+  top: 55%;
+  position: absolute;    /* posición absolute con respecto al padre */
+  bottom: 0;             /* posicionada en la esquina inferior derecha */
+  right: 1rem;
+  font-size: 33px;
+  color: #fff;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+}
 
 .icon_placeholder {
   padding: 0.25rem 0.6rem;
   text-align: center;  
+}
+
+.fondo {
+  background-image: url(/src/assets/Fondo\ Amarillo.jpg) fixed center no-repeat;
+  background-size: cover;
+
 }
