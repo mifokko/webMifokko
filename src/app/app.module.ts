@@ -20,6 +20,8 @@ import { PlanIndependienteComponent } from './shared/components/plan-independien
 import { FormsModule } from '@angular/forms';
 import { UneteComponent } from './shared/components/unete/unete.component';
 import { RecuperarContrasenaComponent } from './shared/components/recuperar-contrasena/recuperar-contrasena.component';
+import { WhatsappComponent } from './shared/components/whatsapp/whatsapp.component';
+import { WhatsappModule } from './shared/components/whatsapp/whatsapp.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { RecuperarContrasenaComponent } from './shared/components/recuperar-cont
     PlanEmpresaComponent,
     PlanIndependienteComponent,
     UneteComponent,
-    RecuperarContrasenaComponent
+    RecuperarContrasenaComponent,
+    WhatsappComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { RecuperarContrasenaComponent } from './shared/components/recuperar-cont
     RegisterIndependienteModule,
     RegisterUsuarioGeneralModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    WhatsappModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]

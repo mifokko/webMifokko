@@ -1,20 +1,25 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from '../../services/auth.service';
 import { LoginComponent } from '../login/login.component';
 import { UneteComponent } from '../unete/unete.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
   closeResult = '';
   
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private authService: AuthService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    console.log('Navbar');
+    const user = await this.authService.getCurrentUser();
+    if (user) {
+      console.log('User -> ', user);
+    }
   }
 
   options: NgbModalOptions = {
@@ -30,7 +35,10 @@ export class HeaderComponent implements OnInit {
     const modalRef = this.modalService.open(LoginComponent, this.options);
   }
 
-  isLogin() {
-    
+  Salir(){
+    this.authService.cerrarSesion().then(res => {
+      console.log("Sesión cerrado: ", res);
+    });
   }
+
 }

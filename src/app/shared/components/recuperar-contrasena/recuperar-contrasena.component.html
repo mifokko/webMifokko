@@ -6,10 +6,10 @@
         <form action="/examples/actions/confirmation.php" method="post">
             <div class="form-group">
                 <div class="input-group">
-                    <input type="password" class="form-control rounded" name="Contraseña" placeholder="Contraseña">
+                    <input type="text" class="form-control rounded" name="Correo" placeholder="Correo" [(ngModel)]="user.correo">
                 </div>
             </div>
-            <button type="submit" class="btn btn-dark m-2" (click)="modal.close()">Recuperar</button>
+            <button type="submit" class="btn btn-dark m-2 center" (click)="recuperar()" (click)="modal.close()">Recuperar</button>
             <button type="submit" class="btn btn-dark m-2" (click)="openLogin()" (click)="modal.close()">Volver</button>
         </form>
     </div>

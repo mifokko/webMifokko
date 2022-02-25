@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterUsuarioGeneralComponent } from './register-usuario-general.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -13,7 +13,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ]
 })
 export class RegisterUsuarioGeneralModule { }

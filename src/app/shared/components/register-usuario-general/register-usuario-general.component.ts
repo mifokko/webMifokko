@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService2 } from '../../services/dataRegUsuario.services';
 import Swal from 'sweetalert2';
 import { NgbModal, NgbDatepickerConfig, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -15,9 +16,9 @@ export class RegisterUsuarioGeneralComponent implements OnInit {
   usuarioForm!: FormGroup;
   private isCel= "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
   private isEmail= /\S+@\S+\.\S+/;
-  closeResult = '';
 
-  constructor(private fb: FormBuilder, private dataSvc: DataService2, config: NgbDatepickerConfig, public modal: NgbActiveModal) { 
+  constructor(private fb: FormBuilder, private dataSvc: DataService2, config: NgbDatepickerConfig, public modal: NgbActiveModal,
+    private authService: AuthService) { 
     config.minDate = {year: 1900, month:1, day: 1};
     config.maxDate = {year: 2022, month:12, day:31};
   }
@@ -67,17 +68,12 @@ export class RegisterUsuarioGeneralComponent implements OnInit {
     celular: ['', [Validators.required, Validators.pattern(this.isCel)]],
     fechanacimiento: ['', [Validators.required]],
     correo: ['', [Validators.required, Validators.pattern(this.isEmail)]],
-    contraseña: ['', [Validators.required, Validators.minLength(8)]],
+    contrasena: ['', [Validators.required, Validators.minLength(8)]],
     departamento: ['', [Validators.required]],
     ciudad: ['', [Validators.required]],
     terminosyCondiciones: ['', [Validators.required]],
   })
 
-  }
-
-  clear() {
-    console.log("clear clicked")
-    this.usuarioForm.reset();
   }
 }
 
