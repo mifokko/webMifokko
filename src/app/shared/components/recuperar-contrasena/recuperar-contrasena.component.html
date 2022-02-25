@@ -1,1 +1,16 @@
-<p>recuperar-contrasena works!</p>
+<div class="modal-body">
+    <div>
+        <p class="text-center">Para recuperar el acceso, debe ingresar el correo de verificación y dar clic en Recuperar Contraseña,
+            le llegara un correo indicando los pasos a seguir.
+        </p>
+        <form action="/examples/actions/confirmation.php" method="post">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="password" class="form-control rounded" name="Contraseña" placeholder="Contraseña">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-dark m-2" (click)="modal.close()">Recuperar</button>
+            <button type="submit" class="btn btn-dark m-2" (click)="openLogin()" (click)="modal.close()">Volver</button>
+        </form>
+    </div>
+</div>

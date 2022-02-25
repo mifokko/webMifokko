@@ -29,4 +29,8 @@ export class HeaderComponent implements OnInit {
   openLogin( ){
     const modalRef = this.modalService.open(LoginComponent, this.options);
   }
+
+  isLogin() {
+    
+  }
 }

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Auth } from '@firebase/auth';
+import { User } from '@firebase/auth';
 import firebase from 'firebase/compat/app';
 
 @Injectable({
@@ -37,11 +39,19 @@ export class AuthService {
   }
 
   async loginFacebook(correo: string, contrasena: string){
+    return null;
     try {
       return await this.afauth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
     } catch (e) {
       console.log("Error en login: ", e);
-      return null;
     }
+  }
+
+  async cerrarSesion(){
+    await this.afauth.signOut();
+  }
+
+  getCurrentUser(){
+
   }
 }
