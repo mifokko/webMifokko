@@ -18,6 +18,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
   
+  inView(ele: any) {
+    ele.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'start'});
+  }
+
   openPlanEmpresa(){
     const modalRef = this.modalService.open(PlanEmpresaComponent);
   }

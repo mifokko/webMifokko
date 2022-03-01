@@ -1,7 +1,6 @@
 <section id="buscador">
   <!--<img src="./assets/Fondo Amarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">-->
-<div>
-  <img src="./assets/Fondo Amarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">
+  <img src="./assets/FondoAmarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">
   <!--Buscador principal-->
 <div class="container">
     <form class="row justify-content-center aling-items-center my-5">
@@ -70,7 +69,7 @@
   <div class="row center">
     <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
       <div id="padre" >
-        <a href="#empresas">
+        <a type="button" (click)="inView(empresa)">
           <img class="img-fluid rounded" src="https://assets.entrepreneur.com/content/3x2/2000/1634353069-Depositphotos-199444784-L.jpg?auto=webp&quality=95&crop=2:1&width=400" style="filter: brightness(70%);">
           <h2 class="center2">EMPRESA</h2>
         </a>
@@ -85,7 +84,7 @@
     </div>
     <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
       <div id="padre">
-        <a href="#independiente" class=" navbar-link scrollto">
+        <a type="button" (click)="inView(independiente)">
           <img class="img-fluid rounded" src="https://corporativo.compensar.com/afiliaciones/PublishingImages/Carrusel-simulador-aportes-Independiente.jpg" style="filter: brightness(70%);">
           <h2 class="center2">INDEPENDIENTE</h2>
         </a>
@@ -100,7 +99,7 @@
     </div>
     <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
       <div id="padre">
-        <a data-bs-toggle="collapse" href="#collapseGeneral" role="button" aria-expanded="false" aria-controls="collapse">
+        <a type="button" (click)="inView(oferta)">
           <img class="img-fluid rounded" src="https://marvel-b1-cdn.bc0a.com/f00000000216283/www.fortinet.com/content/dam/fortinet/images/promos/tile-general-user-400x200.jpg" style="filter: brightness(70%);">
           <h2 class="center2">OFERTA</h2>
         </a>
@@ -115,194 +114,130 @@
     </div>
   </div>
 </div>
-</div>
 </section>
 
-<main id="main" data-spy="scroll" data-target="#informacion" data-offset="0">
-  <!--Información sobre empresa-->
-  <div id="empresas">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="box-shadow-full">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="row">
-                  <div class="col-sm-6 col-md-5">
-                    <div class="about-img">
-                      <img src="assets/img/testimonial-2.jpg" class="img-fluid rounded b-shadow-a" alt="">
-                    </div>
-                  </div>
-                  <div class="col-sm-6 col-md-7">
-                    <div class="about-info">
-                      <p><span class="title-s">Name: </span> <span>Morgan Freeman</span></p>
-                      <p><span class="title-s">Profile: </span> <span>full stack developer</span></p>
-                      <p><span class="title-s">Email: </span> <span>contact@example.com</span></p>
-                      <p><span class="title-s">Phone: </span> <span>(617) 557-0089</span></p>
-                    </div>
-                  </div>
-                </div>
-                <div class="skill-mf">
-                  <p class="title-s">Skill</p>
-                  <span>HTML</span> <span class="pull-right">85%</span>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span>CSS3</span> <span class="pull-right">75%</span>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span>PHP</span> <span class="pull-right">50%</span>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <span>JAVASCRIPT</span> <span class="pull-right">90%</span>
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="about-me pt-4 pt-md-0">
-                  <div class="title-box-2">
-                    <h5 class="title-left">
-                      About me
-                    </h5>
-                  </div>
-                  <p class="lead">
-                    Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Curabitur arcu erat, accumsan id
-                    imperdiet et, porttitor
-                    at sem. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Nulla
-                    porttitor accumsan tincidunt.
-                  </p>
-                  <p class="lead">
-                    Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vivamus suscipit tortor eget felis
-                    porttitor volutpat. Vestibulum
-                    ac diam sit amet quam vehicula elementum sed sit amet dui. porttitor at sem.
-                  </p>
-                  <p class="lead">
-                    Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim.
-                    Nulla porttitor accumsan
-                    tincidunt. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+<!--Seccion de información de empresa-->
+<section #empresa>
+  <img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 100%; left: 0; z-index: -100;" height="100%" width="100%">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style=" margin-bottom: 5%;">
+        <h2 class="m-3 text-center">EMPRESA</h2>
+        <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;" src="https://pixabay.com/get/g5645d75d1aabb8b952b520137a1ea22df07df01b779d96a13bab89eacf981918f17a0c46dcdbe0be29b1d2417c0d7ff15627c999a230b503bade055051eb4f67a9ed2057580965c6cd5f31d7593b20f4_640.jpg">
+      </div>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 5%;">
+        <p>Lorem ipsum dolor sit amet. Eum ipsa dignissimos ut fuga error nam ipsum quasi.
+          Ut culpa error qui ducimus reprehenderit et quaerat voluptatem eos soluta esse.
+          Eos itaque ipsam sed omnis esse et modi magnam ut dolorum dolor nam voluptatibus atque. </p>
+        <p>Eos atque laboriosam aut quam praesentium est voluptas  a earum quas ut iusto sunt non unde 
+          galisum quo earum maiores. Est excepturi reiciendis eum eligendi rerum et quia perferendis. </p>
+        <p>Qui dicta quos in quam quas et omnis ducimus a laudantium maxime qui tempora cupiditate. 
+          Ut galisum tempora rem omnis autem ea aliquam nulla in eligendi vitae qui repudiandae quaerat 
+          ea voluptas nihil in voluptas quisquam. Et ducimus odit cum reprehenderit quas ut aspernatur 
+          maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea 
+          consequatur consequatur qui nesciunt praesentium. </p>
+      </div>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
+        <h1>OFERTAS</h1>
+        <h1>OFERTAS</h1>
+        <h1>OFERTAS</h1>
+        <br><br><br><br><br><br><br><br><br>
+        <a class="btn btn-primary rounded-pill btn-block btn-lg"(click)="openPlanEmpresa()" role="button">
+          ÚNETE
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+            <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>
+          </svg>
+        </a>
       </div>
     </div>
   </div>
-  <!-- End About Section -->
+</section>
 
-  <!--Información sobre independiente-->
-  <section id="independiente" class="services-mf pt-5 route">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="title-box text-center">
-            <h3 class="title-a">
-              Services
-            </h3>
-            <p class="subtitle-a">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            </p>
-            <div class="line-mf"></div>
-          </div>
-        </div>
+<!--Seccion de información de independiente-->
+<section #independiente>
+  <img src="./assets/FondoAmarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 200%; left: 0; z-index: -100;" height="100%" width="100%">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style="margin-top: 1%; margin-bottom: 5%;">
+        <h2 class="m-3 text-center">INDEPENDIENTE</h2>
+        <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;" src="https://pixabay.com/get/g59232ca2194518d2828093499e8cd4f20c65a1384dbba60c1adad0468cff89d51fe88675873b36f3e7264f934dad8b8f2d98bcd38a73ab86ff5d7087f072682a13d8a359b0796866b620ac34181ee8b6_640.jpg">
       </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="service-box">
-            <div class="service-ico">
-              <span class="ico-circle"><i class="bi bi-briefcase"></i></span>
-            </div>
-            <div class="service-content">
-              <h2 class="s-title">Web Design</h2>
-              <p class="s-description text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
-                provident vitae! Magni
-                tempora perferendis eum non provident.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="service-box">
-            <div class="service-ico">
-              <span class="ico-circle"><i class="bi bi-card-checklist"></i></span>
-            </div>
-            <div class="service-content">
-              <h2 class="s-title">Web Development</h2>
-              <p class="s-description text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
-                provident vitae! Magni
-                tempora perferendis eum non provident.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="service-box">
-            <div class="service-ico">
-              <span class="ico-circle"><i class="bi bi-bar-chart"></i></span>
-            </div>
-            <div class="service-content">
-              <h2 class="s-title">Photography</h2>
-              <p class="s-description text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
-                provident vitae! Magni
-                tempora perferendis eum non provident.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="service-box">
-            <div class="service-ico">
-              <span class="ico-circle"><i class="bi bi-binoculars"></i></span>
-            </div>
-            <div class="service-content">
-              <h2 class="s-title">Responsive Design</h2>
-              <p class="s-description text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
-                provident vitae! Magni
-                tempora perferendis eum non provident.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="service-box">
-            <div class="service-ico">
-              <span class="ico-circle"><i class="bi bi-brightness-high"></i></span>
-            </div>
-            <div class="service-content">
-              <h2 class="s-title">Graphic Design</h2>
-              <p class="s-description text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
-                provident vitae! Magni
-                tempora perferendis eum non provident.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="service-box">
-            <div class="service-ico">
-              <span class="ico-circle"><i class="bi bi-calendar4-week"></i></span>
-            </div>
-            <div class="service-content">
-              <h2 class="s-title">Marketing Services</h2>
-              <p class="s-description text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
-                provident vitae! Magni
-                tempora perferendis eum non provident.
-              </p>
-            </div>
-          </div>
-        </div>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 5%;">
+        <p>Lorem ipsum dolor sit amet. Eum ipsa dignissimos ut fuga error nam ipsum quasi.
+          Ut culpa error qui ducimus reprehenderit et quaerat voluptatem eos soluta esse.
+          Eos itaque ipsam sed omnis esse et modi magnam ut dolorum dolor nam voluptatibus atque. </p>
+        <p>Eos atque laboriosam aut quam praesentium est voluptas  a earum quas ut iusto sunt non unde 
+          galisum quo earum maiores. Est excepturi reiciendis eum eligendi rerum et quia perferendis. </p>
+        <p>Qui dicta quos in quam quas et omnis ducimus a laudantium maxime qui tempora cupiditate. 
+          Ut galisum tempora rem omnis autem ea aliquam nulla in eligendi vitae qui repudiandae quaerat 
+          ea voluptas nihil in voluptas quisquam. Et ducimus odit cum reprehenderit quas ut aspernatur 
+          maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea 
+          consequatur consequatur qui nesciunt praesentium. </p>
+      </div>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
+        <h1>OFERTAS</h1>
+        <h1>OFERTAS</h1>
+        <h1>OFERTAS</h1>
+        <br><br><br><br><br><br><br><br><br>
+        <a class="btn btn-warning rounded-pill btn-block btn-lg"(click)="openPlanIndependiente()" role="button">
+          ÚNETE
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-bounding-box" viewBox="0 0 16 16">
+            <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+          </svg>
+        </a>
       </div>
     </div>
-  </section><!-- End Services Section -->
-</main>
+  </div>
+</section>
+
+<!--Seccion de información de oferta-->
+<section #oferta>
+    <img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 300%; left: 0; z-index: -100;" height="100%" width="100%">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style="margin-top: 5%; margin-bottom: 5%;">
+        <h2 class="m-3 text-center">OFERTAS</h2>
+        <img class="img-fluid rounded center" style="width: 90%; height: 90%; position: relative;" src="https://pixabay.com/get/g42fe749f7af20c424fab140b51f02c208fc6dcafc47d9d9fa39268d2cdd8321de015b84c10f2053f291c9cb76663ef98b54007b515188c7d9549d222c450b4500ff19147dea5692dde571405fb755142_640.jpg">
+      </div>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
+        <p>Lorem ipsum dolor sit amet. Eum ipsa dignissimos ut fuga error nam ipsum quasi.
+          Ut culpa error qui ducimus reprehenderit et quaerat voluptatem eos soluta esse.
+          Eos itaque ipsam sed omnis esse et modi magnam ut dolorum dolor nam voluptatibus atque. </p>
+        <p>Eos atque laboriosam aut quam praesentium est voluptas  a earum quas ut iusto sunt non unde 
+          galisum quo earum maiores. Est excepturi reiciendis eum eligendi rerum et quia perferendis. </p>
+        <p>Qui dicta quos in quam quas et omnis ducimus a laudantium maxime qui tempora cupiditate. 
+          Ut galisum tempora rem omnis autem ea aliquam nulla in eligendi vitae qui repudiandae quaerat 
+          ea voluptas nihil in voluptas quisquam. Et ducimus odit cum reprehenderit quas ut aspernatur 
+          maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea 
+          consequatur consequatur qui nesciunt praesentium. </p>
+      </div>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
+        <h1>OFERTAS</h1>
+        <h1>OFERTAS</h1>
+        <h1>OFERTAS</h1>
+        <br><br><br><br>
+        <a class="btn btn-primary rounded-pill btn-block btn-lg mb-2" (click)="openPlanEmpresa()" role="button">
+          ÚNETE EMPRESA
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+            <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>
+          </svg>
+        </a>
+        <a class="btn btn-warning rounded-pill btn-block btn-lg mb-2"(click)="openPlanIndependiente()" role="button">
+          ÚNETE INDEPENDIENTE
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-bounding-box" viewBox="0 0 16 16">
+            <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+          </svg>
+        </a>
+        <a class="btn btn-secondary rounded-pill btn-block btn-lg mb-2"(click)="openRegisterUsuario()" role="button">
+          ÚNETE USUARIO
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
