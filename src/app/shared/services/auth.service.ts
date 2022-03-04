@@ -1,24 +1,20 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Auth } from '@firebase/auth';
-import { User } from '@firebase/auth';
 import firebase from 'firebase/compat/app';
-import { Observable } from 'rxjs';
+import { Usuario } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private user: Observable<firebase.User | null>;
-
   constructor(private afauth: AngularFireAuth) { 
-    this.user = this.afauth.authState;
+    
   }
 
-  async register(correo: string, contrasena: string){
+  async register(datos: Usuario){
     try {
-      return await this.afauth.createUserWithEmailAndPassword(correo,contrasena);
+      return await this.afauth.createUserWithEmailAndPassword(datos.correo, datos.password);
     } catch (e) {
       console.log("Error en login: ", e);
       return null;
@@ -56,21 +52,16 @@ export class AuthService {
     await this.afauth.signOut();
   }
 
-  //Obtener el estado de autenticación 
-  getAuthenticated() : boolean {
-    return this.user != null;
-  }
-
-  async getCurrentUser(){
-    return this.user;
-  }
-
   async recuperarContrasena(correo: string){
     try{
       return this.afauth.sendPasswordResetEmail(correo);
     }catch(e){
       console.log("Error recuperar contraseña ", e);
     }
-
   }
+
+  stateUser(){
+    return this.afauth.authState;
+  }
+
 }

@@ -69,7 +69,7 @@
                         </div>
                       </div>
                       <div class="form-group p-1">
-                        <input type="email" class="form-control" placeholder="Correo" formControlName="correo" [class]="isValidField('correo')">
+                        <input type="email" class="form-control" placeholder="Correo" formControlName="correo" [class]="isValidField('correo')" [(ngModel)]="usuario.correo">
                         <div class="invalid-feedback" *ngIf="empresaForm.get('correo')?.hasError('required')">
                           Por favor ingrese email.
                         </div>
@@ -78,7 +78,7 @@
                         </div>
                       </div>
                       <div class="form-group p-1">
-                        <input type="password" class="form-control" placeholder="Contraseña" formControlName="contraseña" [class]="isValidField('contraseña')">
+                        <input type="password" class="form-control" placeholder="Contraseña" formControlName="contraseña" [class]="isValidField('contraseña')" [(ngModel)]="usuario.password">
                         <div class="invalid-feedback" *ngIf="empresaForm.get('contraseña')?.hasError('required')">
                           Por favor ingrese contraseña.
                         </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../services/auth.service';
 import { RecuperarContrasenaComponent } from '../recuperar-contrasena/recuperar-contrasena.component';
@@ -11,12 +12,14 @@ import { RegisterUsuarioGeneralComponent } from '../register-usuario-general/reg
 })
 export class LoginComponent implements OnInit {
 
+  emailOrPasswordIncorrectas: boolean = false;
+
   usuario = {
     correo: '',
     contrasena: ''
   }
 
-  constructor(public modal: NgbActiveModal, private modalService: NgbModal, private authService: AuthService) { }
+  constructor(public modal: NgbActiveModal, private modalService: NgbModal, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -32,10 +35,10 @@ export class LoginComponent implements OnInit {
   Ingresar(){
     console.log(this.usuario);
     const {correo, contrasena} = this.usuario;
+    this.router.navigate(['/home']);
     this.authService.loginGeneral(correo, contrasena).then(res => {
     console.log("se ingreso con", res);
     });
-
   }
 
   IngresarGoogle(){
@@ -55,4 +58,9 @@ export class LoginComponent implements OnInit {
     this.modal.close();
     });
   }
+
+  refresh(): void {
+    window.location.reload();
+  }
+
 }

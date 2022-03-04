@@ -1,6 +1,7 @@
 			<div class="modal-body">
 				<h4 class="center mt-3 mb-4">Iniciar Sesión</h4>
 				<form action="/examples/actions/confirmation.php" method="post">
+					<p class="tamaño" >Correo o contraseña incorrectos</p>
 					<div class="form-group">
 						<div class="input-group mb-2">
 							<input type="text" class="form-control rounded" name="correo" placeholder="Correo" [(ngModel)]="usuario.correo">
@@ -13,7 +14,7 @@
 					</div>
            			<p class="hint-text tamaño center m-2"><a type="button" class="btn-link" (click)="openRecuperar()" (click)="modal.close()">¿Has olvidado la contraseña?</a></p>
 					<div class="form-group center">
-						<button type="submit" class="btn btn-dark btn-redondo" (click)="Ingresar()" (click)="modal.close()">Ingresar</button>
+						<button type="submit" class="btn btn-dark btn-redondo" (click)="Ingresar()">Ingresar</button>
 					</div>
 				</form>
 					<div class="mt-2">

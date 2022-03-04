@@ -3,12 +3,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../services/dataRegE.services';
 import Swal from 'sweetalert2';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Usuario } from '../../model/user.model';
+import { AuthService } from '../../services/auth.service';
+import { DataServices } from '../../services/data.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  providers: [DataService]
+  providers: [DataService, AuthService, DataServices]
 })
 export class RegisterComponent implements OnInit {
   empresaForm!: FormGroup;
@@ -16,7 +19,14 @@ export class RegisterComponent implements OnInit {
   private isCel= "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
   private isEmail= /\S+@\S+\.\S+/;
   
-  constructor( public modal: NgbActiveModal, private fb: FormBuilder, private dataSvc: DataService) { }
+  usuario: Usuario = {
+    correo: '',
+    password: '',
+    uid: '',
+    perfil: 'empresa',
+  }
+
+  constructor( public modal: NgbActiveModal, private fb: FormBuilder, private dataSvc: DataService, private afs: AuthService, private data: DataServices) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -27,6 +37,7 @@ export class RegisterComponent implements OnInit {
       try {
         const formValue = this.empresaForm.value;
         await this.dataSvc.onSaveEmpresa(formValue); 
+        this.registrar();
         //Notificación de confirmación
         Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
         this.empresaForm.reset() 
@@ -41,6 +52,21 @@ export class RegisterComponent implements OnInit {
         'Revisar información ingresada',
         'error'
       );
+    }
+  }
+
+  async registrar() {
+    console.log('datos -> ', this.usuario);
+    const res = await this.afs.register(this.usuario).catch( error => {
+      console.log('error');
+    });
+    if (res) {
+      console.log('Exito al crear el usuario');
+      const path = 'Usuarios';
+      const id = res.user!.uid;
+      this.usuario.uid = id;
+      this.usuario.password = '';
+      await this.data.createDoc(this.usuario, path, id);
     }
   }
 
@@ -84,10 +110,5 @@ export class RegisterComponent implements OnInit {
     terminosyCondiciones: ['', [Validators.required]],
   });
 
-  }
-
-  clear() {
-    console.log("clear clicked")
-    this.empresaForm.reset();
   }
 }

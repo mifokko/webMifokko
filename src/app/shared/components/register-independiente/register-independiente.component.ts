@@ -2,20 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { Usuario } from '../../model/user.model';
+import { AuthService } from '../../services/auth.service';
+import { DataServices } from '../../services/data.service';
 import { DataService1 } from '../../services/dataRegIndependiente.services';
 
 @Component({
   selector: 'app-register-independiente',
   templateUrl: './register-independiente.component.html',
   styleUrls: ['./register-independiente.component.scss'],
-  providers: [DataService1]
+  providers: [DataService1, DataServices, AuthService]
 })
 export class RegisterIndependienteComponent implements OnInit {
   independienteForm!: FormGroup;
   private isCel= "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
   private isEmail= /\S+@\S+\.\S+/;
 
-  constructor(private fb: FormBuilder, private dataSvc: DataService1, public modal: NgbActiveModal) { }
+  usuario: Usuario = {
+    correo: '',
+    password: '',
+    uid: '',
+    perfil: 'independiente',
+  }
+
+  constructor(private fb: FormBuilder, private dataSvc: DataService1, public modal: NgbActiveModal, private data: DataServices, private afs: AuthService) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -27,6 +37,7 @@ export class RegisterIndependienteComponent implements OnInit {
         //console.log(this.independienteForm.value)
         const formValue = this.independienteForm.value;
         await this.dataSvc.onSaveIndependiente(formValue); 
+        this.registrar();
         //Notificación de confirmación
         Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
         this.independienteForm.reset() 
@@ -41,6 +52,22 @@ export class RegisterIndependienteComponent implements OnInit {
         'Revisar información ingresada',
         'error'
       );
+    }
+  }
+
+  //Registrar usuario
+  async registrar() {
+    console.log('datos -> ', this.usuario);
+    const res = await this.afs.register(this.usuario).catch( error => {
+      console.log('error');
+    });
+    if (res) {
+      console.log('Exito al crear el usuario');
+      const path = 'Usuarios';
+      const id = res.user!.uid;
+      this.usuario.uid = id;
+      this.usuario.password = '';
+      await this.data.createDoc(this.usuario, path, id);
     }
   }
 
@@ -77,13 +104,8 @@ export class RegisterIndependienteComponent implements OnInit {
     ocupacionReferencia2: ['', [Validators.required]],
     codigoAsesor: [''],
     terminosyCondiciones: ['', [Validators.required]],
-  })
+  });
 
-  }
-
-  clear() {
-    console.log("clear clicked")
-    this.independienteForm.reset();
   }
 }
 
