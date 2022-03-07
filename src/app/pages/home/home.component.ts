@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   constructor( private modalService: NgbModal) { }
 
   ngOnInit(): void {
+    console.log('Home');
   }
   
   inView(ele: any) {

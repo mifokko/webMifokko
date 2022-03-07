@@ -10,6 +10,7 @@ export class WhatsappComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('Botón Whatsapp');
   }
 
 }

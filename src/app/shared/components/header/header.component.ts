@@ -31,7 +31,8 @@ export class HeaderComponent implements OnInit {
     })
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    console.log('navbar');
   }
 
   options: NgbModalOptions = {

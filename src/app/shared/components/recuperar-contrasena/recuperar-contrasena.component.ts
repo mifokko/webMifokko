@@ -16,7 +16,8 @@ export class RecuperarContrasenaComponent implements OnInit {
 
   constructor(public modal: NgbActiveModal, private modalService: NgbModal, private authService: AuthService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    console.log('Recuperar contraseña');
   }
 
   recuperar(){

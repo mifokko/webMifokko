@@ -1,3 +1,4 @@
+import { ConsoleLogger } from '@angular/compiler-cli/private/localize';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,6 +11,7 @@ export class BuscarTodoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('buscar');
   }
 
 }

@@ -12,10 +12,11 @@ export class PlanIndependienteComponent implements OnInit {
   constructor(public modalService: NgbModal, public modal: NgbActiveModal) { }
 
   ngOnInit(): void {
+    console.log('Plan independiente');
   }
 
   openRegisterIndependiente(){
-    const modalRef1 = this.modalService.open(RegisterIndependienteComponent);
+    this.modalService.open(RegisterIndependienteComponent);
   }
 
 }

@@ -16,6 +16,7 @@ export class UneteComponent implements OnInit {
   constructor(public modal: NgbActiveModal, private modalService: NgbModal) { }
 
   ngOnInit(): void {
+    console.log('Únete');
   }
 
   openEmpresa(){

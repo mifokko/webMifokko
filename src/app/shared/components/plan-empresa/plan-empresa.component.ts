@@ -12,9 +12,10 @@ export class PlanEmpresaComponent implements OnInit {
   constructor(public modalService: NgbModal, public modal: NgbActiveModal) { }
 
   ngOnInit(): void {
+    console.log('Plan empresa');
   }
 
   openRegisterEmpresa(){
-    const modalRef = this.modalService.open(RegisterComponent);
+    this.modalService.open(RegisterComponent);
   }
 }

@@ -22,10 +22,11 @@ export class LoginComponent implements OnInit {
   constructor(public modal: NgbActiveModal, private modalService: NgbModal, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+    console.log('Login');
   }
 
   openGeneral() {
-    const modalRef = this.modalService.open(RegisterUsuarioGeneralComponent);
+    this.modalService.open(RegisterUsuarioGeneralComponent);
   }
 
   openRecuperar(){
