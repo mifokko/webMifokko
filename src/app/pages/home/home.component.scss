@@ -5,11 +5,12 @@
 #padre {
     position: relative;    /* para poder posicionar el texto de forma absoluta */
     display: inline-block; /* para que solo ocupe el ancho de la imagen */
-  }
-  .center {
+}
+
+.center {
     display: flex;
     justify-content: center;
-  }
+}
 
 .center2 {
   left: 50%;
@@ -43,4 +44,3 @@
   height: 25%;
   position: relative;
 }
-

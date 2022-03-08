@@ -22,6 +22,7 @@ import { UneteComponent } from './shared/components/unete/unete.component';
 import { RecuperarContrasenaComponent } from './shared/components/recuperar-contrasena/recuperar-contrasena.component';
 import { WhatsappComponent } from './shared/components/whatsapp/whatsapp.component';
 import { WhatsappModule } from './shared/components/whatsapp/whatsapp.module';
+import { SubirOfertaComponent } from './shared/components/subir-oferta/subir-oferta.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { WhatsappModule } from './shared/components/whatsapp/whatsapp.module';
     PlanIndependienteComponent,
     UneteComponent,
     RecuperarContrasenaComponent,
-    WhatsappComponent
+    WhatsappComponent,
+    SubirOfertaComponent
   ],
   imports: [
     BrowserModule,

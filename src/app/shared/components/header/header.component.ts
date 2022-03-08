@@ -6,6 +6,7 @@ import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
 import { LoginComponent } from '../login/login.component';
+import { SubirOfertaComponent } from '../subir-oferta/subir-oferta.component';
 import { UneteComponent } from '../unete/unete.component';
 
 @Component({
@@ -44,7 +45,9 @@ export class HeaderComponent implements OnInit {
     this.modalService.open(UneteComponent, this.options);
   }
 
-  openOferta() {}
+  openOferta() {
+    this.modalService.open(SubirOfertaComponent, {centered: true});
+  }
 
   openBeneficios() {}
 
