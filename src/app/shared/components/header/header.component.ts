@@ -15,7 +15,7 @@ import { UneteComponent } from '../unete/unete.component';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  
+  fecha = new Date();
   login: boolean = false;
   rol: 'empresa' | 'independiente' | 'general' | undefined;
   
@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
       }else {
         console.log('No esta logeado');
         this.login = false;
+        //console.log(this.fecha.getDate() + '/' + (this.fecha.getMonth() + 2) + '/' + this.fecha.getFullYear());
       }
     })
   }
@@ -71,7 +72,6 @@ export class HeaderComponent implements OnInit {
     const path = 'Usuarios';
     const id = uid;
     this.firestore.getDoc<Usuario>(path,id).subscribe( res => {
-      console.log('datos -> ', res);
       if(res) {
         this.rol = res.perfil;
       }

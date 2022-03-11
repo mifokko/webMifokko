@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RegisterComponent } from '../register/register.component';
 
@@ -18,4 +18,6 @@ export class PlanEmpresaComponent implements OnInit {
   openRegisterEmpresa(){
     this.modalService.open(RegisterComponent);
   }
+
+
 }

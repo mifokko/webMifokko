@@ -3,4 +3,8 @@ export interface Usuario {
     password: string,
     uid: string,
     perfil: 'empresa' | 'independiente' | 'general',
+    referencia: string,
+    plan: 'mensual' | 'anual' | 'general',
+    fechaInicio: string,
+    fechaFin: string,
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
@@ -13,19 +13,36 @@ import { DataService1 } from '../../services/dataRegIndependiente.services';
   styleUrls: ['./register-independiente.component.scss'],
   providers: [DataService1, DataServices, AuthService]
 })
-export class RegisterIndependienteComponent implements OnInit {
+export class RegisterIndependienteComponent implements OnInit, OnChanges {
   independienteForm!: FormGroup;
   private isCel= "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
   private isEmail= /\S+@\S+\.\S+/;
+  fecha = new Date();
+
+  @Input() valorPagoP!: number;
 
   usuario: Usuario = {
     correo: '',
     password: '',
     uid: '',
     perfil: 'independiente',
+    referencia: '',
+    plan: 'mensual',
+    fechaInicio: '',
+    fechaFin: '',
   }
 
   constructor(private fb: FormBuilder, private dataSvc: DataService1, public modal: NgbActiveModal, private data: DataServices, private afs: AuthService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes["valorPagoP"] != null &&
+      changes["valorPagoP"].currentValue
+    ) {
+      this.valorPagoP = changes["valorPagoP"].currentValue;
+      console.log(this.valorPagoP);
+    }
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -67,6 +84,17 @@ export class RegisterIndependienteComponent implements OnInit {
       const id = res.user!.uid;
       this.usuario.uid = id;
       this.usuario.password = '';
+      this.usuario.referencia = this.referenciaPago();
+      if (this.usuario.plan == 'mensual') {
+        this.usuario.fechaInicio = this.fecha.toLocaleDateString();
+        this.usuario.fechaFin = (this.fecha.getDate() + '/' + (this.fecha.getMonth() + 2) + '/' + this.fecha.getFullYear());
+        console.log(this.usuario.fechaInicio, '-', this.usuario.fechaFin);
+      } else if (this.usuario.plan == 'anual') {
+        this.usuario.fechaInicio = this.fecha.toLocaleDateString();
+        this.fecha.setDate(this.fecha.getFullYear() + 1);
+        this.usuario.fechaFin = this.fecha.toLocaleDateString();
+        console.log(this.usuario.fechaFin);
+      }
       await this.data.createDoc(this.usuario, path, id);
     }
   }
@@ -82,30 +110,40 @@ export class RegisterIndependienteComponent implements OnInit {
   }
 
   private initForm(): void {
-  this.independienteForm = this.fb.group({
-    nombre: ['', [Validators.required]],
-    id: ['', [Validators.required]],
-    profesion: ['', [Validators.required]],
-    departamento: ['', [Validators.required]],
-    ciudad: ['', [Validators.required]],
-    direccion: ['', [Validators.required]],
-    telefono: [''],
-    celular: ['', [Validators.required, Validators.pattern(this.isCel)]],
-    correo: ['', [Validators.required, Validators.pattern(this.isEmail)]],
-    contraseña: ['', [Validators.required, Validators.minLength(8)]],
-    descripcion: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
-    domicilio: [''],
-    servicios: ['', [Validators.required]],
-    nombreReferencia1: ['', [Validators.required]],
-    celularReferencia1: ['', [Validators.required, Validators.pattern(this.isCel)]],
-    ocupacionReferencia1: ['', [Validators.required]],
-    nombreReferencia2: ['', [Validators.required]],
-    celularReferencia2: ['', [Validators.required, Validators.pattern(this.isCel)]],
-    ocupacionReferencia2: ['', [Validators.required]],
-    codigoAsesor: [''],
-    terminosyCondiciones: ['', [Validators.required]],
-  });
+    this.independienteForm = this.fb.group({
+      nombre: ['', [Validators.required]],
+      id: ['', [Validators.required]],
+      profesion: ['', [Validators.required]],
+      departamento: ['', [Validators.required]],
+      ciudad: ['', [Validators.required]],
+      direccion: ['', [Validators.required]],
+      telefono: [''],
+      celular: ['', [Validators.required, Validators.pattern(this.isCel)]],
+      correo: ['', [Validators.required, Validators.pattern(this.isEmail)]],
+      contraseña: ['', [Validators.required, Validators.minLength(8)]],
+      descripcion: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
+      domicilio: [''],
+      servicios: ['', [Validators.required]],
+      nombreReferencia1: ['', [Validators.required]],
+      celularReferencia1: ['', [Validators.required, Validators.pattern(this.isCel)]],
+      ocupacionReferencia1: ['', [Validators.required]],
+      nombreReferencia2: ['', [Validators.required]],
+      celularReferencia2: ['', [Validators.required, Validators.pattern(this.isCel)]],
+      ocupacionReferencia2: ['', [Validators.required]],
+      codigoAsesor: [''],
+      terminosyCondiciones: ['', [Validators.required]],
+    });
 
+  }
+
+  referenciaPago() {
+    let result = 'WP';
+    const numeros = '0123456789';
+    for (let i = 0; i < 6; i++) {
+      result += numeros.charAt(Math.floor(Math.random() * numeros.length));
+    }
+    console.log('Referencia de pago -> ' ,result)
+    return result;
   }
 }
 

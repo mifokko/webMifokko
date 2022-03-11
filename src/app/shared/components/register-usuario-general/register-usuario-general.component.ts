@@ -24,6 +24,10 @@ export class RegisterUsuarioGeneralComponent implements OnInit {
     password: '',
     uid: '',
     perfil: 'general',
+    referencia: '',
+    plan: 'general',
+    fechaInicio: '',
+    fechaFin: '',
   }
 
   constructor(private fb: FormBuilder, private dataSvc: DataService2, config: NgbDatepickerConfig, public modal: NgbActiveModal,
@@ -73,6 +77,9 @@ export class RegisterUsuarioGeneralComponent implements OnInit {
       const id = res.user!.uid;
       this.usuario.uid = id;
       this.usuario.password = '';
+      this.usuario.referencia = '';
+      this.usuario.fechaInicio = new Date('yyyy-MM-dd').toLocaleDateString();
+      this.usuario.fechaFin = '';
       await this.data.createDoc(this.usuario, path, id);
     }
   }
