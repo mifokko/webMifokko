@@ -27,6 +27,7 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideFunctions,getFunctions } from '@angular/fire/functions';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { VerOfertasComponent } from './shared/components/ver-ofertas/ver-ofertas.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
     UneteComponent,
     RecuperarContrasenaComponent,
     WhatsappComponent,
-    SubirOfertaComponent
+    SubirOfertaComponent,
+    VerOfertasComponent
   ],
   imports: [
     BrowserModule,

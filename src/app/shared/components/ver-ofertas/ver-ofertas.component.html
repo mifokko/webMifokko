@@ -1,0 +1,49 @@
+<img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">
+<div class="container mt-4">
+    <h1 class="tamaño">Mis ofertas publicadas</h1>
+    <label >Elige Año y Mes</label>
+    <div class="row p-1">
+        <div class="form-group col-md-2">
+            <select id="inputState" class="form-control">
+            <option selected>Seleccione...</option>
+            <option>Si</option>
+            <option>No</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <select id="inputState" class="form-control">
+            <option selected>Seleccione...</option>
+            <option>Si</option>
+            <option>No</option>
+            </select>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Estadistica</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">{{oferta.fechaInicio}}</th>
+            <td>{{oferta.nombre}}</td>
+            <td>{{oferta.nombre}}</td>
+            <td class="btn-link">Ver</td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- Spinner-->
+    <div id="spinner" style="display: none;">
+        <div class="text-center">
+            Loading...
+            <br>
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+        </div>
+    </div>
+</div>
