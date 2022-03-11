@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "mifokko-b3088": {
+      "hosting": {
+        "webMifokko": [
+          "mifokko-b3088"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "mifokko-b3088"
+  }
+}

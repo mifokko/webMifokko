@@ -3,25 +3,87 @@
     <button type="button" class="btn-close" (click)="modal.close()"></button>
 </div>
 <div class="modal-body">
-    <div class="mb-3">
-        <label for="formFile" class="form-label"></label>
-        <input class="form-control" type="file" id="formFile">
-      </div>
-      <div class="mb-3">
-        <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+  <form novalidate >
+      <div class="form-group p-1">
         <input class="form-control" type="file" id="formFileMultiple" multiple>
       </div>
-      <div class="mb-3">
-        <label for="formFileDisabled" class="form-label">Disabled file input example</label>
-        <input class="form-control" type="file" id="formFileDisabled" disabled>
+      <div class="form-group p-1">
+        <input type="text" class="form-control" placeholder="Nombre de oferta">
       </div>
-      <div class="mb-3">
-        <label for="formFileSm" class="form-label">Small file input example</label>
-        <input class="form-control form-control-sm" id="formFileSm" type="file">
+      <div class="form-group p-1">
+        <textarea rows="3" class="form-control" placeholder="Descripción"></textarea>
       </div>
-      <div>
-        <label for="formFileLg" class="form-label">Large file input example</label>
-        <input class="form-control form-control-lg" id="formFileLg" type="file">
+      <div class="row g-3 p-1">
+        <div class="form-group col-md-2">
+          <label for="inputState" class="col-sm-2 col-form-label">Precio:</label>
+        </div>
+        <div class="form-group col-md-6">
+          <input type="text" class="form-control" placeholder="$ ">
+        </div>
       </div>
-
+      <div class="row g-3 p-1">
+        <label for="inputState">Tiempo de Validez:</label>
+        <div class="form-group col-md-6">
+          <div class="input-group">
+            <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+            <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+              <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+            </svg>
+            <span class="visually-hidden">Button</span></button>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+          <div class="input-group">
+            <input id="dateOfBirth1" class="form-control" placeholder="yyyy-mm-dd" name="dpa" ngbDatepicker #dpa="ngbDatepicker">
+            <button class="btn btn-outline-secondary" (click)="dpa.toggle()" type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+              <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+            </svg>
+            <span class="visually-hidden">Button1</span></button>
+            </div>
+        </div>
+      </div>
+      <div class="form-group p-1">
+        <input class="form-control" type="text" placeholder="Ciudad">
+      </div>
+      <div class="row g-3 p-1">
+        <div class="form-group col-md-2">
+          <label for="inputState" class="col-sm-2 col-form-label">Domicilio:</label>
+        </div>
+        <div class="form-group col-md-6">
+          <select id="inputState" class="form-control">
+            <option selected>Seleccione...</option>
+            <option>Si</option>
+            <option>No</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group p-1">
+        <input class="form-control" type="text" placeholder="Alcance">
+      </div>
+      <div class="form-group p-1">
+        <input class="form-control" type="tel" placeholder="Celular">
+      </div>
+      <div class="form-group p-1">
+        <input class="form-control" type="text" placeholder="Dirección">
+      </div>
+      <div class="row g-3 p-1">
+        <div class="form-group col-md-4">
+          <label for="inputState" class="col-form-label">Horario Oferta:</label>
+        </div>
+        <div class="form-group col-md-4">
+          <input type="time" class="form-control" name="inicio" min="00:00" max="11:59" value="08:00">
+        </div>
+        <div class="form-group col-md-4">
+          <input type="time" class="form-control" name="inicio" min="12:00" max="18:00" value="14:00">
+        </div>
+      </div>
+      <div class="form-group p-1">
+        <textarea rows="3" class="form-control" placeholder="Información Adicional"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary rounded-pill" (click)="modal.close()" >Subir Oferta</button>
+      </div>
+  </form>
 </div>

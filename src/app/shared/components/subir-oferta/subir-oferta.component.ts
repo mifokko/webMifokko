@@ -13,4 +13,6 @@ export class SubirOfertaComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  
 }

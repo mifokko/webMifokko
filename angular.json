@@ -116,6 +116,16 @@
               "src/**/*.html"
             ]
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "webMifokko:build:production",
+            "firebaseProject": "mifokko-b3088",
+            "firebaseHostingSite": "mifokko-b3088"
+          }
         }
       }
     }

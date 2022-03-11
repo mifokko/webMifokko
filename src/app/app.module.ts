@@ -23,6 +23,10 @@ import { RecuperarContrasenaComponent } from './shared/components/recuperar-cont
 import { WhatsappComponent } from './shared/components/whatsapp/whatsapp.component';
 import { WhatsappModule } from './shared/components/whatsapp/whatsapp.module';
 import { SubirOfertaComponent } from './shared/components/subir-oferta/subir-oferta.component';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideFunctions,getFunctions } from '@angular/fire/functions';
+import { provideStorage,getStorage } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -42,12 +46,16 @@ import { SubirOfertaComponent } from './shared/components/subir-oferta/subir-ofe
     HeaderModule,
     RegisterModule,
     NgbModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebase),
     RegisterIndependienteModule,
     RegisterUsuarioGeneralModule,
     BrowserAnimationsModule,
     FormsModule,
-    WhatsappModule
+    WhatsappModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
+    provideFunctions(() => getFunctions()),
+    provideStorage(() => getStorage())
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]
