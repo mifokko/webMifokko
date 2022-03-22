@@ -28,6 +28,8 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideFunctions,getFunctions } from '@angular/fire/functions';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { VerOfertasComponent } from './shared/components/ver-ofertas/ver-ofertas.component';
+import { InformacionComponent } from './shared/components/informacion/informacion.component';
+import { BeneficiosComponent } from './shared/components/beneficios/beneficios.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { VerOfertasComponent } from './shared/components/ver-ofertas/ver-ofertas
     RecuperarContrasenaComponent,
     WhatsappComponent,
     SubirOfertaComponent,
-    VerOfertasComponent
+    VerOfertasComponent,
+    InformacionComponent,
+    BeneficiosComponent
   ],
   imports: [
     BrowserModule,

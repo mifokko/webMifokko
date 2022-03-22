@@ -5,6 +5,8 @@ import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
+import { BeneficiosComponent } from '../beneficios/beneficios.component';
+import { InformacionComponent } from '../informacion/informacion.component';
 import { LoginComponent } from '../login/login.component';
 import { SubirOfertaComponent } from '../subir-oferta/subir-oferta.component';
 import { UneteComponent } from '../unete/unete.component';
@@ -50,7 +52,13 @@ export class HeaderComponent implements OnInit {
     this.modalService.open(SubirOfertaComponent, {centered: true});
   }
 
-  openBeneficios() {}
+  openBeneficios() {
+    this.modalService.open(BeneficiosComponent, {size: 'md', centered: true});
+  }
+
+  openInformacion() {
+    this.modalService.open(InformacionComponent,{size: 'md', centered: true});
+  }
 
   openLogin( ){
     const modalRef = this.modalService.open(LoginComponent, this.options);
