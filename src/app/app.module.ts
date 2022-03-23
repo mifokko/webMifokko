@@ -30,6 +30,7 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
 import { VerOfertasComponent } from './shared/components/ver-ofertas/ver-ofertas.component';
 import { InformacionComponent } from './shared/components/informacion/informacion.component';
 import { BeneficiosComponent } from './shared/components/beneficios/beneficios.component';
+import { PerfilComponent } from './shared/components/perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { BeneficiosComponent } from './shared/components/beneficios/beneficios.c
     SubirOfertaComponent,
     VerOfertasComponent,
     InformacionComponent,
-    BeneficiosComponent
+    BeneficiosComponent,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,
