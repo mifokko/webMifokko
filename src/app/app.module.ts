@@ -31,6 +31,7 @@ import { VerOfertasComponent } from './shared/components/ver-ofertas/ver-ofertas
 import { InformacionComponent } from './shared/components/informacion/informacion.component';
 import { BeneficiosComponent } from './shared/components/beneficios/beneficios.component';
 import { PerfilComponent } from './shared/components/perfil/perfil.component';
+import { PerfilIndependienteComponent } from './shared/components/perfil-independiente/perfil-independiente.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { PerfilComponent } from './shared/components/perfil/perfil.component';
     VerOfertasComponent,
     InformacionComponent,
     BeneficiosComponent,
-    PerfilComponent
+    PerfilComponent,
+    PerfilIndependienteComponent
   ],
   imports: [
     BrowserModule,

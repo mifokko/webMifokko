@@ -1,0 +1,84 @@
+.bg-blanco {
+    background-image: url(https://github.com/mifokko/webMifokko/blob/master/src/assets/FondoBlanco.jpg?raw=true);
+    background-size: cover;
+    background-position: center;
+}
+
+.tamaño {
+  font-size: 11px;
+}
+
+.nav-link {
+  color: darkslategray;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img{
+  border-radius: 1rem;
+  width:100%;
+  height:250px;
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
+  background:url(https://cdn.pixabay.com/photo/2015/01/08/18/27/startup-593341_960_720.jpg);
+  background-size: cover;
+  }
+.img img{
+  width: 100%;
+}
+@media all and (min-width: 500px) and (max-width: 1000px)
+{  
+.img{
+  border-radius: 1rem;
+  width:100%;
+  height:300px;
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
+  background:url(https://cdn.pixabay.com/photo/2015/01/08/18/27/startup-593341_960_720.jpg);
+  background-size: cover;
+  
+  }
+}
+.img img{
+   width:100%;
+}
+
+
+.img1{
+  margin-top: -25px;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+  width:100px;
+  height:100px;
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
+  background-size: cover;
+  }
+.img1 img{
+  width: 100%;
+}
+@media all and (min-width: 500px) and (max-width: 1000px)
+{  
+.img1{
+  width:80px;
+  height:80px;
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
+  background-size: cover;
+  
+  }
+}
+.img1 img{
+   width:100%;
+}
+
+//---------------------------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------------------------
+
+div .tamA a {
+  font-weight: bold;
+  color: goldenrod;
+}

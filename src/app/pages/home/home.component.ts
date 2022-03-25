@@ -13,6 +13,8 @@ import { RegisterComponent } from 'src/app/shared/components/register/register.c
 })
 export class HomeComponent implements OnInit {
   
+  login!: false;
+  
   constructor( private modalService: NgbModal) { }
 
   ngOnInit(): void {

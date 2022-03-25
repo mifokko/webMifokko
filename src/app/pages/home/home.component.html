@@ -1,10 +1,11 @@
-<section id="buscador">
+<section class="bg-primary" id="buscador">
   <!--<img src="./assets/Fondo Amarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">-->
-  <img src="./assets/FondoAmarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">
-  <!--Buscador principal-->
+  <!--<img src="./assets/FondoAmarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">
+  -->
+    <!--Buscador principal-->
   <div class="container">
-      <form class="row justify-content-center aling-items-center my-5">
-        <div class="form-group row col-xs-9 col-sm-9 col-md-9">
+      <form class="row justify-content-center aling-items-center">
+        <div class="form-group row col-xs-9 col-sm-9 col-md-9 my-5">
           <h2 class="text-center">QUE BUSCAS?</h2>
           <div class="input-group rounded">
               <input type="search" class="form-control form-control-lg rounded-pill icon_placeholder" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
@@ -67,7 +68,7 @@
   <!--Seccion de información-->
   <div class="container" id="informacion">
     <div class="row center">
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3" >
         <div id="padre" >
           <a type="button" (click)="inView(empresa)">
             <img class="img-fluid rounded" src="https://assets.entrepreneur.com/content/3x2/2000/1634353069-Depositphotos-199444784-L.jpg?auto=webp&quality=95&crop=2:1&width=400" style="filter: brightness(70%);">
@@ -75,7 +76,7 @@
           </a>
         </div>
       </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3">
         <div id="padre">
           <a type="button" (click)="inView(independiente)">
             <img class="img-fluid rounded" src="https://corporativo.compensar.com/afiliaciones/PublishingImages/Carrusel-simulador-aportes-Independiente.jpg" style="filter: brightness(70%);">
@@ -83,7 +84,7 @@
           </a>
         </div>
       </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3">
         <div id="padre">
           <a type="button" (click)="inView(oferta)">
             <img class="img-fluid rounded" src="https://marvel-b1-cdn.bc0a.com/f00000000216283/www.fortinet.com/content/dam/fortinet/images/promos/tile-general-user-400x200.jpg" style="filter: brightness(70%);">
@@ -96,9 +97,10 @@
 </section>
 
 <!--Seccion de información de empresa-->
-<section #empresa>
-  <img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 100%; left: 0; z-index: -100;" height="100%" width="100%">
-  <div class="container">
+<section class="bg-blanco" #empresa>
+  <!--<img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 100%; left: 0; z-index: -100;" height="100%" width="100%">
+  -->
+    <div class="container">
     <div class="row">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style=" margin-bottom: 5%;">
         <h2 class="m-3 text-center">EMPRESA</h2>
@@ -133,9 +135,10 @@
 </section>
 
 <!--Seccion de información de independiente-->
-<section #independiente>
-  <img src="./assets/FondoAmarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 200%; left: 0; z-index: -100;" height="100%" width="100%">
-  <div class="container">
+<section class="bg-primary" #independiente>
+  <!--<img src="./assets/FondoAmarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 200%; left: 0; z-index: -100;" height="100%" width="100%">
+  -->
+    <div class="container">
     <div class="row">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style="margin-top: 1%; margin-bottom: 5%;">
         <h2 class="m-3 text-center">INDEPENDIENTE</h2>
@@ -171,9 +174,10 @@
 </section>
 
 <!--Seccion de información de oferta-->
-<section #oferta>
-    <img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 300%; left: 0; z-index: -100;" height="100%" width="100%">
-  <div class="container">
+<section class="bg-blanco" #oferta>
+  <!--<img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 300%; left: 0; z-index: -100;" height="100%" width="100%">
+  -->
+    <div class="container">
     <div class="row">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style="margin-top: 5%; margin-bottom: 5%;">
         <h2 class="m-3 text-center">OFERTAS</h2>
