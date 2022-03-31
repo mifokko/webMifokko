@@ -1,125 +1,316 @@
-<img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">
-<!--Header perfil-->
-<section>
-  <!--Imagen-->
-  <div class="img"></div>
+<section *ngIf="rol === 'empresa'">
+  <img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">
+  <!--Header perfil-->
+  <section>
+    <!--Imagen-->
+    <div class="img"></div>
 
-  <!---Imagen de perfil-->
-  <div class="img1" style="position: absolute; right: 5%;">
-    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" class="rounded-circle img1" alt="...">
-  </div>
+    <!---Imagen de perfil-->
+    <div class="img1" style="position: absolute; right: 5%;">
+      <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" class="rounded-circle img1" alt="...">
+    </div>
 
-  <!--Nombre empresa o independiente-->
-  <div class="container my-1">
-    <h2>Nombre Empresa</h2>
-  </div>
+    <!--Nombre empresa o independiente-->
+    <div class="container my-1">
+      <h2>Nombre Empresa</h2>
+    </div>
 
-  <!--Barra informacion de perfil-->
-  <ul class="nav nav-tabs mt-3 justify-content-center" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
-      <a class="nav-link tamaño active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">
-        <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
-        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
-      </svg></span>
-      Info</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link tamaño" id="servicios-tab" data-bs-toggle="tab" data-bs-target="#servicios" type="button" role="tab" aria-controls="servicios" aria-selected="false">
-        <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+    <!--Barra informacion de perfil-->
+    <ul class="nav nav-tabs mt-3 justify-content-center" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link tamaño active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">
+          <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
         </svg></span>
-        Servicios</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link tamaño" id="galeria-tab" data-bs-toggle="tab" data-bs-target="#galeria" type="button" role="tab" aria-controls="galeria" aria-selected="false">
-        <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
-          <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-          <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"/>
-        </svg> </span>
-        Galeria</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link tamaño" id="contacto-tab" data-bs-toggle="tab" data-bs-target="#contacto" type="button" role="tab" aria-controls="contacto" aria-selected="false">
-        <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
-        </svg></span>
-        Contacto</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link tamaño" id="comentarios-tab" data-bs-toggle="tab" data-bs-target="#comentarios" type="button" role="tab" aria-controls="comentarios" aria-selected="false">
-        <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
-          <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-        </svg></span>
-        Comentario</a>
-    </li>
-  </ul>
+        Info</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link tamaño" id="servicios-tab" data-bs-toggle="tab" data-bs-target="#servicios" type="button" role="tab" aria-controls="servicios" aria-selected="false">
+          <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+          </svg></span>
+          Servicios</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link tamaño" id="galeria-tab" data-bs-toggle="tab" data-bs-target="#galeria" type="button" role="tab" aria-controls="galeria" aria-selected="false">
+          <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
+            <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+            <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"/>
+          </svg> </span>
+          Galeria</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link tamaño" id="contacto-tab" data-bs-toggle="tab" data-bs-target="#contacto" type="button" role="tab" aria-controls="contacto" aria-selected="false">
+          <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+          </svg></span>
+          Contacto</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link tamaño" id="comentarios-tab" data-bs-toggle="tab" data-bs-target="#comentarios" type="button" role="tab" aria-controls="comentarios" aria-selected="false">
+          <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
+            <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+          </svg></span>
+          Comentario</a>
+      </li>
+    </ul>
+  </section>
+
+  <!---->
+  <section class="tab-content">
+    <!--Informacion-->
+    <div class="tab-pane fade show active mt-3" id="info" role="tabpanel" aria-labelledby="info-tab">
+      <div class="container">
+        <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
+        <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
+        <a>Dirección: <!--{{empresa.celular}}--></a><br>
+        <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
+        <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
+        <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
+        <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+      </div>
+    </div>
+
+    <!--Servicios-->
+    <div class="tab-pane fade mt-3" id="servicios" role="tabpanel" aria-labelledby="servicios-tab">
+      <div class="container">  
+        <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
+        <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
+        <a>Dirección: <!--{{empresa.celular}}--></a><br>
+        <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
+        <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
+        <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
+        <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+      </div>
+    </div>
+
+    <!--Galeria-->
+    <div class="tab-pane fade mt-3" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
+      <main class="container">  
+        <div class="row galeria">
+
+          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
+            <div class="material-placeholder">
+              <img src="https://cdn.pixabay.com/photo/2013/10/02/23/03/mountains-190055_960_720.jpg" class="img-fluid" >
+            </div>  
+          </div>
+    
+          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
+            <div class="material-placeholder">
+              <img src="https://cdn.pixabay.com/photo/2022/02/25/17/47/valley-7034573_960_720.jpg" class="img-fluid" >
+            </div>
+          </div>
+    
+          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
+            <div class="material-placeholder">
+              <img src="https://cdn.pixabay.com/photo/2021/12/28/14/44/sunset-6899490_960_720.jpg" class="img-fluid">
+            </div>
+          </div>
+    
+          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
+            <div class="material-placeholder">
+              <img src="https://cdn.pixabay.com/photo/2022/03/02/05/07/ocean-7042436_960_720.jpg" class="img-fluid" >
+            </div>
+          </div>
+    
+          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
+            <div class="material-placeholder">
+              <img src="https://cdn.pixabay.com/photo/2022/02/19/14/37/nordkette-7022793_960_720.jpg" class="img-fluid" >
+            </div>
+          </div>
+    
+          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
+            <div class="material-placeholder">
+              <img src="https://cdn.pixabay.com/photo/2014/11/16/15/15/field-533541_960_720.jpg" class="img-fluid" >
+            </div>
+          </div>
+    
+          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
+            <div class="material-placeholder">
+              <img src="https://cdn.pixabay.com/photo/2015/03/03/05/56/avenue-656969_960_720.jpg" class="img-fluid" >
+            </div>
+          </div>
+    
+          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
+            <div class="material-placeholder">
+              <img src="https://cdn.pixabay.com/photo/2022/03/23/21/27/road-7087957_960_720.jpg" class="img-fluid" >
+            </div>
+          </div>
+    
+          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
+            <div class="material-placeholder">
+              <img src="https://cdn.pixabay.com/photo/2013/11/15/13/57/road-210913_960_720.jpg" class="img-fluid" >
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+
+    <!--Contacto-->
+    <div class="tab-pane fade mt-3" id="contacto" role="tabpanel" aria-labelledby="contacto-tab">
+      <div class="container">  
+        <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
+        <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
+        <a>Dirección: <!--{{empresa.celular}}--></a><br>
+        <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
+        <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
+        <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
+        <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+      </div>
+    </div>
+
+    <!--Comentarios-->
+    <div class="tab-pane fade mt-3" id="comentarios" role="tabpanel" aria-labelledby="comentarios-tab">
+      <div class="container">  
+        <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
+        <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
+        <a>Dirección: <!--{{empresa.celular}}--></a><br>
+        <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
+        <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
+        <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
+        <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+      </div>
+    </div>
+
+  </section>
 </section>
 
-<!---->
-<section class="tab-content">
-  <!--Informacion-->
-  <div class="tab-pane fade show active mt-3" id="info" role="tabpanel" aria-labelledby="info-tab">
-    <div class="container">
-      <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
-      <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
-      <a>Dirección: <!--{{empresa.celular}}--></a><br>
-      <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
-      <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
-      <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
-      <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
-    </div>
-  </div>
+<section *ngIf="rol === 'independiente'">
+  <img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">
+  <!--Header perfil-->
+  <section>
+    <!--Imagen-->
+    <div class="img"></div>
 
-  <!--Servicios-->
-  <div class="tab-pane fade mt-3" id="servicios" role="tabpanel" aria-labelledby="servicios-tab">
-    <div class="container">  
-      <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
-      <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
-      <a>Dirección: <!--{{empresa.celular}}--></a><br>
-      <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
-      <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
-      <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
-      <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+    <!---Imagen de perfil-->
+    <div class="img1" style="position: absolute; right: 5%;">
+      <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" class="rounded-circle img1" alt="...">
     </div>
-  </div>
 
-  <!--Galeria-->
-  <div class="tab-pane fade mt-3" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
-    <div class="container">  
-      <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
-      <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
-      <a>Dirección: <!--{{empresa.celular}}--></a><br>
-      <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
-      <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
-      <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
-      <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+    <!--Nombre empresa o independiente-->
+    <div class="container my-1">
+      <h2>Nombre Independiente</h2>
     </div>
-  </div>
 
-  <!--Contacto-->
-  <div class="tab-pane fade mt-3" id="contacto" role="tabpanel" aria-labelledby="contacto-tab">
-    <div class="container">  
-      <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
-      <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
-      <a>Dirección: <!--{{empresa.celular}}--></a><br>
-      <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
-      <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
-      <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
-      <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+    <!--Barra informacion de perfil-->
+    <ul class="nav nav-tabs mt-3 justify-content-center" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link tamaño active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">
+          <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        </svg></span>
+        Info</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link tamaño" id="servicios-tab" data-bs-toggle="tab" data-bs-target="#servicios" type="button" role="tab" aria-controls="servicios" aria-selected="false">
+          <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+          </svg></span>
+          Servicios</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link tamaño" id="galeria-tab" data-bs-toggle="tab" data-bs-target="#galeria" type="button" role="tab" aria-controls="galeria" aria-selected="false">
+          <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
+            <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+            <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"/>
+          </svg> </span>
+          Galeria</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link tamaño" id="contacto-tab" data-bs-toggle="tab" data-bs-target="#contacto" type="button" role="tab" aria-controls="contacto" aria-selected="false">
+          <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+          </svg></span>
+          Contacto</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link tamaño" id="comentarios-tab" data-bs-toggle="tab" data-bs-target="#comentarios" type="button" role="tab" aria-controls="comentarios" aria-selected="false">
+          <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
+            <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+          </svg></span>
+          Comentario</a>
+      </li>
+    </ul>
+  </section>
+
+  <!---->
+  <section class="tab-content">
+    <!--Informacion-->
+    <div class="tab-pane fade show active mt-3" id="info" role="tabpanel" aria-labelledby="info-tab">
+      <div class="container">
+        <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
+        <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
+        <a>Dirección: <!--{{empresa.celular}}--></a><br>
+        <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
+        <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
+        <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
+        <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+      </div>
     </div>
-  </div>
 
-  <!--Comentarios-->
-  <div class="tab-pane fade mt-3" id="comentarios" role="tabpanel" aria-labelledby="comentarios-tab">
-    <div class="container">  
-      <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
-      <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
-      <a>Dirección: <!--{{empresa.celular}}--></a><br>
-      <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
-      <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
-      <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
-      <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+    <!--Servicios-->
+    <div class="tab-pane fade mt-3" id="servicios" role="tabpanel" aria-labelledby="servicios-tab">
+      <div class="container">  
+        <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
+        <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
+        <a>Dirección: <!--{{empresa.celular}}--></a><br>
+        <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
+        <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
+        <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
+        <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+      </div>
     </div>
-  </div>
 
+    <!--Galeria-->
+    <div class="tab-pane fade mt-3" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
+      <div class="container">  
+        <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
+        <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
+        <a>Dirección: <!--{{empresa.celular}}--></a><br>
+        <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
+        <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
+        <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
+        <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+      </div>
+    </div>
+
+    <!--Contacto-->
+    <div class="tab-pane fade mt-3" id="contacto" role="tabpanel" aria-labelledby="contacto-tab">
+      <div class="container">  
+        <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
+        <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
+        <a>Dirección: <!--{{empresa.celular}}--></a><br>
+        <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
+        <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
+        <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
+        <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+      </div>
+    </div>
+
+    <!--Comentarios-->
+    <div class="tab-pane fade mt-3" id="comentarios" role="tabpanel" aria-labelledby="comentarios-tab">
+      <div class="container">  
+        <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
+        <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
+        <a>Dirección: <!--{{empresa.celular}}--></a><br>
+        <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
+        <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
+        <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
+        <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+      </div>
+    </div>
+
+  </section>
 </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const imgLigthBox = document.querySelectorAll('.materialboxed');
+    M.Materialbox.init(imgLigthBox, {
+        inDuration: 500,
+        outDuration: 500
+    });
+});
+</script>

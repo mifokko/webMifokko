@@ -31,7 +31,9 @@ import { VerOfertasComponent } from './shared/components/ver-ofertas/ver-ofertas
 import { InformacionComponent } from './shared/components/informacion/informacion.component';
 import { BeneficiosComponent } from './shared/components/beneficios/beneficios.component';
 import { PerfilComponent } from './shared/components/perfil/perfil.component';
-import { PerfilIndependienteComponent } from './shared/components/perfil-independiente/perfil-independiente.component';
+
+import { GalleryModule } from 'ng-gallery';
+import { LightboxModule } from 'ng-gallery/lightbox';
 
 @NgModule({
   declarations: [
@@ -47,8 +49,7 @@ import { PerfilIndependienteComponent } from './shared/components/perfil-indepen
     VerOfertasComponent,
     InformacionComponent,
     BeneficiosComponent,
-    PerfilComponent,
-    PerfilIndependienteComponent
+    PerfilComponent
   ],
   imports: [
     BrowserModule,
@@ -62,6 +63,8 @@ import { PerfilIndependienteComponent } from './shared/components/perfil-indepen
     BrowserAnimationsModule,
     FormsModule,
     WhatsappModule,
+    GalleryModule,
+    LightboxModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideFunctions(() => getFunctions()),

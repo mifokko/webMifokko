@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '@firebase/auth';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
@@ -61,7 +60,7 @@ export class HeaderComponent implements OnInit {
   }
 
   openLogin( ){
-    const modalRef = this.modalService.open(LoginComponent, this.options);
+    this.modalService.open(LoginComponent, this.options);
   }
 
   Salir(){
