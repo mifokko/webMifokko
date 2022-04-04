@@ -86,65 +86,15 @@
 
     <!--Galeria-->
     <div class="tab-pane fade mt-3" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
-      <main class="container">  
+      <div class="container">  
         <div class="row galeria">
 
-          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
-            <div class="material-placeholder">
-              <img src="https://cdn.pixabay.com/photo/2013/10/02/23/03/mountains-190055_960_720.jpg" class="img-fluid" >
-            </div>  
-          </div>
-    
-          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
-            <div class="material-placeholder">
-              <img src="https://cdn.pixabay.com/photo/2022/02/25/17/47/valley-7034573_960_720.jpg" class="img-fluid" >
-            </div>
-          </div>
-    
-          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
-            <div class="material-placeholder">
-              <img src="https://cdn.pixabay.com/photo/2021/12/28/14/44/sunset-6899490_960_720.jpg" class="img-fluid">
-            </div>
-          </div>
-    
-          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
-            <div class="material-placeholder">
-              <img src="https://cdn.pixabay.com/photo/2022/03/02/05/07/ocean-7042436_960_720.jpg" class="img-fluid" >
-            </div>
-          </div>
-    
-          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
-            <div class="material-placeholder">
-              <img src="https://cdn.pixabay.com/photo/2022/02/19/14/37/nordkette-7022793_960_720.jpg" class="img-fluid" >
-            </div>
-          </div>
-    
-          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
-            <div class="material-placeholder">
-              <img src="https://cdn.pixabay.com/photo/2014/11/16/15/15/field-533541_960_720.jpg" class="img-fluid" >
-            </div>
-          </div>
-    
-          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
-            <div class="material-placeholder">
-              <img src="https://cdn.pixabay.com/photo/2015/03/03/05/56/avenue-656969_960_720.jpg" class="img-fluid" >
-            </div>
-          </div>
-    
-          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
-            <div class="material-placeholder">
-              <img src="https://cdn.pixabay.com/photo/2022/03/23/21/27/road-7087957_960_720.jpg" class="img-fluid" >
-            </div>
-          </div>
-    
-          <div class="col-lg-4 col-md-4 col-sx-12 mb-4">
-            <div class="material-placeholder">
-              <img src="https://cdn.pixabay.com/photo/2013/11/15/13/57/road-210913_960_720.jpg" class="img-fluid" >
-            </div>
+          <div class="col-lg-4 col-md-4 col-sx-12 mb-4" *ngFor="let img of imageData; index as i" (click)="lightbox.open( i,'lightbox', {panelClass: 'fullscreen'})">
+              <img class="img-fluid" [src]="img.srcUrl"> 
           </div>
 
         </div>
-      </main>
+      </div>
     </div>
 
     <!--Contacto-->
@@ -265,13 +215,13 @@
     <!--Galeria-->
     <div class="tab-pane fade mt-3" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
       <div class="container">  
-        <a>Descripción <br> <!--{{empresa.descripcion}}--></a>
-        <a>Ciudad: <!--{{empresa.ciudad}}--></a><br>
-        <a>Dirección: <!--{{empresa.celular}}--></a><br>
-        <a>Horario: <!--{{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}--></a><br>
-        <a>Domicilios: <!--{{empresa.descripcion}}--></a><br>
-        <a>Calificaciones: <!--{{empresa.ciudad}}--></a><br>
-        <a>Información adicional <br> <!--{{empresa.informacionAdicional}}--> </a><br>
+        <div class="row galeria">
+
+          <div class="col-lg-4 col-md-4 col-sx-12 mb-4" *ngFor="let img of imageData; index as i" (click)="lightbox.open( i,'lightbox', {panelClass: 'fullscreen'})">
+              <img class="img-fluid" [src]="img.srcUrl"> 
+          </div>
+
+        </div>
       </div>
     </div>
 

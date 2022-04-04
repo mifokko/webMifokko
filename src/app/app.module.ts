@@ -63,7 +63,9 @@ import { LightboxModule } from 'ng-gallery/lightbox';
     BrowserAnimationsModule,
     FormsModule,
     WhatsappModule,
-    GalleryModule,
+    GalleryModule.withConfig({
+      // thumbView: 'contain',
+    }),
     LightboxModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),

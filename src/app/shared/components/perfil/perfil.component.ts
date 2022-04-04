@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, ɵɵpureFunction1 } from '@angular/core';
-import { Gallery, GalleryItem, ImageItem, ImageSize, ThumbnailsPosition } from 'ng-gallery';
+import { Gallery, GalleryItem, ImageItem, ImageSize, ThumbnailsPosition, ThumbnailsView } from 'ng-gallery';
 import { Lightbox } from 'ng-gallery/lightbox';
 import { Empresa } from '../../model/empresa.model';
 import { Usuario } from '../../model/user.model';
@@ -16,7 +16,8 @@ export class PerfilComponent implements OnInit {
 
   rol: 'empresa' | 'independiente' | 'general' | undefined;
   empresas: Empresa[] = [];
-
+  items!: GalleryItem[];
+  imageData = data;
 
   constructor(private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox) {
     this.authService.stateUser().subscribe( res => {
@@ -27,6 +28,18 @@ export class PerfilComponent implements OnInit {
    }
 
   ngOnInit(): void { 
+    this.items = this.imageData.map(item =>
+      new ImageItem({ src: item.srcUrl, thumb: item.previewUrl})
+    );
+    
+    const lightboxRef = this.gallery.ref('lightbox');
+    
+    lightboxRef.setConfig({
+      thumbPosition: ThumbnailsPosition.Top,
+      thumbView: ThumbnailsView.Contain,      
+    });
+
+    lightboxRef.load(this.items);
   }  
 
   getDatosUser(uid: string) {
@@ -40,3 +53,42 @@ export class PerfilComponent implements OnInit {
   }
 
 }
+
+const data = [
+  {
+    srcUrl: 'https://cdn.pixabay.com/photo/2013/10/02/23/03/mountains-190055_960_720.jpg',
+    previewUrl: 'https://cdn.pixabay.com/photo/2013/10/02/23/03/mountains-190055_960_720.jpg',
+  },
+  {
+    srcUrl: 'https://cdn.pixabay.com/photo/2022/02/25/17/47/valley-7034573_960_720.jpg',
+    previewUrl: 'https://cdn.pixabay.com/photo/2022/02/25/17/47/valley-7034573_960_720.jpg',
+  },
+  {
+    srcUrl: 'https://cdn.pixabay.com/photo/2021/12/28/14/44/sunset-6899490_960_720.jpg',
+    previewUrl: 'https://cdn.pixabay.com/photo/2021/12/28/14/44/sunset-6899490_960_720.jpg',
+  },
+  {
+    srcUrl: 'https://cdn.pixabay.com/photo/2022/03/02/05/07/ocean-7042436_960_720.jpg',
+    previewUrl: 'https://cdn.pixabay.com/photo/2022/03/02/05/07/ocean-7042436_960_720.jpg',
+  },
+  {
+    srcUrl: 'https://cdn.pixabay.com/photo/2022/02/19/14/37/nordkette-7022793_960_720.jpg',
+    previewUrl: 'https://cdn.pixabay.com/photo/2022/02/19/14/37/nordkette-7022793_960_720.jpg',
+  },
+  {
+    srcUrl: 'https://cdn.pixabay.com/photo/2014/11/16/15/15/field-533541_960_720.jpg',
+    previewUrl: 'https://cdn.pixabay.com/photo/2014/11/16/15/15/field-533541_960_720.jpg',
+  },
+  {
+    srcUrl: 'https://cdn.pixabay.com/photo/2015/03/03/05/56/avenue-656969_960_720.jpg',
+    previewUrl: 'https://cdn.pixabay.com/photo/2015/03/03/05/56/avenue-656969_960_720.jpg',
+  },
+  {
+    srcUrl: 'https://cdn.pixabay.com/photo/2022/03/23/21/27/road-7087957_960_720.jpg',
+    previewUrl: 'https://cdn.pixabay.com/photo/2022/03/23/21/27/road-7087957_960_720.jpg',
+  },
+  {
+    srcUrl: 'https://cdn.pixabay.com/photo/2013/11/15/13/57/road-210913_960_720.jpg',
+    previewUrl: 'https://cdn.pixabay.com/photo/2013/11/15/13/57/road-210913_960_720.jpg',
+  }
+];
