@@ -83,7 +83,7 @@
 //---------------------------------------------------------------------------------------------
 
 div .tamA h5 {
-  font-size: 12px ;
+  font-size: medium;
   font-weight: bold;
   //color: #de8f4d;
   color: #ea924a;
@@ -97,4 +97,23 @@ div .tamA h5 {
 .galeria img {
   box-shadow: 0 8px 10px -4px rgba(0,0,0,0.6); 
   border-radius: 10px;
+}
+
+/* 1 columna para smartphones */
+.breakpoint  {
+  max-width: 15%;
+  display: grid;
+  
+}
+  /* 2 columnas para tablets */
+@media (min-width: 420px) {
+  .breakpoint  {
+    max-width: 50%;
+  }
+}
+  /* 4 columnas para grandes dispositivos*/
+@media (min-width: 760px) {
+  .breakpoint  {
+    max-width: 50%;
+  }
 }

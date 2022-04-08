@@ -18,6 +18,7 @@ export class PerfilComponent implements OnInit {
   empresas: Empresa[] = [];
   items!: GalleryItem[];
   imageData = data;
+  mostrar: boolean = false;
 
   constructor(private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox) {
     this.authService.stateUser().subscribe( res => {
@@ -50,6 +51,14 @@ export class PerfilComponent implements OnInit {
         this.rol = res.perfil;
       }
     })
+  }
+
+  redesSociales() {
+    this.mostrar = true;
+  }
+
+  redesSocialesR(){
+    this.mostrar = false;
   }
 
 }
