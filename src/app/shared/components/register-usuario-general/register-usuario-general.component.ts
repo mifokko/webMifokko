@@ -44,13 +44,10 @@ export class RegisterUsuarioGeneralComponent implements OnInit {
     if (this.usuarioForm.valid) {
       try {
         //console.log(this.usuarioForm.value);
-        const formValue = this.usuarioForm.value;
-        await this.dataSvc.onSaveUsuario(formValue); 
         this.registrar();
-        this.afs.cerrarSesion();
+        this.usuarioForm.reset();
         //Notificación de confirmación
         Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
-        this.usuarioForm.reset() 
       } catch (e) {
         alert(e);
       }
@@ -65,22 +62,24 @@ export class RegisterUsuarioGeneralComponent implements OnInit {
     }
   }
 
-  //Registrar usuario
   async registrar() {
+    const formValue = this.usuarioForm.value;
     console.log('datos -> ', this.usuario);
     const res = await this.afs.register(this.usuario).catch( error => {
       console.log('error');
     });
     if (res) {
+      const {correo} = this.usuarioForm.value;
       console.log('Exito al crear el usuario');
-      const path = 'Usuarios';
       const id = res.user!.uid;
       this.usuario.uid = id;
+      this.usuario.correo = correo;
       this.usuario.password = '';
       this.usuario.referencia = '';
-      this.usuario.fechaInicio = new Date('yyyy-MM-dd').toLocaleDateString();
+      this.usuario.fechaInicio = new Date().toLocaleDateString();
       this.usuario.fechaFin = '';
-      await this.data.createDoc(this.usuario, path, id);
+      await this.data.createDoc(this.usuario, 'Usuarios', id);
+      await this.dataSvc.onSaveUsuario(formValue, this.usuario, id); 
     }
   }
 

@@ -15,7 +15,7 @@ import { DataServices } from '../../services/data.service';
 })
 export class RegisterComponent implements OnInit {
   empresaForm!: FormGroup;
-  private isNIT= "^([0-9]{0,15}-[0-9]{1})?$";
+  private isNIT= "^([0-9]{0,15}[0-9]{1})?$";
   private isCel= "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
   private isEmail= /\S+@\S+\.\S+/;
   fecha = new Date;
@@ -40,12 +40,12 @@ export class RegisterComponent implements OnInit {
   async OnSave(): Promise<void> {
     if (this.empresaForm.valid) {
       try {
-        const formValue = this.empresaForm.value;
-        await this.dataSvc.onSaveEmpresa(formValue); 
+        
         this.registrar();
         //Notificación de confirmación
         Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
-        this.empresaForm.reset() 
+        this.empresaForm.reset()
+        this.modal.close(); 
       } catch (e) {
         alert(e);
       }
@@ -61,14 +61,16 @@ export class RegisterComponent implements OnInit {
   }
 
   async registrar() {
+    const formValue = this.empresaForm.value;
     console.log('datos -> ', this.usuario);
     const res = await this.afs.register(this.usuario).catch( error => {
       console.log('error');
     });
     if (res) {
       console.log('Exito al crear el usuario');
-      const path = 'Usuarios';
+      const {correo} = this.empresaForm.value;
       const id = res.user!.uid;
+      this.usuario.correo = correo;
       this.usuario.uid = id;
       this.usuario.password = '';
       this.usuario.referencia = this.referenciaPago();
@@ -82,7 +84,8 @@ export class RegisterComponent implements OnInit {
         this.usuario.fechaFin = this.fecha.toLocaleDateString();
         console.log(this.usuario.fechaFin);
       }
-      await this.data.createDoc(this.usuario, path, id);
+      await this.data.createDoc(this.usuario, 'Usuarios', id);
+      await this.dataSvc.onSaveEmpresa(formValue, this.usuario, id);
     }
   }
 

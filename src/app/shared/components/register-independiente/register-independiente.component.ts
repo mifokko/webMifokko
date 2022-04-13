@@ -34,14 +34,7 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
 
   constructor(private fb: FormBuilder, private dataSvc: DataService1, public modal: NgbActiveModal, private data: DataServices, private afs: AuthService) { }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes["valorPagoP"] != null &&
-      changes["valorPagoP"].currentValue
-    ) {
-      this.valorPagoP = changes["valorPagoP"].currentValue;
-      console.log(this.valorPagoP);
-    }
+  ngOnChanges(): void {
   }
 
   ngOnInit(): void {
@@ -51,13 +44,10 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
   async OnSave(): Promise<void> {
     if (this.independienteForm.valid) {
       try {
-        //console.log(this.independienteForm.value)
-        const formValue = this.independienteForm.value;
-        await this.dataSvc.onSaveIndependiente(formValue); 
         this.registrar();
+        this.independienteForm.reset()
         //Notificación de confirmación
-        Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
-        this.independienteForm.reset() 
+        Swal.fire('Registro exitoso', 'Volver al inicio', 'success'); 
       } catch (e) {
         alert(e);
       }
@@ -72,15 +62,17 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
     }
   }
 
-  //Registrar usuario
+
   async registrar() {
+    const formValue = this.independienteForm.value;
     console.log('datos -> ', this.usuario);
     const res = await this.afs.register(this.usuario).catch( error => {
       console.log('error');
     });
     if (res) {
       console.log('Exito al crear el usuario');
-      const path = 'Usuarios';
+      const {correo} = this.independienteForm.value;
+      this.usuario.correo = correo;
       const id = res.user!.uid;
       this.usuario.uid = id;
       this.usuario.password = '';
@@ -95,7 +87,8 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
         this.usuario.fechaFin = this.fecha.toLocaleDateString();
         console.log(this.usuario.fechaFin);
       }
-      await this.data.createDoc(this.usuario, path, id);
+      await this.data.createDoc(this.usuario, 'Usuarios', id);
+      await this.dataSvc.onSaveIndependiente(formValue, this.usuario, id);
     }
   }
 

@@ -1,0 +1,16 @@
+export interface Empresa {
+    nombre: string,
+    id: string,
+    departamento: string,
+    ciudad: string,
+    direccion: string,
+    telefono: string,
+    celular: string,
+    correo: string,
+    contrasena: string,
+    profesion: string,
+    descripcion: string,
+    domicilio: string,
+    servicios: string,
+    estado: boolean,
+}

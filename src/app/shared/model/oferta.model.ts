@@ -1,8 +1,5 @@
 export interface Oferta {
-    nombre: string,
+    nombreOferta: string,
     fechaInicio: string,
-    fechaFin: string,
-    horaInicio: string,
-    horaFin: string,
     estado: boolean,
 }

@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
         console.log('Esta logeado');
         this.login = true;
         this.getDatosUser(res.uid);
+        console.log(res.uid);
       }else {
         console.log('No esta logeado');
         this.login = false;

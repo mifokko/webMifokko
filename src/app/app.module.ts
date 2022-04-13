@@ -34,6 +34,8 @@ import { PerfilComponent } from './shared/components/perfil/perfil.component';
 
 import { GalleryModule } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
+import { SubirOfertaModule } from './shared/components/subir-oferta/subir-oferta.module';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -45,11 +47,10 @@ import { LightboxModule } from 'ng-gallery/lightbox';
     UneteComponent,
     RecuperarContrasenaComponent,
     WhatsappComponent,
-    SubirOfertaComponent,
-    VerOfertasComponent,
     InformacionComponent,
     BeneficiosComponent,
-    PerfilComponent
+    PerfilComponent,
+    VerOfertasComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +71,8 @@ import { LightboxModule } from 'ng-gallery/lightbox';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideFunctions(() => getFunctions()),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
+    SubirOfertaModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]

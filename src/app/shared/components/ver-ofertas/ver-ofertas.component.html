@@ -28,6 +28,7 @@
             </select>
         </div>
     </div>
+    <button class="btn btn-primary" (click)="getUsuarios()"> Ensayo </button>
     <table class="table">
         <thead>
         <tr>
@@ -38,10 +39,10 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr *ngFor="let oferta of ofertas; let i index">
             <th scope="row">{{oferta.fechaInicio}}</th>
-            <td>{{oferta.nombre}}</td>
-            <td>{{oferta.nombre}}</td>
+            <td>{{oferta.nombreOferta}}</td>
+            <td>{{oferta.estado}}</td>
             <td class="btn-link">Ver</td>
         </tr>
         </tbody>

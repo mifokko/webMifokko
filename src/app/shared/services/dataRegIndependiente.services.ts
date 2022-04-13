@@ -35,13 +35,15 @@ export class DataService1 {
     }
 
 
-    async onSaveIndependiente (independienteForm: Independiente): Promise<void> {
+    async onSaveIndependiente (independienteForm: Independiente, data2: any, id: string): Promise<void> {
         return new Promise(async (resolve, reject) => {
             try {
-                const id = this.afs.createId();
+                //const id = this.afs.createId();
                 const data = {...independienteForm};
                 const result = this.independienteCollection.doc(id).set(data);
                 resolve(result);
+                await this.independienteCollection.doc(id).collection('User').doc(id).set(data2);
+
             } catch (error) {
                 reject(error);
             }
