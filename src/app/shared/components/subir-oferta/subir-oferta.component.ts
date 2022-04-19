@@ -72,24 +72,6 @@ export class SubirOfertaComponent implements OnInit {
       );
     }
   }
-  // //
-  // async guardarOferta() {
-  //   console.log('datos ->', this.ofertaForm);
-  //   const path = 'Empresas';
-  //   this.authService.stateUser().subscribe(async res => {
-  //     if (res){
-  //       const uid = res.uid;
-  //       const subpath = 'Ofertas';
-  //       let id = '';
-  //       const numeros = '0123456789';
-  //       for (let i = 0; i < 6; i++) {
-  //         id += numeros.charAt(Math.floor(Math.random() * numeros.length));
-  //       }
-
-  //       await this.data.CreateMap(this.ofertaForm, path, uid, subpath, id);
-  //     }
-  //   });
-  // }
 
   //Obtener Perfil del usuario actual
   getDatosUser(uid: string) {
@@ -129,8 +111,8 @@ export class SubirOfertaComponent implements OnInit {
       direccion: ['', [Validators.required]],
       horaInicio: ['', [Validators.required]],
       horaFin: ['', [Validators.required]],
-      informacionAdicional: ['', [Validators.required]],
-      estado: ['true']
+      informacionAdicional: [''],
+      estado: ['Activo']
     });
   
   }

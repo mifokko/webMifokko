@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Oferta } from '../../model/oferta.model';
+import { Fecha, Oferta } from '../../model/oferta.model';
 import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
@@ -12,8 +12,9 @@ import { Independiente } from '../../services/dataRegIndependiente.services';
 })
 export class VerOfertasComponent implements OnInit {
 
+  date: Date = new Date();
   ofertas: Oferta[] = [];
-  independientes: Independiente[] = []; 
+  lista: string[] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
   uid = '';
   rol = '';
   path = '';
@@ -47,6 +48,15 @@ export class VerOfertasComponent implements OnInit {
         }
     this.firestore.getDocCol<Oferta>(path, this.uid, 'Ofertas').subscribe( res => {
       this.ofertas = res;
+      for (let index = 0; index < this.ofertas.length; index++) {
+        const fecha = this.ofertas[index].fechaInicio.day.toLocaleString() + '/' + this.ofertas[index].fechaInicio.month.toString() + '/' + this.ofertas[index].fechaInicio.year.toString();
+        const presenteF = this.date.toLocaleDateString();
+        if(fecha == presenteF) {
+          this.ofertas[index].estado = 'Activo';
+        } else {
+          this.ofertas[index].estado = 'Inactivo' ;
+        }
+      }
       
       console.log(res);
     });
