@@ -30,7 +30,6 @@ export class HeaderComponent implements OnInit {
       }else {
         console.log('No esta logeado');
         this.login = false;
-        //console.log(this.fecha.getDate() + '/' + (this.fecha.getMonth() + 2) + '/' + this.fecha.getFullYear());
       }
     })
   }
