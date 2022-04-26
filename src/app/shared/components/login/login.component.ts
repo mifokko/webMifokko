@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
 import { RecuperarContrasenaComponent } from '../recuperar-contrasena/recuperar-contrasena.component';
 import { RegisterUsuarioGeneralComponent } from '../register-usuario-general/register-usuario-general.component';
@@ -33,13 +34,19 @@ export class LoginComponent implements OnInit {
     this.modalService.open(RecuperarContrasenaComponent, {size: 'sm', centered: true});
   }
 
-  Ingresar(){
+  async Ingresar(){
     console.log(this.usuario);
     const {correo, contrasena} = this.usuario;
-    this.router.navigate(['/home']);
-    this.authService.loginGeneral(correo, contrasena).then(res => {
-    console.log("se ingreso con", res);
-    });
+    try {
+      await this.authService.loginGeneral(correo, contrasena).then(res => {
+        console.log("se ingreso con", res);
+      });
+      this.modal.close();
+      //this.router.navigate(['/home']);
+    } catch (error: any) {
+      Swal.fire('Error iniciando sesion: \n Correo y/o Contraseña incorrectos');
+    }
+    
   }
 
   IngresarGoogle(){

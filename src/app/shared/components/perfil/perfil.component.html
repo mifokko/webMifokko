@@ -1,7 +1,8 @@
 <!--Perfil Empresa-->
-<section *ngIf="rol === 'empresa'">
-  <img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">
-  <!--Header perfil-->
+<section class="bg-blanco" *ngIf="rol === 'empresa'">
+  <!--<img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">
+  -->
+    <!--Header perfil-->
   <section>
     <!--Imagen-->
     <div class="img"></div>
@@ -12,14 +13,14 @@
     </div>
 
     <!--Nombre empresa o independiente-->
-    <div class="container my-1">
-      <h2>Nombre Empresa</h2>
+    <div class="container my-1" *ngFor="let empresa of empresas">
+      <h2>{{empresa.nombre}}</h2>
     </div>
 
     <!--Barra informacion de perfil-->
     <ul class="nav nav-tabs mt-3 justify-content-center" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
-        <a class="nav-link tamaño active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">
+        <a class="nav-link tamaño active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true" >
           <span class="center"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
           <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
         </svg></span>
@@ -58,17 +59,17 @@
   </section>
 
   <!--Pestañas del Menú-->
-  <section class="tab-content bg-blanco">
+  <section class="tab-content bg-blanco" *ngFor="let empresa of empresas">
     <!--Informacion-->
     <div class="tab-pane fade show active mt-3" id="info" role="tabpanel" aria-labelledby="info-tab">
       <div class="container tamA">
-        <h5>DESCRICIÓN</h5> <!-- <br> <p>{{empresa.descripcion}}</p> -->
-        <h5>CIUDAD: </h5> <!-- <p>{{empresa.ciudad}}</p> -->
-        <h5>DIRECCIÓN:</h5> <!-- <p> {{empresa.celular}}</p>-->
-        <h5>HORARIO:</h5> <!-- <p> {{empresa.horaMInicio}} a {{empresa.horaMFin}}, {{empresa.horaTInicio}} a {{empresa.horaTFin}}</p> -->
-        <h5>DOMICILIOS:</h5> <!-- <p>{{empresa.descripcion}}</p> -->
-        <h5>CALIFICACIONES:</h5> <!-- <p>{{empresa.ciudad}}</p> -->
-        <h5>INFORMACIÓN ADICIONAL</h5> <!-- <br> <p> {{empresa.informacionAdicional}} </p> -->
+        <h5>DESCRICIÓN</h5> <p>{{empresa.descripcion}}</p>
+        <h5>CIUDAD: </h5> <p>{{empresa.ciudad}}</p>
+        <h5>DIRECCIÓN:</h5>  <p> {{empresa.direccion}}</p>
+        <h5>HORARIO:</h5> <p> {{empresa.horaMInicio}} a {{empresa.horaMFin}} </p> <p> {{empresa.horaTInicio}} a {{empresa.horaTFin}}</p>
+        <h5>DOMICILIOS:</h5>  <p>{{empresa.domicilio}}</p>
+        <h5>CALIFICACIONES:</h5>  <p></p>
+        <h5>INFORMACIÓN ADICIONAL</h5> <p> {{empresa.informacionAdicional}} </p>
       </div>
     </div>
 

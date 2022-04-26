@@ -28,7 +28,7 @@ export class DataService2 {
         return new Promise(async (resolve, reject) => {
             try {
                 //const id = this.afs.createId();
-                const data = {...usuarioForm};
+                const data = {id,...usuarioForm};
                 const result = this.usuarioGCollection.doc(id).set(data);
                 resolve(result);
                 await this.usuarioGCollection.doc(id).collection('User').doc(id).set(data2);

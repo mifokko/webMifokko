@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'buscarTodo', loadChildren: () => import('./pages/buscar-todo/buscar-todo.module').then(m => m.BuscarTodoModule) },
   { path: 'verOfertas', component: VerOfertasComponent},
   { path: 'estadisticas', loadChildren: () => import('./pages/estadisticas/estadisticas.module').then(m => m.EstadisticasModule) },
-  { path: 'perfil', component: PerfilComponent}
+  { path: 'perfil', component: PerfilComponent},
+  { path: 'terminos-y-condiciones', loadChildren: () => import('./pages/terminos/terminos.module').then(m => m.TerminosModule) }
 ];
 
 @NgModule({

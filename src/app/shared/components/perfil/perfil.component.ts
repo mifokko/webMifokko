@@ -15,7 +15,23 @@ import { HeaderComponent } from '../header/header.component';
 export class PerfilComponent implements OnInit {
 
   rol: 'empresa' | 'independiente' | 'general' | undefined;
-  empresas: Empresa[] = [];
+  empresa: Empresa [] = [];
+  empresas: Empresa [] = [];
+  // empresas = {
+  //   nombre: '',
+  //   ciudad: '',
+  //   direccion: '',
+  //   actividadPrincipal: '',
+  //   descripcion: '',
+  //   horaMInicio: '',
+  //   horaMFin: '',
+  //   horaTInicio: '',
+  //   horaTFin: '',
+  //   domicilio: '',
+  //   servicios: '',
+  //   informacionAdicional: '',
+  //   estado: true,
+  // };
   items!: GalleryItem[];
   imageData = data;
   mostrar: boolean = false;
@@ -48,9 +64,26 @@ export class PerfilComponent implements OnInit {
     const id = uid;
     this.firestore.getDoc<Usuario>(path,id).subscribe( res => {
       if(res) {
+        //console.log(res);
         this.rol = res.perfil;
+        console.log(this.rol);
       }
-    })
+      if(this.rol == 'empresa'){
+        console.log('paso');
+        this.firestore.getCollection<Empresa>('Empresas').subscribe( res => {
+          this.empresa = res;
+          for(let index = 0; index < this.empresa.length; index++){
+           console.log(this.empresa[index].id);
+            if(this.empresa[index].id == id){
+              console.log('paso');
+              this.empresas[index] = this.empresa[index];
+              console.log(this.empresas);
+           }
+          }
+        });
+      }
+    });
+    
   }
 
   redesSociales() {

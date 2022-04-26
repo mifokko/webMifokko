@@ -1,11 +1,56 @@
-<img src="./assets/FondoBlanco.jpg" class="img-fluid" id="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;">
-<div class="container-fluid">
-    <div class="form-group row col-xs-3 col-sm-4 col-md-4 my-2 float-end" > 
-        <div class="input-group rounded">
-            <input type="search" class="form-control form-control rounded-pill icon_placeholder" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-            </svg>
+<section class="bg-blanco">
+  <img src="./assets/FondoBlanco.jpg" class="img-fluid" id="Responsive image"
+    style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;">
+  <div class="container-fluid mb-2">
+    <div class="form-group row col-xs-3 col-sm-4 col-md-4 my-2 float-end mb-4">
+      <div class="input-group rounded">
+        <input type="search" class="form-control form-control rounded-pill icon_placeholder" placeholder="Search"
+          aria-label="Search" aria-describedby="search-addon" />
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="container center" style="margin-left: 5%; margin-right: 5%;">
+    <div class="row p-2">
+      <div class="row col-lg col-md-6 col-sm-12" *ngFor="let buscar of busqueda">
+        <div
+          class="my-2 border border-warning border-3 rounded-circle bg-white shadow-1-strong d-flex align-items-center justify-content-center"
+          style="width: 120px; height: 120px;">
+          <img src="https://mdbootstrap.com/img/Photos/new-templates/animal-shelter/logo.png" height="50" alt=""
+            loading="lazy" />
+        </div>
+        <div class="col-md-4 col-sm-4 align-items-center justify-content-center text-center mt-3">
+          <h5>{{buscar.nombre}}</h5>
+          <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.actividadPrincipal}}</b></p>
+          <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
         </div>
       </div>
-</div>
+      <div class="row col-lg col-md-6 col-sm-12 center" *ngFor="let buscar of busqueda">
+        <div
+          class="my-1 border border-primary border-3 rounded-circle bg-white shadow-1-strong d-flex align-items-center justify-content-center"
+          style="width: 120px; height: 120px;">
+          <img src="https://mdbootstrap.com/img/Photos/new-templates/animal-shelter/logo.png" height="50" alt=""
+            loading="lazy" />
+        </div>
+        <div class="col-md-4 col-sm-4 align-items-center justify-content-center text-center mt-3">
+          <h5>{{buscar.nombre}}</h5>
+          <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.actividadPrincipal}}</b></p>
+          <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
+        </div>
+      </div>
+      <div class="row col-lg col-md-6 col-sm-12 alinear" *ngFor="let buscar of busqueda">
+        <div
+          class="my-1 border border-danger border-3 rounded-circle bg-white shadow-1-strong d-flex align-items-center justify-content-center"
+          style="width: 120px; height: 120px;">
+          <img src="https://mdbootstrap.com/img/Photos/new-templates/animal-shelter/logo.png" height="50" alt=""
+            loading="lazy" />
+        </div>
+        <div class="col-md-4 col-sm-4 align-items-center justify-content-center text-center mt-3">
+          <h5>{{buscar.nombre}}</h5>
+          <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.actividadPrincipal}}</b></p>
+          <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

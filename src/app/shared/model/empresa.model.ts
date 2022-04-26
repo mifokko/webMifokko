@@ -1,13 +1,7 @@
 export interface Empresa {
     nombre: string,
-    nit: string,
-    departamento: string,
     ciudad: string,
     direccion: string,
-    telefono: string,
-    celular: string,
-    correo: string,
-    contrasena: string,
     actividadPrincipal: string,
     descripcion: string,
     horaMInicio: string,
@@ -18,4 +12,5 @@ export interface Empresa {
     servicios: string,
     informacionAdicional: string,
     estado: boolean,
+    id: string,
 }

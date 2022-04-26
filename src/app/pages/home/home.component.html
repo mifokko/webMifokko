@@ -1,17 +1,11 @@
 <section class="bg-primary" id="buscador">
-  <!--<img src="./assets/Fondo Amarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">-->
-  <!--<img src="./assets/FondoAmarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;" height="100%" width="100%">
-  -->
     <!--Buscador principal-->
   <div class="container">
       <form class="row justify-content-center aling-items-center">
-        <div class="form-group row col-xs-9 col-sm-9 col-md-9 my-5">
+        <div class="form-group row col-xs-9 col-sm-9 col-md-9 mt-5">
           <h2 class="text-center">QUE BUSCAS?</h2>
           <div class="input-group rounded">
               <input type="search" class="form-control form-control-lg rounded-pill icon_placeholder" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-              </svg>
           </div>
         </div>
 
@@ -46,7 +40,7 @@
           </div>
 
         <!--Seleccionar ciudad-->  
-        <div class="form-group row center my-2">
+        <div class="form-group row center my-2 mb-5">
           <div class="col-xs-3 col-sm-6 col-md-2 p-1">
             <label class="center">ELIGE TU CIUDAD</label>
             <div class="input-group rounded">
@@ -58,15 +52,16 @@
           </div>
 
           <!--Boton de buscador-->
-          <div class="center">
+          <div class="center mb-2">
             <button type="button" class="btn btn-primary btn-block rounded-pill col-xs-6 col-sm-6 col-md-2" [routerLink]="['/buscarTodo']" >Buscar</button>
           </div>
         </div>
       </form>
+      <br>
   </div>
 
   <!--Seccion de información-->
-  <div class="container" id="informacion">
+  <div class="container" id="informacion" *ngIf="login === false || rol === 'general'">
     <div class="row center">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3" >
         <div id="padre" >
@@ -100,7 +95,7 @@
 <section class="bg-blanco" #empresa>
   <!--<img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 100%; left: 0; z-index: -100;" height="100%" width="100%">
   -->
-    <div class="container">
+    <div class="container" *ngIf="login === false || rol === 'general'">
     <div class="row">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style=" margin-bottom: 5%;">
         <h2 class="m-3 text-center">EMPRESA</h2>
@@ -138,7 +133,7 @@
 <section class="bg-primary" #independiente>
   <!--<img src="./assets/FondoAmarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 200%; left: 0; z-index: -100;" height="100%" width="100%">
   -->
-    <div class="container">
+    <div class="container" *ngIf="login === false || rol === 'general'">
     <div class="row">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style="margin-top: 1%; margin-bottom: 5%;">
         <h2 class="m-3 text-center">INDEPENDIENTE</h2>
@@ -174,10 +169,10 @@
 </section>
 
 <!--Seccion de información de oferta-->
-<section class="bg-blanco" #oferta>
+<section class="bg-blanco" #oferta >
   <!--<img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 300%; left: 0; z-index: -100;" height="100%" width="100%">
   -->
-    <div class="container">
+    <div class="container" *ngIf="login === false || rol === 'general'">
     <div class="row">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style="margin-top: 5%; margin-bottom: 5%;">
         <h2 class="m-3 text-center">OFERTAS</h2>

@@ -21,13 +21,8 @@ export class AuthService {
     }
   }
 
-  async loginGeneral(correo: string, contrasena: string){
-    try {
-      return await this.afauth.signInWithEmailAndPassword(correo,contrasena);
-    } catch (e) {
-      console.log("Error en login: ", e);
-      return null;
-    }
+  loginGeneral(correo: string, contrasena: string){
+    return this.afauth.signInWithEmailAndPassword(correo,contrasena);
   }
 
   async loginGoogle(correo: string, contrasena: string){

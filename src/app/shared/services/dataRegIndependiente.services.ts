@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 
 export interface Independiente {
     nombre: string,
-    id: string,
+    documento: string,
     profesion: string,
     departamento: string,
     ciudad: string,
@@ -39,7 +39,7 @@ export class DataService1 {
         return new Promise(async (resolve, reject) => {
             try {
                 //const id = this.afs.createId();
-                const data = {...independienteForm};
+                const data = {id,...independienteForm};
                 const result = this.independienteCollection.doc(id).set(data);
                 resolve(result);
                 await this.independienteCollection.doc(id).collection('User').doc(id).set(data2);

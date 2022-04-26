@@ -105,7 +105,7 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
   private initForm(): void {
     this.independienteForm = this.fb.group({
       nombre: ['', [Validators.required]],
-      id: ['', [Validators.required]],
+      documento: ['', [Validators.required]],
       profesion: ['', [Validators.required]],
       departamento: ['', [Validators.required]],
       ciudad: ['', [Validators.required]],

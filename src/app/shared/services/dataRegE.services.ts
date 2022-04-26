@@ -41,7 +41,7 @@ export class DataService {
         return new Promise(async (resolve, reject) => {
             try {
                 //const id = this.afs.createId();
-                const data = {...empresaForm};
+                const data = {id,...empresaForm};
                 const result = this.empresaCollection.doc(id).set(data);
                 resolve(result);
                 await this.empresaCollection.doc(id).collection('User').doc(id).set(data2);

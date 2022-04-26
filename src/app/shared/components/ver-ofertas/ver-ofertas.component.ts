@@ -109,13 +109,13 @@ export class VerOfertasComponent implements OnInit {
         this.oferta.length = 0;
         this.firestore.getDocCol<Oferta>(path, this.uid, 'Ofertas').subscribe( res => {
           this.oferta = res;
-          console.log(this.oferta.length);
+          //console.log(this.oferta.length);
           for (let index = 0; index < this.oferta.length; index++) {
             const fecha = this.oferta[index].fechaInicio.day.toString() + '/' + this.oferta[index].fechaInicio.month.toString() + '/' + this.oferta[index].fechaInicio.year.toString();
-            console.log(fecha);
-            console.log(this.oferta[index].fechaInicio.month.toLocaleString() + ', ' + this.mes);
+            //console.log(fecha);
+            //console.log(this.oferta[index].fechaInicio.month.toLocaleString() + ', ' + this.mes);
             if (this.oferta[index].fechaInicio.month.toLocaleString() === this.mes && this.oferta[index].fechaInicio.year.toLocaleString() === this.anio){
-              console.log(true);
+              //console.log(true);
               if(this.date.getDate() >= this.oferta[index].fechaInicio.day && this.date.getDate() <= this.oferta[index].fechaFin.day){
                 this.oferta[index].estado = 'Activo';
               }else{
@@ -128,19 +128,9 @@ export class VerOfertasComponent implements OnInit {
                 this.ofertas[cont++] = this.oferta[index];
               }
             }else {
-              console.log(false);
+              //console.log(false);
             }
-            console.log(this.ofertas);
-            // if(this.oferta[index].fechaInicio.month.toLocaleString() === this.mes && this.oferta[index].fechaInicio.year.toLocaleString() === this.anio){
-            //   console.log('pas');
-            //   if(this.oferta[index].fechaInicio.month.toString() !== this.mes && this.oferta[index].fechaInicio.year.toString() === this.anio){
-            //     this.oferta.splice(index,1);
-            //   }else {
-            //     this.ofertas[index] = this.oferta[index];
-            //   }
-              
-            //   console.log(this.ofertas);
-            // }
+            //console.log(this.ofertas);
           }
           if(!this.ofertas.length){
             alert('No se encontraron ofertas publicadas en ' + this.meses + '.');
@@ -151,47 +141,6 @@ export class VerOfertasComponent implements OnInit {
         alert('Debe seleccionar año y mes, para buscar las ofertas');
         
       }
-    // } catch (error) {
-    //   alert('Debe seleccionar año y mes, para buscar las ofertas /n' +  error)
-    // }
-    
-    
-    console.log('paso');
-    // this.firestore.getDocCol<Oferta>(path, this.uid, 'Ofertas').subscribe( res => {
-    //   this.oferta = res;
-    //   //console.log(this.oferta);
-    //   try {
-    //   for (let index = 0; index < this.oferta.length; index++) {
-    //     const fecha = this.oferta[index].fechaInicio.day.toString() + '/' + this.oferta[index].fechaInicio.month.toString() + '/' + this.oferta[index].fechaInicio.year.toString();
-    //     const fecham = this.oferta[index].fechaInicio.month.toString();
-    //     const presenteF = this.date.toLocaleDateString();
-    //     if(fecha == presenteF) {
-    //       this.oferta[index].estado = 'Activo';
-    //     } else {
-    //       this.oferta[index].estado = 'Inactivo' ;
-    //     }
-    //     //console.log(fecham);
-       
-    //       if((this.oferta[index].fechaInicio.month.toString() !== this.mes) && (this.oferta[index].fechaInicio.year.toString() === this.anio)){
-    //         this.oferta.splice(index,1);
-    //         console.log(this.oferta);
-    //       }
-    //       if((this.oferta[index].fechaInicio.month.toString() === this.mes) && (this.oferta[index].fechaInicio.year.toString() === this.anio)){
-    //         this.ofertas[index] = this.oferta[index];
-    //         //console.log(this.oferta[index].fechaInicio.month.toString())
-    //         console.log(this.ofertas);
-    //         //console.log('paso');
-    //       }
-    //     } 
-    //     if(!this.ofertas.length){
-    //       alert('No hay ofertas publicadas en '+ this.meses + '.')
-    //     }
-    //   } catch (error) {
-    //     alert('Debe seleccionar año y mes, para buscar las ofertas ' +  error);
-    //   }
-      
-    //   //console.log(res);
-    // });
   }
 
 }

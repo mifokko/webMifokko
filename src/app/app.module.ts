@@ -36,6 +36,7 @@ import { GalleryModule } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
 import { SubirOfertaModule } from './shared/components/subir-oferta/subir-oferta.module';
 import { CommonModule } from '@angular/common';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { CommonModule } from '@angular/common';
     InformacionComponent,
     BeneficiosComponent,
     PerfilComponent,
-    VerOfertasComponent
+    VerOfertasComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
