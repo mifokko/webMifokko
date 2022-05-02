@@ -1,11 +1,15 @@
-import { ChangeDetectionStrategy, Component, OnInit, ɵɵpureFunction1 } from '@angular/core';
-import { Gallery, GalleryItem, ImageItem, ImageSize, ThumbnailsPosition, ThumbnailsView } from 'ng-gallery';
+import { Component, OnInit} from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Gallery, GalleryItem, ImageItem, ThumbnailsPosition, ThumbnailsView } from 'ng-gallery';
 import { Lightbox } from 'ng-gallery/lightbox';
+import Swal from 'sweetalert2';
+import { URL } from 'url';
 import { Empresa } from '../../model/empresa.model';
+import { Independiente } from '../../model/independiente.model';
+import { Redes } from '../../model/redes.model';
 import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
-import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-perfil',
@@ -13,33 +17,33 @@ import { HeaderComponent } from '../header/header.component';
   styleUrls: ['./perfil.component.scss'],
 })
 export class PerfilComponent implements OnInit {
+  redes = {
+    youtube: '',
+    instagram: '',
+    whatsapp: '',
+    facebook: ''
+  }
+  youtubeSafe!: SafeUrl;
+  facebookSafe!: SafeUrl;
+  instagramSafe!: SafeUrl;
+  
 
   rol: 'empresa' | 'independiente' | 'general' | undefined;
-  empresa: Empresa [] = [];
-  empresas: Empresa [] = [];
-  // empresas = {
-  //   nombre: '',
-  //   ciudad: '',
-  //   direccion: '',
-  //   actividadPrincipal: '',
-  //   descripcion: '',
-  //   horaMInicio: '',
-  //   horaMFin: '',
-  //   horaTInicio: '',
-  //   horaTFin: '',
-  //   domicilio: '',
-  //   servicios: '',
-  //   informacionAdicional: '',
-  //   estado: true,
-  // };
+  network!: Redes;
+  empresa: Empresa | undefined;
+  independiente: Independiente | undefined;
   items!: GalleryItem[];
   imageData = data;
   mostrar: boolean = false;
+  id = '';
+  path = '';
+  red: 'save' | 'mostrar' | 'vacio' | undefined;
 
-  constructor(private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox) {
+  constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox) {
     this.authService.stateUser().subscribe( res => {
       if(res) {
         this.getDatosUser(res.uid);
+        this.id = res.uid;
       }
     })
    }
@@ -70,28 +74,94 @@ export class PerfilComponent implements OnInit {
       }
       if(this.rol == 'empresa'){
         console.log('paso');
-        this.firestore.getCollection<Empresa>('Empresas').subscribe( res => {
+        this.firestore.getDoc<Empresa>('Empresas', id).subscribe( res => {
           this.empresa = res;
-          for(let index = 0; index < this.empresa.length; index++){
-           console.log(this.empresa[index].id);
-            if(this.empresa[index].id == id){
-              console.log('paso');
-              this.empresas[index] = this.empresa[index];
-              console.log(this.empresas);
-           }
+        });
+        this.firestore.getDocColDoc<Redes>('Empresas', id, 'Redes').subscribe( res => {
+          //console.log(res);
+          if (res == undefined) {
+            //console.log(res)
+            this.red = 'vacio'; 
+            this.mostrar = false;
+            console.log(this.red);
+          }else{
+            console.log('paso');
+            this.red = 'mostrar';
+            console.log(res);
+            this.network = res;
+            this.youtubeSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.youtube);
+            this.facebookSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.facebook);
+            this.instagramSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.instagram);
           }
+        });
+      }else if(this.rol == 'independiente'){
+        console.log('paso');
+        this.firestore.getDoc<Independiente>('Independiente', id).subscribe( res => {
+          this.independiente = res;
+        });
+        this.firestore.getDocCol<Redes>('Independiente', this.id, 'Redes').subscribe(res => {
+          console.log(res.length);
+          // if (res.length == 0) {
+          //   console.log(res)
+          //   this.red = 'vacio'; 
+          //   this.mostrar = false;
+          //   console.log(this.red);
+          // }else{
+          //   console.log('paso');
+          //   this.red = 'mostrar';
+          //   this.network = res;
+          //   for (let index = 0; index < this.network.length; index++) {
+          //     //console.log(this.sanitizer.bypassSecurityTrustUrl(this.network[index].youtube));
+          //     //this.sociales[index].youtube = this.sanitizer.bypassSecurityTrustUrl(this.network[index].youtube);
+          //     //this.sociales[index].facebook = this.sanitizer.bypassSecurityTrustUrl(this.network[index].facebook);
+          //     //this.sociales[index].instagram = this.sanitizer.bypassSecurityTrustUrl(this.network[index].instagram);
+          //     //this.sociales[index].whatsapp = this.network[index].whatsapp;
+          //   }
+          //   console.log(this.sociales);
+          // }
         });
       }
     });
-    
+
   }
 
   redesSociales() {
     this.mostrar = true;
   }
 
-  redesSocialesR(){
+  async redesSocialesR(){
     this.mostrar = false;
+    console.log(this.redes);
+    if (this.redes) {
+      try {
+        let path = '';
+        if (this.rol == 'empresa'){
+          path = 'Empresas';
+          this.path = 'Empresas';
+        } else if(this.rol == 'independiente') {
+          path = 'Independiente';
+          this.path = 'Independiente';
+        } else {
+          path = '';
+        }
+        const subpath = 'Redes';
+        await this.firestore.createColInDoc<Redes>(this.redes, path, this.id, subpath, this.id);
+        this.red = 'save';
+        Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
+      } catch (e) {
+        alert(e);
+      }
+
+      
+
+    } else {
+      //Notificacion de error
+      Swal.fire(
+        'Error',
+        'Revisar información ingresada',
+        'error'
+      );
+    }
   }
 
 }

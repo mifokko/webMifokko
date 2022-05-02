@@ -28,8 +28,8 @@ export class DataServices {
   }
 
   getDocColDoc<tipo>(path: string, id: string, subpath: string) {
-    const collection = this.afs.collection<tipo>(path);
-    return collection.doc(id).collection(subpath).doc(id).valueChanges();
+    const collection = this.afs.collection(path);
+    return collection.doc(id).collection<tipo>(subpath).doc(id).valueChanges();
   }
 
   getDocCol<tipo>(path: string, id: string, subpath: string) {
@@ -38,8 +38,8 @@ export class DataServices {
   }
 
   //Crea una collección dentro de un documento con un id especifico 
-  async createColInDoc(data: any, path: string, uid: string, subpath: string, id: string){
+  async createColInDoc<tipo>(data: any, path: string, uid: string, subpath: string, id: string){
     const mapas = this.afs.collection(path);
-    return await mapas.doc(uid).collection(subpath).doc(id).set(data);
+    return await mapas.doc(uid).collection<tipo>(subpath).doc(id).set(data);
   }
 }

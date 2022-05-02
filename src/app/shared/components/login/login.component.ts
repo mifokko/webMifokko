@@ -13,8 +13,6 @@ import { RegisterUsuarioGeneralComponent } from '../register-usuario-general/reg
 })
 export class LoginComponent implements OnInit {
 
-  emailOrPasswordIncorrectas: boolean = false;
-
   usuario = {
     correo: '',
     contrasena: ''

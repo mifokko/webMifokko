@@ -11,7 +11,7 @@ import { DataServices } from 'src/app/shared/services/data.service';
   styleUrls: ['./buscar-todo.component.scss']
 })
 export class BuscarTodoComponent implements OnInit {
-
+  rol!: false;
   busqueda: Busqueda[] = [];
   constructor(private authService: AuthService, private firestore: DataServices) { }
 

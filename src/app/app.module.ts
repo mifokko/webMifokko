@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,12 +18,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PlanEmpresaComponent } from './shared/components/plan-empresa/plan-empresa.component';
 import { PlanIndependienteComponent } from './shared/components/plan-independiente/plan-independiente.component';
 
-import { FormsModule } from '@angular/forms';
 import { UneteComponent } from './shared/components/unete/unete.component';
 import { RecuperarContrasenaComponent } from './shared/components/recuperar-contrasena/recuperar-contrasena.component';
 import { WhatsappComponent } from './shared/components/whatsapp/whatsapp.component';
 import { WhatsappModule } from './shared/components/whatsapp/whatsapp.module';
-import { SubirOfertaComponent } from './shared/components/subir-oferta/subir-oferta.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideFunctions,getFunctions } from '@angular/fire/functions';
@@ -35,7 +34,6 @@ import { PerfilComponent } from './shared/components/perfil/perfil.component';
 import { GalleryModule } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
 import { SubirOfertaModule } from './shared/components/subir-oferta/subir-oferta.module';
-import { CommonModule } from '@angular/common';
 import { FooterComponent } from './shared/components/footer/footer.component';
 
 @NgModule({
@@ -49,8 +47,8 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     RecuperarContrasenaComponent,
     WhatsappComponent,
     InformacionComponent,
-    BeneficiosComponent,
     PerfilComponent,
+    BeneficiosComponent,
     VerOfertasComponent,
     FooterComponent
   ],
@@ -74,7 +72,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     provideFirestore(() => getFirestore()),
     provideFunctions(() => getFunctions()),
     provideStorage(() => getStorage()),
-    SubirOfertaModule
+    SubirOfertaModule,
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]

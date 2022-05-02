@@ -15,8 +15,9 @@ import { DataServices } from 'src/app/shared/services/data.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  
+  seleccion= '';
   login = false;
+  lista: string[] = ['INDEPENDIENTES', 'EMPRESAS', 'OFERTAS', 'TODOS'];
   rol: 'empresa' | 'independiente' | 'general' | undefined;
   
   constructor( private modalService: NgbModal, private authService: AuthService, private firestore: DataServices,) { 
@@ -35,7 +36,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     console.log('Home');
   }
-  
+
   inView(ele: any) {
     ele.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'start'});
   }
@@ -50,6 +51,10 @@ export class HomeComponent implements OnInit {
 
   openRegisterUsuario(){
     const modalRef2 = this.modalService.open(RegisterUsuarioGeneralComponent);
+  }
+
+  Capturar(seleccion: string){
+    console.log('Seleccion: ' + seleccion);
   }
 
   getDatosUser(uid: string) {

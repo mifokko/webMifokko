@@ -13,4 +13,5 @@ export interface Empresa {
     informacionAdicional: string,
     estado: boolean,
     id: string,
+    rol: string,
 }

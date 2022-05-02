@@ -1,6 +1,7 @@
-export interface Empresa {
+export interface Independiente {
     nombre: string,
     id: string,
+    documento: string,
     departamento: string,
     ciudad: string,
     direccion: string,
