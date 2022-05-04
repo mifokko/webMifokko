@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from '../../services/auth.service';
 import { PlanEmpresaComponent } from '../plan-empresa/plan-empresa.component';
 import { PlanIndependienteComponent } from '../plan-independiente/plan-independiente.component';
 import { RegisterIndependienteComponent } from '../register-independiente/register-independiente.component';
@@ -12,8 +13,9 @@ import { RegisterComponent } from '../register/register.component';
   styleUrls: ['./unete.component.scss']
 })
 export class UneteComponent implements OnInit {
-
-  constructor(public modal: NgbActiveModal, private modalService: NgbModal) { }
+  
+  login: boolean = false;
+  constructor(public modal: NgbActiveModal, private modalService: NgbModal, private authService: AuthService) { }
 
   ngOnInit(): void {
     console.log('Únete');

@@ -3,12 +3,12 @@
     <img src="./assets/Logo.png" class="img-fluid" id="Responsive image" width="305.47px" height="86.46px" class="d-inline-block align-text-top" style="position: absolute; margin-top: 10px; z-index: 100;">
   </a>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center1">
           <!--Ofertas-->
           <li class="nav-item dropdown mr-1" *ngIf="login === true && rol !== 'general'">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -67,7 +67,7 @@
             </a>
           </li>
           <!--Beneficios-->
-          <li class="nav-item">
+          <li class="nav-item pull-right">
             <a type="button" class="nav-link" (click)="openBeneficios()" *ngIf="login === true">Beneficios  
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
                 <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>

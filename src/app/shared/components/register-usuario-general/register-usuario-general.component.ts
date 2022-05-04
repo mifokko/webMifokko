@@ -46,6 +46,7 @@ export class RegisterUsuarioGeneralComponent implements OnInit {
         //console.log(this.usuarioForm.value);
         this.registrar();
         this.usuarioForm.reset();
+        this.modal.close();
         //Notificación de confirmación
         Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
       } catch (e) {

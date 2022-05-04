@@ -42,10 +42,10 @@ export class RegisterComponent implements OnInit {
       try {
         
         this.registrar();
-        //Notificación de confirmación
-        Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
         this.empresaForm.reset()
         this.modal.close(); 
+        //Notificación de confirmación
+        Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
       } catch (e) {
         alert(e);
       }

@@ -46,6 +46,7 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
       try {
         this.registrar();
         this.independienteForm.reset()
+        this.modal.close();
         //Notificación de confirmación
         Swal.fire('Registro exitoso', 'Volver al inicio', 'success'); 
       } catch (e) {

@@ -95,30 +95,25 @@ export class PerfilComponent implements OnInit {
           }
         });
       }else if(this.rol == 'independiente'){
-        console.log('paso');
+        //console.log('paso');
         this.firestore.getDoc<Independiente>('Independiente', id).subscribe( res => {
           this.independiente = res;
         });
-        this.firestore.getDocCol<Redes>('Independiente', this.id, 'Redes').subscribe(res => {
-          console.log(res.length);
-          // if (res.length == 0) {
-          //   console.log(res)
-          //   this.red = 'vacio'; 
-          //   this.mostrar = false;
-          //   console.log(this.red);
-          // }else{
-          //   console.log('paso');
-          //   this.red = 'mostrar';
-          //   this.network = res;
-          //   for (let index = 0; index < this.network.length; index++) {
-          //     //console.log(this.sanitizer.bypassSecurityTrustUrl(this.network[index].youtube));
-          //     //this.sociales[index].youtube = this.sanitizer.bypassSecurityTrustUrl(this.network[index].youtube);
-          //     //this.sociales[index].facebook = this.sanitizer.bypassSecurityTrustUrl(this.network[index].facebook);
-          //     //this.sociales[index].instagram = this.sanitizer.bypassSecurityTrustUrl(this.network[index].instagram);
-          //     //this.sociales[index].whatsapp = this.network[index].whatsapp;
-          //   }
-          //   console.log(this.sociales);
-          // }
+        this.firestore.getDocColDoc<Redes>('Independiente', id, 'Redes').subscribe(res => {
+          if (res == undefined) {
+            //console.log(res)
+            this.red = 'vacio'; 
+            this.mostrar = false;
+            //console.log(this.red);
+          }else{
+            //console.log('paso');
+            this.red = 'mostrar';
+            //console.log(res);
+            this.network = res;
+            this.youtubeSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.youtube);
+            this.facebookSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.facebook);
+            this.instagramSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.instagram);
+          } 
         });
       }
     });
