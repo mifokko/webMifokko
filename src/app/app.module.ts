@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { RegisterIndependienteModule } from './shared/components/register-independiente/register-independiente.module';
 import { RegisterUsuarioGeneralModule } from './shared/components/register-usuario-general/register-usuario-general.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -73,6 +74,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     provideFunctions(() => getFunctions()),
     provideStorage(() => getStorage()),
     SubirOfertaModule,
+    AngularFireStorageModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { merge, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,13 @@ export class DataServices {
   //Crea una collección dentro de un documento con un id especifico 
   async createColInDoc<tipo>(data: any, path: string, uid: string, subpath: string, id: string){
     const mapas = this.afs.collection(path);
-    return await mapas.doc(uid).collection<tipo>(subpath).doc(id).set(data);
+    return await mapas.doc(uid).collection<tipo>(subpath).doc(id).set(data, {merge: true});
+  }
+
+  //Actualizar o agregar campos 
+  updateCamposDoc(data: any, path: string, id: string, campo: string){
+    this.afs.doc(path + '/' + id).update({
+      [(campo)] : data
+    })
   }
 }
