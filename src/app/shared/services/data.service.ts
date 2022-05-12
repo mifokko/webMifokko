@@ -38,15 +38,26 @@ export class DataServices {
     return collection.doc(id).collection<tipo>(subpath).valueChanges();
   }
 
+  // getDocColCamp<tipo>(path: string, id: string, subpath: string, camp: any) {
+  //   const collection = this.afs.collection(path);
+  //   return collection.doc(id).collection<tipo>(subpath).ref([camp]).valueChanges();
+  // }
   //Crea una collección dentro de un documento con un id especifico 
   async createColInDoc<tipo>(data: any, path: string, uid: string, subpath: string, id: string){
     const mapas = this.afs.collection(path);
     return await mapas.doc(uid).collection<tipo>(subpath).doc(id).set(data, {merge: true});
   }
 
+
   //Actualizar o agregar campos 
   updateCamposDoc(data: any, path: string, id: string, campo: string){
     this.afs.doc(path + '/' + id).update({
+      [(campo)] : data
+    })
+  }
+
+  updateCamposDocCollDoc(data: any, path: string, id: string, subpath:string, campo: string){
+    this.afs.doc(path + '/' + id + '/' + subpath + '/' + id).update({
       [(campo)] : data
     })
   }

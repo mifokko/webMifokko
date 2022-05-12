@@ -16,6 +16,7 @@ import { DataService1 } from '../../services/dataRegIndependiente.services';
 export class RegisterIndependienteComponent implements OnInit, OnChanges {
   independienteForm!: FormGroup;
   private isCel= "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
+  private isDoc= "\[0-9]{10}";
   private isEmail= /\S+@\S+\.\S+/;
   fecha = new Date();
 
@@ -106,7 +107,7 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
   private initForm(): void {
     this.independienteForm = this.fb.group({
       nombre: ['', [Validators.required]],
-      documento: ['', [Validators.required]],
+      documento: ['', [Validators.required, Validators.pattern(this.isDoc)]],
       profesion: ['', [Validators.required]],
       departamento: ['', [Validators.required]],
       ciudad: ['', [Validators.required]],

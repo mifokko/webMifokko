@@ -69,6 +69,7 @@
   height:250px;
   background-size: 100% 100%;
   background-repeat:no-repeat;
+  //background: url({portadaSafe});
   background-size: cover;
   }
 .img2 img{
@@ -82,6 +83,7 @@
   height:300px;
   background-size: 100% 100%;
   background-repeat:no-repeat;
+  //background: url({portadaSafe});
   background-size: cover;
   
   }
@@ -160,4 +162,19 @@ div .tamA h5 {
   .breakpoint  {
     max-width: 50%;
   }
+}
+
+
+//---------------------------------------------------------------------------------------------
+// Galeria Subir archivos
+//---------------------------------------------------------------------------------------------
+
+div #div_file{
+  position: relative;
+  padding: 10px;
+  width: 200px;
+  height: 45px;
+  background-color: steelblue;
+  border-radius: 10px;
+  box-shadow: 0px 3px 0px #1a71a9;
 }

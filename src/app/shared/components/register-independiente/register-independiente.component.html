@@ -15,9 +15,12 @@
               </div>
             </div>
             <div class="form-group col-md-6">
-              <input type="tel" class="form-control" placeholder="ID" formControlName="id" [class]="isValidField('id')">
-                <div class="invalid-feedback" *ngIf="independienteForm.get('id')?.hasError('required')">
+              <input type="text" class="form-control" placeholder="ID" formControlName="documento" [class]="isValidField('documento')">
+                <div class="invalid-feedback" *ngIf="independienteForm.get('documento')?.hasError('required')">
                   Por favor ingrese su documento de identificación.
+                </div>
+                <div class="invalid-feedback" *ngIf="independienteForm.get('documento')?.hasError('pattern')">
+                  Por favor ingrese # de documento de identificación valido.
                 </div>
             </div>
           </div>
@@ -178,7 +181,7 @@
                       <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" formControlName="terminosyCondiciones" [class]="isValidField('terminosyCondiciones')">
                         <label class="form-check-label" for="flexSwitchCheckChecked">Acepto <a href="https://drive.google.com/file/d/1kOrLPaslIo3188vqqyokwBqedH4YIclW/view?usp=sharing"  target="_blank">Terminos y condiciones</a></label>
-                        <div class="invalid-feedback" *ngIf="independienteForm.get('ocupRef2')?.hasError('required')">
+                        <div class="invalid-feedback" *ngIf="independienteForm.get('terminosyCondiciones')?.hasError('required')">
                           Debe aceptar terminos y condiciones.
                         </div>
                       </div>
