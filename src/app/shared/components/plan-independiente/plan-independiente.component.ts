@@ -9,7 +9,7 @@ import { RegisterIndependienteComponent } from '../register-independiente/regist
 })
 export class PlanIndependienteComponent implements OnInit {
 
-  valorPagoP!: string;
+  plan!: string;
 
   constructor(public modalService: NgbModal, public modal: NgbActiveModal) { }
 
@@ -17,12 +17,10 @@ export class PlanIndependienteComponent implements OnInit {
     console.log('Plan independiente');
   }
 
-  openRegisterIndependiente(){
+  openRegisterIndependiente(e: any){
+    this.plan = e;
+    console.log(this.plan);
     this.modalService.open(RegisterIndependienteComponent);
-  }
-
-  btnEnviarHijo(valor: string) {
-    this.valorPagoP = valor;
   }
 
 }

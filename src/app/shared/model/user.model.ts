@@ -4,7 +4,8 @@ export interface Usuario {
     uid: string,
     perfil: 'empresa' | 'independiente' | 'general',
     referencia: string,
-    plan: 'mensual' | 'anual' | 'general',
+    plan: 'mensualE' | 'anualE' | 'mensualI' | 'anualI' | 'general',
     fechaInicio: string,
     fechaFin: string,
+    estadoPago: boolean,
 }

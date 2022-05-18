@@ -81,6 +81,7 @@ export class HeaderComponent implements OnInit {
     this.firestore.getDoc<Usuario>(path,id).subscribe( res => {
       if(res) {
         this.rol = res.perfil;
+        console.log(res.perfil);
       }
     })
   }

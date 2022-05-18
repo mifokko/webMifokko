@@ -14,4 +14,6 @@ export interface Independiente {
     domicilio: string,
     servicios: string,
     estado: boolean,
+    numFotos: string,
+    portafolio: string,
 }

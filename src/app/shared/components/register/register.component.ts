@@ -6,6 +6,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
+import { Ciudades } from '../../model/ciudades.model';
 
 @Component({
   selector: 'app-register',
@@ -26,12 +27,31 @@ export class RegisterComponent implements OnInit {
     uid: '',
     perfil: 'empresa',
     referencia: '',
-    plan: 'mensual',
+    plan: 'mensualE',
     fechaInicio: '',
     fechaFin: '',
+    estadoPago: false
   }
 
-  constructor( public modal: NgbActiveModal, private fb: FormBuilder, private dataSvc: DataService, private afs: AuthService, private data: DataServices) { }
+  ciudades: Ciudades[] = [];
+  municipios: string[] = [];
+  departamento!: string;
+
+  constructor( public modal: NgbActiveModal, private fb: FormBuilder, private dataSvc: DataService, private afs: AuthService, private data: DataServices) { 
+    data.getCollection<Ciudades>('Cities').subscribe(res => {
+      //console.log(res);
+      this.ciudades = res;
+      for (let index = 0; index < res.length; index++) {
+        if (res[index].departamento == 'Valle del Cauca'){
+          this.municipios[index] = res[index].municipio;
+        }
+      }
+      this.departamento = res[0].departamento;
+      this.municipios = this.municipios.sort();
+      console.log(this.municipios);
+    })
+    //console.log(this.municipios);
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -74,11 +94,11 @@ export class RegisterComponent implements OnInit {
       this.usuario.uid = id;
       this.usuario.password = '';
       this.usuario.referencia = this.referenciaPago();
-      if (this.usuario.plan == 'mensual') {
+      if (this.usuario.plan == 'mensualE') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
         this.usuario.fechaFin = (this.fecha.getDate() + '/' + (this.fecha.getMonth() + 2) + '/' + this.fecha.getFullYear());
         console.log(this.usuario.fechaInicio, '-', this.usuario.fechaFin);
-      } else if (this.usuario.plan == 'anual') {
+      } else if (this.usuario.plan == 'anualE') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
         this.fecha.setDate(this.fecha.getFullYear() + 1);
         this.usuario.fechaFin = this.fecha.toLocaleDateString();
@@ -112,10 +132,10 @@ export class RegisterComponent implements OnInit {
       contraseña: ['', [Validators.required, Validators.minLength(8)]],
       actividadPrincipal: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
       descripcion: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
-      horaMInicio: [''],
-      horaMFin: [''],
-      horaTInicio: [''],
-      horaTFin: [''],
+      horaMañanaInicio: [''],
+      horaMañanaFin: [''],
+      horaTardeInicio: [''],
+      horaTardeFin: [''],
       domicilio: [''],
       servicios: ['', [Validators.required]],
       informacionAdicional: [''],

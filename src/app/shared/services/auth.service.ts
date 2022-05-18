@@ -25,7 +25,7 @@ export class AuthService {
     return this.afauth.signInWithEmailAndPassword(correo,contrasena);
   }
 
-  async loginGoogle(correo: string, contrasena: string){
+  async loginGoogle(){
     try {
       return await this.afauth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     } catch (e) {
@@ -34,12 +34,12 @@ export class AuthService {
     }
   }
 
-  async loginFacebook(correo: string, contrasena: string){
-    return null;
+  async loginFacebook(){
     try {
       return await this.afauth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
     } catch (e) {
       console.log("Error en login: ", e);
+      return null;
     }
   }
 

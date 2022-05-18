@@ -45,8 +45,8 @@
             <label class="center">ELIGE TU CIUDAD</label>
             <div class="input-group rounded">
               <select id="inputState" class="form-control rounded-pill">
-                <option>Choose...</option>
-                <option>...</option>
+                <option>Seleccionar...</option>
+                <option *ngFor="let mun of municipios">{{mun}}</option>
               </select>
             </div>
           </div>
@@ -54,6 +54,11 @@
           <!--Boton de buscador-->
           <div class="center mb-2">
             <button type="button" class="btn btn-primary btn-block rounded-pill col-xs-6 col-sm-6 col-md-2" (click)="Capturar(seleccion)">Buscar</button>
+          </div>
+
+          <!--Boton de Actualizar subscripción-->
+          <div class="center mb-2" *ngIf="subscripcion === false">
+            <button type="button" class="btn btn-primary btn-block rounded-pill col-xs-6 col-sm-6 col-md-2" (click)="actualizarSubs()">Actualizar Subscripcion</button>
           </div>
         </div>
       </form>

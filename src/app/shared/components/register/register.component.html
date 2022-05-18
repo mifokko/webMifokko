@@ -26,22 +26,20 @@
                     </div>
                     <div class="row g-3 p-1">
                       <div class="form-group col-md-6">
-                        <label for="inputState">Departamento</label>
-                        <select id="inputState" class="form-control" formControlName="departamento" [class]="isValidField('departamento')">
+                        <label for="">Departamento</label>
+                        <select id="inputState1" class="form-control" formControlName="departamento" [class]="isValidField('departamento')">
                           <option selected>Seleccione...</option>
-                          <option>Caldas</option>
-                          <option>Valle del Cauca</option>
+                          <option *ngIf="departamento">{{departamento}}</option>
                         </select>
                         <div class="invalid-feedback" *ngIf="empresaForm.get('departamento')?.hasError('required')">
                           Seleccione un departamento.
                         </div>
                       </div>
                       <div class="form-group col-md-6">
-                        <label for="inputState">Ciudad</label>
-                        <select id="inputState" class="form-control" formControlName="ciudad" [class]="isValidField('ciudad')">
+                        <label for="">Ciudad</label>
+                        <select id="inputState2" class="form-control" formControlName="ciudad" [class]="isValidField('ciudad')">
                           <option selected>Seleccione...</option>
-                          <option>Andalucia</option>
-                          <option>Tuluá</option>
+                          <option *ngFor="let mun of municipios">{{mun}}</option>
                         </select>
                         <div class="invalid-feedback" *ngIf="empresaForm.get('ciudad')?.hasError('required')">
                           Seleccione una ciudad.
@@ -106,7 +104,7 @@
                       </div>
                       <div class="row g-3 p-1">
                         <div class="form-group col-md-2">
-                          <label for="inputState" class="col-sm-2 col-form-label">Horario:</label>
+                          <label for="" class="col-sm-2 col-form-label">Horario:</label>
                         </div>
                           <div class="form-group col-md-4">
                               <input type="time" class="form-control" name="inicio" min="00:00" max="11:59" value="08:00" formControlName="horaMañanaInicio" [class]="notRequiredHasValue('horaMañanaInicio')">
@@ -119,10 +117,10 @@
                       </div>
                       <div class="row g-3 p-1">
                         <div class="form-group col-md-2">
-                          <label for="inputState" class="col-sm-2 col-form-label">Domicilio:</label>
+                          <label for="" class="col-sm-2 col-form-label">Domicilio:</label>
                         </div>
                         <div class="form-group col-md-6">
-                          <select id="inputState" class="form-control" formControlName="domicilio" [class]="isValidField('domicilio')">
+                          <select id="inputState3" class="form-control" formControlName="domicilio" [class]="isValidField('domicilio')">
                             <option selected>Seleccione...</option>
                             <option>Si</option>
                             <option>No</option>
@@ -141,9 +139,9 @@
                       <div class="form-group p-1">
                         <textarea rows="3" class="form-control" placeholder="Informacion adicional" formControlName="informacionAdicional" [class]="notRequiredHasValue('informacionAdicional')"></textarea>
                       </div>
-                      <label class="p-1" for="inputState">Referencias Comerciales</label>
+                      <label class="p-1" for="">Referencias Comerciales</label>
                       <div class="row g-2 p-1">
-                        <label for="inputState">Referencia 1:</label>
+                        <label for="">Referencia 1:</label>
                         <div class="form-group col-md-6">
                           <input type="text" class="form-control" placeholder="Nombre" formControlName="nombreReferencia1" [class]="isValidField('nombreReferencia1')">
                           <div class="invalid-feedback" *ngIf="empresaForm.get('nombreReferencia1')?.hasError('required')">
@@ -167,7 +165,7 @@
                         </div>
                       </div>
                       <div class="row g-2 p-1">
-                        <label for="inputState">Referencia 2:</label>
+                        <label for="">Referencia 2:</label>
                         <div class="form-group col-md-6">
                           <input type="text" class="form-control" placeholder="Nombre" formControlName="nombreReferencia2" [class]="isValidField('nombreReferencia2')">
                           <div class="invalid-feedback" *ngIf="empresaForm.get('nombreReferencia2')?.hasError('required')">

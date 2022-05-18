@@ -35,8 +35,7 @@
                         <label for="inputStatedep">Departamento</label>
                         <select id="inputStatedep" class="form-control" formControlName="departamento" [class]="isValidField('departamento')">
                           <option selected>Seleccione...</option>
-                          <option>Caldas</option>
-                          <option>Valle del Cauca</option>
+                          <option *ngIf="departamento">{{departamento}}</option>
                         </select>
                         <div class="invalid-feedback" *ngIf="independienteForm.get('departamento')?.hasError('required')">
                           Seleccione un departamento.
@@ -46,8 +45,7 @@
                         <label for="inputStateciu">Ciudad</label>
                         <select id="inputStatecui" class="form-control" formControlName="ciudad" [class]="isValidField('ciudad')">
                           <option selected>Seleccione...</option>
-                          <option>Andalucia</option>
-                          <option>Tuluá</option>
+                          <option *ngFor="let mun of municipios">{{mun}}</option>
                         </select>
                         <div class="invalid-feedback" *ngIf="independienteForm.get('ciudad')?.hasError('required')">
                           Seleccione una ciudad.

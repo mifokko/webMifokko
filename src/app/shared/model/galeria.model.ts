@@ -6,5 +6,5 @@ export interface Galeria {
 }
 
 export interface Image {
-    NumFotos: number | undefined
+    NumFotos: string,
 }

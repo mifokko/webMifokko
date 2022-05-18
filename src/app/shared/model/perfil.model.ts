@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 
 export interface Perfil{
-    FotoPerfil:  Observable<string> | undefined,
-    FotoPortada:  Observable<string> | undefined,    
+    fotoPerfil:  Observable<string> | undefined,
+    fotoPortada:  Observable<string> | undefined,    
 }

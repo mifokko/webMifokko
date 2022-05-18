@@ -9,13 +9,17 @@ import { RegisterComponent } from '../register/register.component';
 })
 export class PlanEmpresaComponent implements OnInit {
 
+  plan!: string;
+
   constructor(public modalService: NgbModal, public modal: NgbActiveModal) { }
 
   ngOnInit(): void {
     console.log('Plan empresa');
   }
 
-  openRegisterEmpresa(){
+  openRegisterEmpresa(e: any){
+    this.plan = e;
+    console.log(this.plan);
     this.modalService.open(RegisterComponent);
   }
 

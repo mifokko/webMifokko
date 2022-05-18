@@ -28,7 +28,10 @@ export class RegisterUsuarioGeneralComponent implements OnInit {
     plan: 'general',
     fechaInicio: '',
     fechaFin: '',
+    estadoPago: false
   }
+
+  
 
   constructor(private fb: FormBuilder, private dataSvc: DataService2, config: NgbDatepickerConfig, public modal: NgbActiveModal,
     private afs: AuthService, private data: DataServices) { 

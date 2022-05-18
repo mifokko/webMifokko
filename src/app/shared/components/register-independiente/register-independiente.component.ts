@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { Ciudades } from '../../model/ciudades.model';
 import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
@@ -28,12 +29,30 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
     uid: '',
     perfil: 'independiente',
     referencia: '',
-    plan: 'mensual',
+    plan: 'mensualI',
     fechaInicio: '',
     fechaFin: '',
+    estadoPago: false
   }
 
-  constructor(private fb: FormBuilder, private dataSvc: DataService1, public modal: NgbActiveModal, private data: DataServices, private afs: AuthService) { }
+  ciudades: Ciudades[] = [];
+  municipios: string[] = [];
+  departamento!: string;
+
+  constructor(private fb: FormBuilder, private dataSvc: DataService1, public modal: NgbActiveModal, private data: DataServices, private afs: AuthService) { 
+    data.getCollection<Ciudades>('Cities').subscribe(res => {
+      //console.log(res);
+      this.ciudades = res;
+      for (let index = 0; index < res.length; index++) {
+        if (res[index].departamento == 'Valle del Cauca'){
+          this.municipios[index] = res[index].municipio;
+        }
+      }
+      this.departamento = res[0].departamento;
+      this.municipios = this.municipios.sort();
+      console.log(this.municipios);
+    })
+  }
 
   ngOnChanges(): void {
   }
@@ -79,11 +98,11 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
       this.usuario.uid = id;
       this.usuario.password = '';
       this.usuario.referencia = this.referenciaPago();
-      if (this.usuario.plan == 'mensual') {
+      if (this.usuario.plan == 'mensualI') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
         this.usuario.fechaFin = (this.fecha.getDate() + '/' + (this.fecha.getMonth() + 2) + '/' + this.fecha.getFullYear());
         console.log(this.usuario.fechaInicio, '-', this.usuario.fechaFin);
-      } else if (this.usuario.plan == 'anual') {
+      } else if (this.usuario.plan == 'anualI') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
         this.fecha.setDate(this.fecha.getFullYear() + 1);
         this.usuario.fechaFin = this.fecha.toLocaleDateString();
