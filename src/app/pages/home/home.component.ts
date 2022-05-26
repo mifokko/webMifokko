@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlanEmpresaComponent } from 'src/app/shared/components/plan-empresa/plan-empresa.component';
 import { PlanIndependienteComponent } from 'src/app/shared/components/plan-independiente/plan-independiente.component';
@@ -29,8 +30,15 @@ export class HomeComponent implements OnInit {
   fechaFin: string[] = []
   usuarios!: Usuario;
   alerta: boolean = false;
+  palabra = '';
 
-  constructor(private modalService: NgbModal, private authService: AuthService, private firestore: DataServices,) {
+  //Ver perfil independiente
+  verPaginaBuscar(seleccion: string, palabra: string){
+    this.router.navigate(['/buscar', seleccion, palabra]);
+    console.log(seleccion + '/ ' + palabra);
+  }
+
+  constructor(private modalService: NgbModal, private authService: AuthService, private firestore: DataServices, private router: Router) {
     this.authService.stateUser().subscribe(res => {
       if (res) {
         console.log('Esta logeado');
@@ -42,23 +50,26 @@ export class HomeComponent implements OnInit {
         this.login = false;
       }
     });
+
+    //filtrar ciudades, para mostrar solo las ciudades en las cuales hay empresas o independientes registrados
     firestore.getCollection<Empresa>('Empresas').subscribe(res => {
       for (let index = 0; index < res.length; index++) {
         this.ciudades[index] = res[index].ciudad;
       }
-      firestore.getCollection<Independiente>('Independiente').subscribe(value => {
-        for (let index = 0; index < value.length; index++) {
-          this.ciudades[this.ciudades.length++] = value[index].ciudad;
-        }
+    });
+    firestore.getCollection<Independiente>('Independiente').subscribe(value => {
+      for (let index = 0; index < value.length; index++) {
+        this.ciudades[this.ciudades.length++] = (value[index].ciudad);
+      }
+      console.log(this.ciudades.length);
+
+      this.municipios = this.ciudades.filter((valor, indice) => {
+        return this.ciudades.indexOf(valor) === indice;
       });
-      console.log(this.ciudades);
-      this.municipios = this.ciudades.filter((item, index) => {
-        return this.ciudades.indexOf(item) === index;
-      })
 
       console.log(this.municipios);
-    })
-
+    });
+    
   }
 
   ngOnInit(): void {

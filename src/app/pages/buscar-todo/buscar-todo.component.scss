@@ -7,3 +7,100 @@
     display: flex;
     justify-content: end;
 }
+
+
+//------------------------------------------------------------------------------------------
+// Perfil imagen Empresa
+//------------------------------------------------------------------------------------------
+
+.img1{
+    margin-top: -25px;
+    width:150px;
+    height:125px;
+    background-size: 100% 100%;
+    background-repeat:no-repeat;
+    background-size: cover;
+    }
+  .img1 img{
+    width: 100%;
+    border: 3px solid dodgerblue;
+  }
+  @media all and (min-width: 300px) and (max-width: 1000px)
+  {  
+  .img1{
+    width:125px;
+    height:100px;
+    background-size: 100% 100%;
+    background-repeat:no-repeat;
+    background-size: cover;
+    
+    }
+  }
+  .img1 img{
+     width:100%;
+     border: 3px solid dodgerblue;
+  }
+
+//------------------------------------------------------------------------------------------
+// Perfil imagen Independiente
+//------------------------------------------------------------------------------------------
+
+.img2{
+    margin-top: -25px;
+    width:150px;
+    height:125px;
+    background-size: 100% 100%;
+    background-repeat:no-repeat;
+    background-size: cover;
+    }
+  .img2 img{
+    width: 100%;
+    border: 3px solid goldenrod;
+  }
+  @media all and (min-width: 300px) and (max-width: 1000px)
+  {  
+  .img2{
+    width:125px;
+    height:100px;
+    background-size: 100% 100%;
+    background-repeat:no-repeat;
+    background-size: cover;
+    
+    }
+  }
+  .img2 img{
+     width:100%;
+     border: 3px solid goldenrod;
+  }
+
+//------------------------------------------------------------------------------------------
+// Perfil imagen Oferta
+//------------------------------------------------------------------------------------------
+
+.img3{
+    margin-top: -25px;
+    width:150px;
+    height:125px;
+    background-size: 100% 100%;
+    background-repeat:no-repeat;
+    background-size: cover;
+    }
+  .img3 img{
+    width: 100%;
+    border: 3px solid firebrick;
+  }
+  @media all and (min-width: 300px) and (max-width: 1000px)
+  {  
+  .img3{
+    width:125px;
+    height:100px;
+    background-size: 100% 100%;
+    background-repeat:no-repeat;
+    background-size: cover;
+    
+    }
+  }
+  .img3 img{
+     width:100%;
+     border: 3px solid firebrick;
+  }

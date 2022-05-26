@@ -13,7 +13,7 @@
                 <option [value]="item" *ngFor="let item of lista">{{item}}</option>
             </select>
         </div>
-        <button class="btn btn-secondary rounded-pill col-md-1 m-1" (click)="getOfertas()"> Buscar </button>
+        <button class="btn btn-secondary rounded-pill col-md-2 m-1" (click)="getOfertas()"> Buscar </button>
     </div>
     <table class="table">
         <thead>
@@ -22,6 +22,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">Estado</th>
             <th scope="col">Estadistica</th>
+            <th scope="col">Perfil</th>
         </tr>
         </thead>
         <tbody>
@@ -30,6 +31,7 @@
             <td>{{ofert.nombreOferta}}</td>
             <td>{{ofert.estado}}</td>
             <td class="btn-link">Ver</td>
+            <td class="btn-link" (click)="verPagina(ofert.id)">Ver</td>
         </tr>
         </tbody>
     </table>

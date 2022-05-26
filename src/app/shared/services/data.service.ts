@@ -33,6 +33,11 @@ export class DataServices {
     return collection.doc(id).collection<tipo>(subpath).doc(id).valueChanges();
   }
 
+  getDocColDoc2<tipo>(path: string, uid: string, subpath: string, id: string) {
+    const collection = this.afs.collection(path);
+    return collection.doc(uid).collection<tipo>(subpath).doc(id).valueChanges();
+  }
+
   getDocCol<tipo>(path: string, id: string, subpath: string) {
     const collection = this.afs.collection(path);
     return collection.doc(id).collection<tipo>(subpath).valueChanges();
@@ -58,6 +63,12 @@ export class DataServices {
 
   updateCamposDocCollDoc(data: any, path: string, id: string, subpath:string, campo: string){
     this.afs.doc(path + '/' + id + '/' + subpath + '/' + id).update({
+      [(campo)] : data
+    })
+  }
+
+  updateCamposDocCollDoc2(data: any, path: string, uid: string, subpath:string, id: string, campo: string){
+    this.afs.doc(path + '/' + uid + '/' + subpath + '/' + id).update({
       [(campo)] : data
     })
   }

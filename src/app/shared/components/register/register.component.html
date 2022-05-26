@@ -20,16 +20,16 @@
                             Por favor ingrese el NIT.
                           </div>
                           <div class="invalid-feedback" *ngIf="empresaForm.get('nit')?.hasError('pattern')">
-                            NIT invalido, debe tener la siguiente estructura XXXXXXXXX-Y.
+                            NIT invalido, debe tener la siguiente estructura XXXXXXXXXY.
                           </div>
                       </div>
                     </div>
                     <div class="row g-3 p-1">
                       <div class="form-group col-md-6">
                         <label for="">Departamento</label>
-                        <select id="inputState1" class="form-control" formControlName="departamento" [class]="isValidField('departamento')">
-                          <option selected>Seleccione...</option>
-                          <option *ngIf="departamento">{{departamento}}</option>
+                        <select id="departamento" class="form-control" formControlName="departamento" [class]="isValidField('departamento')" [(ngModel)]="seleccion" (change)="uploadMunicipios()">
+                          <option selected value="0">Seleccione...</option>
+                          <option *ngFor="let dep of departamento">{{dep}}</option>
                         </select>
                         <div class="invalid-feedback" *ngIf="empresaForm.get('departamento')?.hasError('required')">
                           Seleccione un departamento.
@@ -76,7 +76,7 @@
                         </div>
                       </div>
                       <div class="form-group p-1">
-                        <input type="password" class="form-control" placeholder="Contraseña" formControlName="contraseña" [class]="isValidField('contraseña')" [(ngModel)]="usuario.password">
+                        <input type="password" class="form-control" placeholder="Crear Contraseña - 9 Caracteres" formControlName="contraseña" [class]="isValidField('contraseña')" [(ngModel)]="usuario.password">
                         <div class="invalid-feedback" *ngIf="empresaForm.get('contraseña')?.hasError('required')">
                           Por favor ingrese contraseña.
                         </div>

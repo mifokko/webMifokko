@@ -19,14 +19,26 @@ export class HeaderComponent implements OnInit {
   fecha = new Date();
   login: boolean = false;
   rol: 'empresa' | 'independiente' | 'general' | undefined;
-  
+  id = '';
+
+  //Ver perfil empresa
+  verPaginaE(id: string){
+    this.router.navigate(['/perfil', id])
+  }
+
+  //Ver perfil independiente
+  verPaginaI(id: string){
+    this.router.navigate(['/perfilIndependiente', id])
+  }
+
   constructor(private modalService: NgbModal, private authService: AuthService, private firestore: DataServices, private router: Router) { 
     this.authService.stateUser().subscribe( res => {
       if(res) {
         console.log('Esta logeado');
         this.login = true;
+        this.id = res.uid;
         this.getDatosUser(res.uid);
-        console.log(res.uid);
+        //console.log(res.uid);
       }else {
         console.log('No esta logeado');
         this.login = false;

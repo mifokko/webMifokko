@@ -1,30 +1,27 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { NgForm } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { CounterPosition, Gallery, GalleryItem, ImageItem, ThumbnailsPosition, ThumbnailsView } from 'ng-gallery';
+import { ActivatedRoute } from '@angular/router';
+import { Gallery, GalleryItem, ImageItem, ThumbnailsPosition, ThumbnailsView } from 'ng-gallery';
 import { Lightbox } from 'ng-gallery/lightbox';
+import { finalize, Observable } from 'rxjs';
 import Swal from 'sweetalert2';
+import { Comentario } from '../../model/comentario.model';
 import { Empresa } from '../../model/empresa.model';
 import { Independiente } from '../../model/independiente.model';
+import { Perfil } from '../../model/perfil.model';
 import { Redes } from '../../model/redes.model';
 import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { finalize, Observable, takeLast } from 'rxjs';
-import { Perfil } from '../../model/perfil.model';
-import { Image } from '../../model/galeria.model';
-import $ from 'jquery';
-import { ActivatedRoute } from '@angular/router';
-import { NgForm } from '@angular/forms';
-import { Comentario } from '../../model/comentario.model';
-
 
 @Component({
-  selector: 'app-perfil',
-  templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.scss'],
+  selector: 'app-perfil-independiente',
+  templateUrl: './perfil-independiente.component.html',
+  styleUrls: ['./perfil-independiente.component.scss']
 })
-export class PerfilComponent implements OnInit {
+export class PerfilIndependienteComponent implements OnInit {
 
   @ViewChild('imageUser') inputImageUser: ElementRef | undefined;
   @ViewChild('imagePortada') inputImagePortada: ElementRef | undefined;
@@ -46,14 +43,8 @@ export class PerfilComponent implements OnInit {
     facebook: ''
   }
 
-  comentarios = {
-    nombre: '',
-    comentario: ''
-  }
-  coment = 0;
-
   campo!: string;
-
+  telefono!: boolean;
   //imagen!: string;
   expresionRegular = /\s*;\s*/;
   imagen: string[] = [];
@@ -104,27 +95,33 @@ export class PerfilComponent implements OnInit {
   plan = '';
   numFotos!: number;
 
-  telefono!: boolean;
   chat: Comentario[] = [];
+
+  comentarios = {
+    nombre: '',
+    comentario: ''
+  }
+  coment = 0;
 
   login!: boolean;
 
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
-    activatedRoute.params.subscribe( prm => {
+    activatedRoute.params.subscribe(prm => {
       console.log(`El id es: ${prm['id']}`);
-      this.id = JSON.stringify(prm['id']).toString();
-      this.id = this.id.substring(1, this.id.length-1);
+      this.id = JSON.stringify(prm['id']);
+      this.id = this.id.substring(1, this.id.length - 1);
       console.log(this.id);
       this.getDatosUser(this.id);
     });
 
-    this.authService.stateUser().subscribe( res => {
-      if(res) {
+
+    this.authService.stateUser().subscribe(res => {
+      if (res) {
         console.log('Esta logeado');
         this.login = true;
         this.rol = 'empresa';
         //console.log(res.uid);
-      }else {
+      } else {
         console.log('No esta logeado');
         this.login = false;
         this.rol = 'general';
@@ -168,8 +165,7 @@ export class PerfilComponent implements OnInit {
   }
   //Guardar referencia de foto de perfil en BD 
   async saveImageP() {
-    let path = 'Empresas';
-
+    let path = 'Independiente';
     this.urlImage.forEach(async value => {
       this.firestore.updateCamposDoc(value, path, this.id, 'fotoPerfil');
     });
@@ -191,8 +187,7 @@ export class PerfilComponent implements OnInit {
 
   //Guardar referencia de foto de portada en BD 
   async saveImagePor() {
-    let path = 'Empresas';
-
+    let path = 'Independiente';
     this.urlPortada.forEach(async value => {
       this.firestore.updateCamposDoc(value, path, this.id, 'fotoPortada');
     });
@@ -208,9 +203,9 @@ export class PerfilComponent implements OnInit {
     for (let index = 0; index < e.target.files.length; index++) {
       const id = Math.random().toString(36).substring(2);
       this.file = e.target.files[this.index];
-      if (this.rol == 'empresa') {
-        this.path = 'Empresas';
-        this.filePath = `Galeria/${this.empresa?.nombre}/_${id}`;
+      if (this.rol == 'independiente') {
+        this.path = 'Independiente';
+        this.filePath = `Galeria/${this.independiente?.nombre}/_${id}`;
         console.log('paso ' + this.path);
       }
 
@@ -253,37 +248,35 @@ export class PerfilComponent implements OnInit {
 
   //Suibir archivo portafolio
   onPortafolio(e: any) {
-    let path = 'Empresas';
+    let path = 'Independiente';
 
-    if (path == 'Empresas') {
+    if (path == 'Independiente') {
       const id = Math.random().toString(36).substring(2);
       const file = e.target.files[0];
-      const filePath = `Portafolio/${this.empresa?.nombre}/${id}`;
+      const filePath = `Portafolio/${this.independiente?.nombre}/${id}`;
       const ref = this.storage.ref(filePath);
       const task = this.storage.upload(filePath, file);
       this.uploadPercentPortafolio = task.percentageChanges();
       task.snapshotChanges().pipe(finalize(() => this.urlPortafolio = ref.getDownloadURL())).subscribe();
-      task.then(() => {
-        try {
-          this.urlPortafolio.forEach(value => {
-            this.firestore.updateCamposDoc(value, path, this.id, 'portafolio');
-          })
-          Swal.fire('Archivo guardado', 'Regresa al perfil', 'success');
-        } catch (error) {
-          Swal.fire(
-            'Error',
-            'Error cargando archivo',
-            'error'
-          );
-        }
-      });
+      try {
+        this.urlPortafolio.forEach(value => {
+          this.firestore.updateCamposDoc(value, path, this.id, 'portafolio');
+        })
+        Swal.fire('Archivo guardado', 'Regresa al perfil', 'success');
+      } catch (error) {
+        Swal.fire(
+          'Error',
+          'Error cargando archivo',
+          'error'
+        );
+      }
     }
   }
 
   //Actualizar redes sociales 
   actualizarRedesS() {
     this.mostrar = false;
-    let path = 'Empresas';
+    let path = 'Independiente';
     try {
       if (this.redes.facebook != '') {
         this.firestore.updateCamposDocCollDoc(this.redes.facebook, path, this.id, 'Redes', 'facebook');
@@ -309,20 +302,20 @@ export class PerfilComponent implements OnInit {
   }
 
   //Guardar comentarios
-  saveComentarios(form: NgForm){
+  saveComentarios(form: NgForm) {
     try {
-      if(this.comentarios.nombre == ''){
+      if (this.comentarios.nombre == '') {
         this.comentarios.nombre = 'Anónimo';
       }
       console.log(this.comentarios);
-      if (this.coment == 0){
-        this.firestore.createColInDoc(this.comentarios, 'Empresas', this.id, 'Comentarios', this.coment.toString());
+      if (this.coment == 0) {
+        this.firestore.createColInDoc(this.comentarios, 'Independiente', this.id, 'Comentarios', this.coment.toString());
         this.coment = this.coment + 1;
-      }else{
-        this.firestore.getDocCol<Comentario>('Empresas', this.id, 'Comentarios').subscribe(res => {
-          this.coment =  res.length+1
+      } else {
+        this.firestore.getDocCol<Comentario>('Independiente', this.id, 'Comentarios').subscribe(res => {
+          this.coment = res.length + 1
         })
-        this.firestore.createColInDoc(this.comentarios, 'Empresas', this.id, 'Comentarios', this.coment.toString());
+        this.firestore.createColInDoc(this.comentarios, 'Independiente', this.id, 'Comentarios', this.coment.toString());
         this.coment = this.coment + 1;
       }
       form.resetForm();
@@ -334,167 +327,150 @@ export class PerfilComponent implements OnInit {
         'error'
       );
     }
-    
-    
+
+
   }
 
   //Consulta de datos de los usuarios para mostrar en el perfil 
   getDatosUser(uid: string) {
     const path = 'Usuarios';
     const id = uid;
+    console.log('paso');
     this.firestore.getDoc<Usuario>(path, id).subscribe(res => {
-        this.path = 'Empresas';
-        //Obteniendo datos de la empresa
-        this.firestore.getDoc<Empresa>('Empresas', id).subscribe(res => {
-          this.empresa = res;
+      this.path = 'Independiente';
+      console.log('paso');
+      this.firestore.getDoc<Independiente>('Independiente', id).subscribe(res => {
+        this.independiente = res;
 
-          //Listar los servicios 
-          this.servicios = this.empresa?.servicios.split(',');
-          console.log(this.servicios);
+        //Listar los servicios 
+        this.servicios = this.independiente?.servicios.split(',');
+        console.log(this.servicios);
 
-          //Carga portafolio
-          if (this.empresa?.portafolio == undefined) {
-            this.portafolio = false;
-          } else {
-            this.portafolio = true;
-            console.log(this.empresa.portafolio);
-          }
+        console.log(this.independiente?.portafolio);
+        //Carga de portafolio
+        if (this.independiente?.portafolio == undefined) {
+          this.portafolio = false;
+        } else {
+          this.portafolio = true;
+        }
 
-          if (this.empresa?.youtubeVideo == '') {
-            this.video = false;
-            console.log(this.video);
-          } else {
-            this.video = true;
-            console.log(this.video);
-          }
-        });
-
-        //Obteniendo las redes sociales de la BD
-        this.firestore.getDocColDoc<Redes>('Empresas', id, 'Redes').subscribe(res => {
+      });
+      this.firestore.getDocColDoc<Redes>('Independiente', id, 'Redes').subscribe(res => {
+        if (res == undefined) {
+          //console.log(res)
+          this.red = 'vacio';
+          this.mostrar = false;
+          //console.log(this.red);
+        } else {
+          //console.log('paso');
+          this.red = 'mostrar';
           //console.log(res);
-          if (res == undefined) {
-            //console.log(res)
-            this.red = 'vacio';
-            this.mostrar = false;
-            this.net = undefined;
-            //console.log(this.red);
-          } else {
-            //console.log('paso');
-            this.red = 'mostrar';
-            //console.log(res);
-            this.network = res;
-            if (!this.network.facebook.length || !this.network.instagram.length || !this.network.whatsapp.length || !this.network.youtube.length) {
-              this.net = 'save';
-              this.networks.facebook = this.network.facebook;
-              this.networks.youtube = this.network.youtube;
-              this.networks.instagram = this.network.instagram;
-              this.networks.whatsapp = this.network.whatsapp
-            } else {
-              this.net = undefined;
-            }
-            this.network.whatsapp = this.network.whatsapp.slice(1, this.network.whatsapp.length).replace(/\s+/g, '');
-            this.youtubeSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.youtube);
-            this.facebookSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.facebook);
-            this.instagramSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.instagram);
+          this.network = res;
+          if (!this.network.facebook.length || !this.network.instagram.length || !this.network.whatsapp.length || !this.network.youtube.length) {
+            this.net = 'save';
           }
-        });
+          this.network.whatsapp = this.network.whatsapp.slice(1, this.network.whatsapp.length).replace(/\s+/g, '');
+          this.youtubeSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.youtube);
+          this.facebookSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.facebook);
+          this.instagramSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.instagram);
+        }
+      });
 
-        //Obteniendo url de Foto de portada y perfil de la BD
-        this.firestore.getDoc<Perfil>('Empresas', id).subscribe(res => {
-          //console.log(res?.FotoPerfil);
-          if (res?.fotoPerfil == undefined && res?.fotoPortada == undefined) {
-            this.fotoP = false;
-            this.fotoPor = false;
-          } else if (res?.fotoPerfil == undefined && res?.fotoPortada != undefined) {
-            this.fotoP = false;
-            this.portadaSafe = res?.fotoPortada;
-            this.fotoPor = true;
-          } else if (res?.fotoPerfil != undefined && res?.fotoPortada == undefined) {
-            this.fotoP = true;
-            this.perfilSafe = res?.fotoPerfil;
-            this.fotoPor = false;
-          } else {
-            this.fotoP = true;
-            this.fotoPor = true;
-            this.perfilSafe = res?.fotoPerfil;
-            this.portadaSafe = res?.fotoPortada;
-            console.log(res?.fotoPerfil + ' / ' + res?.fotoPortada);
-          }
-          // res?.FotoPerfil;
-          // console.log(res?.FotoPerfil + ' / ' + res?.FotoPortada);
+      //Obteniendo url de Foto de portada y perfil de la BD
+      this.firestore.getDoc<Perfil>('Independiente', id).subscribe(res => {
+        //console.log(res?.FotoPerfil);
+        if (res?.fotoPerfil == undefined && res?.fotoPortada == undefined) {
+          this.fotoP = false;
+          this.fotoPor = false;
+        } else if (res?.fotoPerfil == undefined && res?.fotoPortada != undefined) {
+          this.fotoP = false;
+          this.portadaSafe = res?.fotoPortada;
+          this.fotoPor = true;
+        } else if (res?.fotoPerfil != undefined && res?.fotoPortada == undefined) {
+          this.fotoP = true;
+          this.perfilSafe = res?.fotoPerfil;
+          this.fotoPor = false;
+        } else {
+          this.fotoP = true;
+          this.perfilSafe = res?.fotoPerfil;
+          this.portadaSafe = res?.fotoPortada;
+          console.log(res?.fotoPerfil + ' / ' + res?.fotoPortada);
+        }
+        // res?.FotoPerfil;
+        // console.log(res?.FotoPerfil + ' / ' + res?.FotoPortada);
+      });
 
-        });
+      //obtener dirección de almacenamiento imágenes de la galeria y mostrarlas
+      this.firestore.getDocColDoc('Independiente', id, 'Galeria').subscribe(res => {
 
-        //obtener dirección de almacenamiento imágenes de la galeria y mostrarlas
-        this.firestore.getDocColDoc('Empresas', id, 'Galeria').subscribe(res => {
-
-          if (res == undefined) {
-            this.galeria = false;
-          } else {
-            this.imagenes = JSON.stringify(res).split(',');
-            for (let index = 0; index < this.imagenes.length; index++) {
-              if (galeryImages.length == 0) {
-                if (index == 0) {
-                  this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 1).toString();
-                  console.log(this.imagen[index] + 'paso1-1');
-                } else if (index == (this.imagenes.length - 1) && this.imagenes.length > 1) {
-                  this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-                  console.log(this.imagen[index] + 'paso1-2');
-                } else {
-                  this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-                  console.log(this.imagen[index] + 'paso1-3');
-                }
-              } else if (galeryImages.length == 1) {
-                if (index == 0) {
-                  this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 2).toString();
-                  console.log(this.imagen[index] + 'paso2-1');
-                } else if (index == (this.imagenes.length - 1) && this.imagenes.length > 1) {
-                  this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 3).toString();
-                  console.log(this.imagen[index] + 'paso2-2');
-                } else {
-                  this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-                  console.log(this.imagen[index] + 'paso2-3');
-                }
-              } else if (galeryImages.length > 1) {
-                if (index == 0) {
-                  this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 1).toString();
-                  console.log(this.imagen[index] + 'paso3-1');
-                } else if (index == this.imagenes.length - 1 && this.imagenes.length > 1) {
-                  this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 2).toString();
-                  console.log(this.imagen[index] + 'paso3-2');
-                } else {
-                  this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-                  console.log(this.imagen[index] + 'paso3-3');
-                }
+        if (res == undefined) {
+          this.galeria = false;
+        } else {
+          this.imagenes = JSON.stringify(res).split(',');
+          for (let index = 0; index < this.imagenes.length; index++) {
+            if (galeryImages.length == 0) {
+              if (index == 0) {
+                this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 1).toString();
+                console.log(this.imagen[index] + 'paso1-1');
+              } else if (index == (this.imagenes.length - 1) && this.imagenes.length > 1) {
+                this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
+                console.log(this.imagen[index] + 'paso1-2');
+              } else {
+                this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
+                console.log(this.imagen[index] + 'paso1-3');
               }
-
-
-              galeryImages[index] = {
-                srcUrl: this.imagen[index],
-                previewUrl: this.imagen[index]
-              };
-
+            } else if (galeryImages.length == 1) {
+              if (index == 0) {
+                this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 2).toString();
+                console.log(this.imagen[index] + 'paso2-1');
+              } else if (index == (this.imagenes.length - 1) && this.imagenes.length > 1) {
+                this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 3).toString();
+                console.log(this.imagen[index] + 'paso2-2');
+              } else {
+                this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
+                console.log(this.imagen[index] + 'paso2-3');
+              }
+            } else if (galeryImages.length > 1) {
+              if (index == 0) {
+                this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 1).toString();
+                console.log(this.imagen[index] + 'paso3-1');
+              } else if (index == this.imagenes.length - 1 && this.imagenes.length > 1) {
+                this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 2).toString();
+                console.log(this.imagen[index] + 'paso3-2');
+              } else {
+                this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
+                console.log(this.imagen[index] + 'paso3-3');
+              }
             }
-            console.log(galeryImages.length + ' - ' + this.numFotos);
-            //console.log(data);
-            if (this.index == galeryImages.length) {
-              this.firestore.updateCamposDoc(galeryImages.length, this.path, this.id, 'NumFotos');
-              this.numFotos = galeryImages.length;
-            } else if (this.index > galeryImages.length) {
-              this.firestore.updateCamposDoc(this.index, this.path, this.id, 'NumFotos');
-              this.numFotos = this.index;
-            }
-            this.imageData = galeryImages;
-            this.galeria = true;
+
+
+            galeryImages[index] = {
+              srcUrl: this.imagen[index],
+              previewUrl: this.imagen[index]
+            };
+
           }
-        });
+          console.log(galeryImages.length + ' - ' + this.numFotos);
+          //console.log(data);
+          if (this.index == galeryImages.length) {
+            this.firestore.updateCamposDoc(galeryImages.length, this.path, this.id, 'NumFotos');
+            this.numFotos = galeryImages.length;
+          } else if (this.index > galeryImages.length) {
+            this.firestore.updateCamposDoc(this.index, this.path, this.id, 'NumFotos');
+            this.numFotos = this.index;
+          }
+          this.imageData = galeryImages;
+          this.galeria = true;
+        }
+      });
 
-        //Mostrar comentarios almacenados 
-        this.firestore.getDocCol<Comentario>('Empresas', this.id, 'Comentarios').subscribe(res => {
-          this.chat = res;
-          console.log(this.chat); 
-        })
+      //Mostrar comentarios almacenados 
+      this.firestore.getDocCol<Comentario>('Independiente', this.id, 'Comentarios').subscribe(res => {
+        this.chat = res;
+        console.log(this.chat);
       })
+
+    });
   }
 
 
@@ -508,7 +484,7 @@ export class PerfilComponent implements OnInit {
     console.log(this.redes);
     if (this.redes) {
       try {
-        let path = 'Empresas';
+        let path = 'Independiente';
         const subpath = 'Redes';
         await this.firestore.createColInDoc<Redes>(this.redes, path, this.id, subpath, this.id);
         this.red = 'save';
@@ -516,6 +492,8 @@ export class PerfilComponent implements OnInit {
       } catch (e) {
         alert(e);
       }
+
+
 
     } else {
       //Notificacion de error
@@ -525,6 +503,12 @@ export class PerfilComponent implements OnInit {
         'error'
       );
     }
+  }
+
+  reset() {
+    console.log(this.inputImagenesGaleria.nativeElement.files);
+    this.inputImagenesGaleria.nativeElement.value = '';
+    console.log(this.inputImagenesGaleria.nativeElement.files)
   }
 
 }

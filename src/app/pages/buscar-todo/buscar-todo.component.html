@@ -10,47 +10,140 @@
     </div>
   </div>
   <br>
-  <div class="container center" style="margin-left: 5%; margin-right: 5%;">
-    <div class="row p-2">
-      <div class="row col-lg col-md-6 col-sm-12" *ngFor="let buscar of busqueda">
-        <div
-          class="my-2 border border-warning border-3 rounded-circle bg-white shadow-1-strong d-flex align-items-center justify-content-center"
-          style="width: 120px; height: 120px;">
-          <img src="https://mdbootstrap.com/img/Photos/new-templates/animal-shelter/logo.png" height="50" alt=""
-            loading="lazy" />
-        </div>
-        <div class="col-md-4 col-sm-4 align-items-center justify-content-center text-center mt-3">
-          <h5>{{buscar.nombre}}</h5>
-          <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.actividadPrincipal}}</b></p>
-          <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
-        </div>
-      </div>
-      <div class="row col-lg col-md-6 col-sm-12 center" *ngFor="let buscar of busqueda">
-        <div
-          class="my-1 border border-primary border-3 rounded-circle bg-white shadow-1-strong d-flex align-items-center justify-content-center"
-          style="width: 120px; height: 120px;">
-          <img src="https://mdbootstrap.com/img/Photos/new-templates/animal-shelter/logo.png" height="50" alt=""
-            loading="lazy" />
-        </div>
-        <div class="col-md-4 col-sm-4 align-items-center justify-content-center text-center mt-3">
-          <h5>{{buscar.nombre}}</h5>
-          <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.actividadPrincipal}}</b></p>
-          <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
-        </div>
-      </div>
-      <div class="row col-lg col-md-6 col-sm-12 alinear" *ngFor="let buscar of busqueda">
-        <div
-          class="my-1 border border-danger border-3 rounded-circle bg-white shadow-1-strong d-flex align-items-center justify-content-center"
-          style="width: 120px; height: 120px;">
-          <img src="https://mdbootstrap.com/img/Photos/new-templates/animal-shelter/logo.png" height="50" alt=""
-            loading="lazy" />
-        </div>
-        <div class="col-md-4 col-sm-4 align-items-center justify-content-center text-center mt-3">
-          <h5>{{buscar.nombre}}</h5>
-          <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.actividadPrincipal}}</b></p>
-          <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
+
+  <!-- Busqueda empresas -->
+<section #empresas *ngIf="seleccion === 'empresa'">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="row col-lg-4 col-md-4 col-sx p-2" *ngFor="let buscar of busquedaE">
+        <div class="row ">
+          <div class="my-2 img1">
+            <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
+              *ngIf="buscar.fotoPerfil !== undefined" (click)="verPerfilEmpresa(buscar.id)" />
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+              class="rounded-circle img1" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined" (click)="verPerfilEmpresa(buscar.id)"/>
+          </div>
+          <div class="col mt-2 align-items-center justify-content-center text-center" style="margin-left: -10px;">
+            <h5 (click)="verPerfilEmpresa(buscar.id)">{{buscar.nombre}}</h5>
+            <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.actividadPrincipal}}</b></p>
+            <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</section>
+
+<!-- Busqueda independientes -->
+<section #independiente *ngIf="seleccion === 'independiente'">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="row col-lg-4 col-md-4 col-sx p-2" *ngFor="let buscar of busquedaI">
+        <div class="row ">
+          <div class="my-2 img2">
+            <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
+              *ngIf="buscar.fotoPerfil !== undefined" (click)="verPerfilIndep(buscar.id)" />
+            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+              class="rounded-circle img2" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined" (click)="verPerfilIndep(buscar.id)"/>
+          </div>
+          <div class="col mt-2 align-items-center justify-content-center text-center" style="margin-left: -10px;">
+            <h5 (click)="verPerfilIndep(buscar.id)">{{buscar.nombre}}</h5>
+            <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.profesion}}</b></p>
+            <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Busqueda ofertas -->
+  <section #ofertas *ngIf="seleccion === 'ofertas'">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="row col-lg-4 col-md-4 col-sx p-2" *ngFor="let buscar of busquedaO">
+          <div class="row ">
+            <div class="my-2 img3">
+              <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
+                *ngIf="buscar.fotoPerfil !== undefined" (click)="verPerfilOferta(buscar.uid, buscar.id)" />
+              <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                class="rounded-circle img3" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined" (click)="verPerfilOferta(buscar.uid, buscar.id)"/>
+            </div>
+            <div class="col mt-2 align-items-center justify-content-center text-center" style="margin-left: -10px;">
+              <h5 (click)="verPerfilOferta(buscar.uid, buscar.id)">{{buscar.nombreOferta}}</h5>
+              <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.alcance}}</b></p>
+              <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Busqueda por empresa, independiente y ofertas -->
+  <section #todos *ngIf="seleccion === 'todos'">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="row col-lg-4 col-md-4 col-sx p-2">
+          <ul class="list-group list-group-flush">
+            <li class="list-group" *ngFor="let buscar of busquedaE">
+              <div class="row ">
+                <div class="my-2 img1">
+                  <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
+                    *ngIf="buscar.fotoPerfil !== undefined" (click)="verPerfilEmpresa(buscar.id)" />
+                  <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                    class="rounded-circle img1" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined" />
+                </div>
+                <div class="col mt-2 align-items-center justify-content-center text-center" style="margin-left: -10px;">
+                  <h5 (click)="verPerfilEmpresa(buscar.id)">{{buscar.nombre}}</h5>
+                  <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.actividadPrincipal}}</b></p>
+                  <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="row col-lg-4 col-md-4 col-sx p-2">
+          <ul class="list-group list-group-flush">
+            <li class="list-group" *ngFor="let buscar of busquedaI">
+              <div class="row ">
+                <div class="my-2 img2">
+                  <img [src]="buscar.fotoPerfil" class="rounded-circle img2" alt="" loading="lazy"
+                    *ngIf="buscar.fotoPerfil !== undefined" (click)="verPerfilIndep(buscar.id)" />
+                  <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                    class="rounded-circle img1" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined" />
+                </div>
+                <div class="col mt-2 align-items-center justify-content-center text-center">
+                  <h5 (click)="verPerfilIndep(buscar.id)">{{buscar.nombre}}</h5>
+                  <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.profesion}}</b></p>
+                  <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="row col-lg-4 col-md-4 col-sx p-2">
+          <ul class="list-group list-group-flush">
+            <li class="list-group" *ngFor="let buscar of busquedaO">
+              <div class="row">
+                <div class="my-2 img3">
+                  <img [src]="buscar.fotoPerfil" class="rounded-circle img3" alt="" loading="lazy"
+                    *ngIf="buscar.fotoPerfil !== undefined" (click)="verPerfilOferta(buscar.uid, buscar.id)" />
+                  <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                    class="rounded-circle img1" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined" />
+                </div>
+                <div class="col mt-2 align-items-center justify-content-center text-center">
+                  <h5 (click)="verPerfilOferta(buscar.uid, buscar.id)">{{buscar.nombreOferta}}</h5>
+                  <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.alcance}}</b></p>
+                  <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
 </section>

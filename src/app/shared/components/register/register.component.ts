@@ -7,6 +7,7 @@ import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
 import { Ciudades } from '../../model/ciudades.model';
+import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -16,9 +17,9 @@ import { Ciudades } from '../../model/ciudades.model';
 })
 export class RegisterComponent implements OnInit {
   empresaForm!: FormGroup;
-  private isNIT= "^([0-9]{0,15}[0-9]{1})?$";
-  private isCel= "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
-  private isEmail= /\S+@\S+\.\S+/;
+  private isNIT = "^([0-9]{0,15}[0-9]{1})?$";
+  private isCel = "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
+  private isEmail = /\S+@\S+\.\S+/;
   fecha = new Date;
 
   usuario: Usuario = {
@@ -35,20 +36,24 @@ export class RegisterComponent implements OnInit {
 
   ciudades: Ciudades[] = [];
   municipios: string[] = [];
-  departamento!: string;
+  departamentos: string[] = [];
+  departamento: string[] = [];
+  seleccion!: string;
 
-  constructor( public modal: NgbActiveModal, private fb: FormBuilder, private dataSvc: DataService, private afs: AuthService, private data: DataServices) { 
-    data.getCollection<Ciudades>('Cities').subscribe(res => {
+  constructor(public modal: NgbActiveModal, private fb: FormBuilder, private dataSvc: DataService, private afs: AuthService, private data: DataServices) {
+    data.getCollection<Ciudades>('Ciudades').subscribe(res => {
       //console.log(res);
       this.ciudades = res;
       for (let index = 0; index < res.length; index++) {
-        if (res[index].departamento == 'Valle del Cauca'){
-          this.municipios[index] = res[index].municipio;
-        }
+        this.departamentos[index] = res[index].departamento;
       }
-      this.departamento = res[0].departamento;
-      this.municipios = this.municipios.sort();
-      console.log(this.municipios);
+      this.departamento = this.departamentos.filter((valor, indice) => {
+        return this.departamentos.indexOf(valor) === indice;
+      });
+
+      this.departamento = this.departamento.sort();
+      //this.municipios = this.municipios.sort();
+      console.log(this.departamento);
     })
     //console.log(this.municipios);
   }
@@ -56,14 +61,29 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
   }
-  
+
+  uploadMunicipios(){
+    console.log(this.seleccion);
+    for (let index = 0; index < this.ciudades.length; index++) {
+      if (this.seleccion === this.ciudades[index].departamento) {
+        this.municipios[index] = this.ciudades[index].municipio
+      }else {
+        console.log('paso');
+      }
+    }
+
+    this.municipios = this.municipios.filter(Boolean);
+    this.municipios = this.municipios.sort();
+    console.log(this.municipios.length);
+  }
+
   async OnSave(): Promise<void> {
     if (this.empresaForm.valid) {
       try {
-        
+
         this.registrar();
         this.empresaForm.reset()
-        this.modal.close(); 
+        this.modal.close();
         //Notificación de confirmación
         Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
       } catch (e) {
@@ -83,12 +103,12 @@ export class RegisterComponent implements OnInit {
   async registrar() {
     const formValue = this.empresaForm.value;
     console.log('datos -> ', this.usuario);
-    const res = await this.afs.register(this.usuario).catch( error => {
+    const res = await this.afs.register(this.usuario).catch(error => {
       console.log('error');
     });
     if (res) {
       console.log('Exito al crear el usuario');
-      const {correo} = this.empresaForm.value;
+      const { correo } = this.empresaForm.value;
       const id = res.user!.uid;
       this.usuario.correo = correo;
       this.usuario.uid = id;
@@ -109,13 +129,13 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  isValidField (field:string): string {
+  isValidField(field: string): string {
     const validateField = this.empresaForm.get(field);
     return (!validateField?.valid && validateField?.touched)
       ? 'is-invalid' : validateField?.touched ? 'is-valid' : '';
   }
 
-  notRequiredHasValue(field: string):string {
+  notRequiredHasValue(field: string): string {
     return this.empresaForm.get(field)?.value ? 'is-valid' : '';
   }
 
@@ -157,7 +177,7 @@ export class RegisterComponent implements OnInit {
     for (let i = 0; i < 6; i++) {
       result += numeros.charAt(Math.floor(Math.random() * numeros.length));
     }
-    console.log('Referencia de pago -> ' ,result)
+    console.log('Referencia de pago -> ', result)
     return result;
   }
 }

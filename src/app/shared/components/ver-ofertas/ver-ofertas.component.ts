@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Fecha, Oferta } from '../../model/oferta.model';
 import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
@@ -24,7 +25,11 @@ export class VerOfertasComponent implements OnInit {
   mes = '';
   verSeleccion = '';
 
-  constructor(private firestore: DataServices, private authService: AuthService) {
+  verPagina(id: string){
+    this.route.navigate(['/perfilOferta', id])
+  }
+
+  constructor(private firestore: DataServices, private authService: AuthService, private route: Router) {
     const year = this.date.getFullYear();
     for(let i = 2020; i < year+1; i++){
       this.years[this.cont] = i.toString();
@@ -109,7 +114,7 @@ export class VerOfertasComponent implements OnInit {
         this.oferta.length = 0;
         this.firestore.getDocCol<Oferta>(path, this.uid, 'Ofertas').subscribe( res => {
           this.oferta = res;
-          //console.log(this.oferta.length);
+          console.log(this.oferta);
           for (let index = 0; index < this.oferta.length; index++) {
             const fecha = this.oferta[index].fechaInicio.day.toString() + '/' + this.oferta[index].fechaInicio.month.toString() + '/' + this.oferta[index].fechaInicio.year.toString();
             //console.log(fecha);
@@ -120,6 +125,7 @@ export class VerOfertasComponent implements OnInit {
                 this.oferta[index].estado = 'Activo';
               }else{
                 this.oferta[index].estado = 'Inactivo';
+                this.firestore.updateCamposDocCollDoc('Inactivo', path, this.uid, 'Ofertas', 'estado')
               }
               if(!this.ofertas.length){
                 this.ofertas[cont] = this.oferta[index];
@@ -141,6 +147,10 @@ export class VerOfertasComponent implements OnInit {
         alert('Debe seleccionar año y mes, para buscar las ofertas');
         
       }
+  }
+
+  verPerfil(id: string){
+    
   }
 
 }

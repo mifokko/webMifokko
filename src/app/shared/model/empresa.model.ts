@@ -15,5 +15,7 @@ export interface Empresa {
     id: string,
     rol: string,
     numFotos: string,
-    portafolio: string
+    portafolio: string,
+    youtubeVideo: string,
+    celular: string,
 }

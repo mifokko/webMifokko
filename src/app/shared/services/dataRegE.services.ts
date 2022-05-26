@@ -25,6 +25,7 @@ export interface Empresa {
     celularReferencia2: string;
     ocupacionReferencia2: string;
     codigoAsesor?: string;
+    youtubeVideo?: string;
 }
 
 @Injectable()

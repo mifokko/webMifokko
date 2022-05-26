@@ -1,6 +1,8 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { finalize, Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Ciudades } from '../../model/ciudades.model';
 import { Usuario } from '../../model/user.model';
@@ -17,11 +19,15 @@ import { DataService1 } from '../../services/dataRegIndependiente.services';
 export class RegisterIndependienteComponent implements OnInit, OnChanges {
   independienteForm!: FormGroup;
   private isCel= "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
-  private isDoc= "\[0-9]{10}";
+  private isDoc= "\[0-9]{8,10}";
   private isEmail= /\S+@\S+\.\S+/;
   fecha = new Date();
 
   @Input() valorPagoP!: number;
+
+  @ViewChild('imageFotoDoc') inputImageFotoDoc: ElementRef | undefined;
+  urlFotoDoc!: Observable<string>;
+  uploadPercent!: Observable<number | undefined>;
 
   usuario: Usuario = {
     correo: '',
@@ -34,24 +40,27 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
     fechaFin: '',
     estadoPago: false
   }
+  seleccion = '';
 
   ciudades: Ciudades[] = [];
   municipios: string[] = [];
-  departamento!: string;
+  departamentos: string[] = [];
+  departamento: string[] = [];
 
-  constructor(private fb: FormBuilder, private dataSvc: DataService1, public modal: NgbActiveModal, private data: DataServices, private afs: AuthService) { 
-    data.getCollection<Ciudades>('Cities').subscribe(res => {
+  constructor(private fb: FormBuilder, private dataSvc: DataService1, public modal: NgbActiveModal, private data: DataServices,private storage: AngularFireStorage, private afs: AuthService) { 
+    data.getCollection<Ciudades>('Ciudades').subscribe(res => {
       //console.log(res);
       this.ciudades = res;
       for (let index = 0; index < res.length; index++) {
-        if (res[index].departamento == 'Valle del Cauca'){
-          this.municipios[index] = res[index].municipio;
-        }
+        this.departamentos[index] = res[index].departamento;
       }
-      this.departamento = res[0].departamento;
-      this.municipios = this.municipios.sort();
-      console.log(this.municipios);
+      this.departamento = this.departamentos.filter((valor, indice) => {
+        return this.departamentos.indexOf(valor) === indice;
+      });
+
+      this.departamento = this.departamento.sort();
     })
+    console.log(this.departamento);
   }
 
   ngOnChanges(): void {
@@ -59,6 +68,32 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.initForm();
+  }
+
+  uploadMunicipios(){
+    this.municipios = [];
+    console.log(this.seleccion);
+    for (let index = 0; index < this.ciudades.length; index++) {
+      if (this.seleccion === this.ciudades[index].departamento) {
+        this.municipios[index] = this.ciudades[index].municipio
+      }else {
+        console.log('paso');
+      }
+    }
+
+    this.municipios = this.municipios.filter(Boolean);
+    this.municipios = this.municipios.sort();
+    console.log(this.municipios.length);
+  }
+
+  onUpload(e: any){
+    const id = Math.random().toString(36).substring(2);
+    const file = e.target.files[0];
+    const filePath = `Documentos/${id}`;
+    const ref = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, file);
+    this.uploadPercent = task.percentageChanges();
+    task.snapshotChanges().pipe(finalize(() => this.urlFotoDoc = ref.getDownloadURL())).subscribe();
   }
 
   async OnSave(): Promise<void> {
@@ -110,6 +145,9 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
       }
       await this.data.createDoc(this.usuario, 'Usuarios', id);
       await this.dataSvc.onSaveIndependiente(formValue, this.usuario, id);
+      this.urlFotoDoc.forEach(async value => {
+        this.data.updateCamposDoc(value, 'Independiente', id, 'fotoDoc');
+      });
     }
   }
 
@@ -127,10 +165,12 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
     this.independienteForm = this.fb.group({
       nombre: ['', [Validators.required]],
       documento: ['', [Validators.required, Validators.pattern(this.isDoc)]],
+      tipoDocumento: ['', [Validators.required]],
+      fotoDoc: ['', [Validators.required]],
       profesion: ['', [Validators.required]],
       departamento: ['', [Validators.required]],
       ciudad: ['', [Validators.required]],
-      direccion: ['', [Validators.required]],
+      direccion: [''],
       telefono: [''],
       celular: ['', [Validators.required, Validators.pattern(this.isCel)]],
       correo: ['', [Validators.required, Validators.pattern(this.isEmail)]],

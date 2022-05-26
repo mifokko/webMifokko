@@ -63,6 +63,7 @@ export class SubirOfertaComponent implements OnInit {
         }
 
         await this.data.createColInDoc(formValue, path, this.uid, subpath, id);
+        await this.data.updateCamposDocCollDoc2(id, path, this.uid, subpath, id, 'id');
         Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
         this.ofertaForm.reset()
 
@@ -80,7 +81,7 @@ export class SubirOfertaComponent implements OnInit {
     }
   }
 
-  //Almacenar images en storage
+  //Almacenar imagenes en storage
   async onUpload(e: any) {
     let path = '';
     if (this.rol == 'empresa') {
@@ -93,7 +94,7 @@ export class SubirOfertaComponent implements OnInit {
     for (let index = 0; index < e.target.files.length; index++) {
       const id = Math.random().toString(36).substring(2);
       const file = e.target.files[index];
-      const filePath = `uploads/${id}`;
+      const filePath = `Ofertas/${id}`;
       const ref = this.storage.ref(filePath);
       const task = this.storage.upload(filePath, file);
       this.uploadPercent = task.percentageChanges();

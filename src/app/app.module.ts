@@ -36,6 +36,10 @@ import { GalleryModule } from 'ng-gallery';
 import { LightboxModule } from 'ng-gallery/lightbox';
 import { SubirOfertaModule } from './shared/components/subir-oferta/subir-oferta.module';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { YouTubePlayerModule } from '@angular/youtube-player';
+import { PerfilOfertaComponent } from './shared/components/perfil-oferta/perfil-oferta.component';
+import { PerfilIndependienteComponent } from './shared/components/perfil-independiente/perfil-independiente.component';
+
 
 @NgModule({
   declarations: [
@@ -51,7 +55,9 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     PerfilComponent,
     BeneficiosComponent,
     VerOfertasComponent,
-    FooterComponent
+    FooterComponent,
+    PerfilOfertaComponent,
+    PerfilIndependienteComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +80,8 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     provideFunctions(() => getFunctions()),
     provideStorage(() => getStorage()),
     SubirOfertaModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    YouTubePlayerModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]

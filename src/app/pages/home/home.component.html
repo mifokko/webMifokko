@@ -5,7 +5,7 @@
         <div class="form-group row col-xs-9 col-sm-9 col-md-9 mt-5">
           <h2 class="text-center">QUE BUSCAS?</h2>
           <div class="input-group rounded">
-              <input type="search" class="form-control form-control-lg rounded-pill icon_placeholder" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+              <input type="search" class="form-control form-control-lg rounded-pill icon_placeholder" placeholder="Search" aria-label="Search" aria-describedby="search-addon" [(ngModel)]="palabra" name="palabra"/>
           </div>
         </div>
 
@@ -53,7 +53,7 @@
 
           <!--Boton de buscador-->
           <div class="center mb-2">
-            <button type="button" class="btn btn-primary btn-block rounded-pill col-xs-6 col-sm-6 col-md-2" (click)="Capturar(seleccion)">Buscar</button>
+            <button type="button" class="btn btn-primary btn-block rounded-pill col-xs-6 col-sm-6 col-md-2" (click)="verPaginaBuscar(seleccion, palabra)">Buscar</button>
           </div>
 
           <!--Boton de Actualizar subscripción-->
