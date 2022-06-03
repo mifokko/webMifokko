@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SafeUrl } from '@angular/platform-browser';
 import { NgbActiveModal, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { finalize, Observable } from 'rxjs';
 import Swal from 'sweetalert2';
+import { Oferta } from '../../model/oferta.model';
 import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
@@ -16,15 +18,26 @@ import { DataServices } from '../../services/data.service';
 })
 export class SubirOfertaComponent implements OnInit {
 
+  @ViewChild('image') inputImage: ElementRef | undefined;
+  
   ofertaForm!: FormGroup;
   private isCel = "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
   rol: 'empresa' | 'independiente' | 'general' | undefined;
   uid = '';
 
+  //Tipo de plan
+  tipoPlan!: string;
+
   //Elementos para almacenamiento de imagenes en la BD
   uploadPercent!: Observable<number | undefined>
   urlImage!: Observable<string>
 
+  //Lista de link de imagenes
+  listaImagenes: SafeUrl[] = [];
+  contador = 0;
+
+  oferta: Oferta[] = [];
+  date: Date = new Date();
 
   constructor(public modal: NgbActiveModal, private storage: AngularFireStorage, private authService: AuthService, private data: DataServices, private firestore: DataServices, private fb: FormBuilder) {
     this.authService.stateUser().subscribe(res => {
@@ -33,9 +46,7 @@ export class SubirOfertaComponent implements OnInit {
         console.log(res.uid);
         this.uid = res.uid;
       }
-
     })
-
   }
 
   ngOnInit(): void {
@@ -64,6 +75,7 @@ export class SubirOfertaComponent implements OnInit {
 
         await this.data.createColInDoc(formValue, path, this.uid, subpath, id);
         await this.data.updateCamposDocCollDoc2(id, path, this.uid, subpath, id, 'id');
+        this.firestore.updateCamposDocCollDoc2(this.listaImagenes, path, this.uid, subpath, id,'imagenes');
         Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
         this.ofertaForm.reset()
 
@@ -91,37 +103,148 @@ export class SubirOfertaComponent implements OnInit {
     } else {
       path = '';
     }
-    for (let index = 0; index < e.target.files.length; index++) {
-      const id = Math.random().toString(36).substring(2);
-      const file = e.target.files[index];
-      const filePath = `Ofertas/${id}`;
-      const ref = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, file);
-      this.uploadPercent = task.percentageChanges();
-      task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
-
-      task.then(() => {
-        this.urlImage.forEach(value => {
-          this.firestore.updateCamposDocCollDoc(value, path, id, 'Ofertas', ('IMG' + index));
-        })
-      });
-
-      await timer(7000);
-      (await task).state;
+    switch (this.tipoPlan) {
+      case 'EMPRESARIALORO':
+        //Con este paquete se pueden subir 5 fotos para oferta
+        if (e.target.files.length <= 5) {
+          for (let index = 0; index < e.target.files.length; index++) {
+            const id = Math.random().toString(36).substring(2);
+            const file = e.target.files[index];
+            const filePath = `Ofertas/${id}_${this.uid}`;
+            const ref = this.storage.ref(filePath);
+            const task = this.storage.upload(filePath, file);
+            this.uploadPercent = task.percentageChanges();
+            task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
+            //Guardar referencia de las imágenes en un array
+            task.then(() => {
+              this.urlImage.forEach(value => {
+                this.listaImagenes[this.contador] = value;
+                this.contador++;
+                //this.firestore.updateCamposDocCollDoc(value, path, id, 'Ofertas', ('IMG' + index));
+              })
+            });
+            await timer(6000);
+            (await task).state;
+          }
+        } else {
+          alert('La cantidad de imágenes que permite su paquete es de 5');
+        }
+        break;
+      case 'EMPRESARIALPLATA':
+        //Con este paquete se pueden subir 3 fotos para oferta
+        if (e.target.files.length <= 3) {
+          for (let index = 0; index < e.target.files.length; index++) {
+            const id = Math.random().toString(36).substring(2);
+            const file = e.target.files[index];
+            const filePath = `Ofertas/${this.uid}/${id}`;
+            const ref = this.storage.ref(filePath);
+            const task = this.storage.upload(filePath, file);
+            this.uploadPercent = task.percentageChanges();
+            task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
+            //Guardar referencia de las imágenes en un array
+            task.then(() => {
+              this.urlImage.forEach(value => {
+                this.listaImagenes[this.contador] = value;
+                this.contador++;
+                //this.firestore.updateCamposDocCollDoc(value, path, id, 'Ofertas', ('IMG' + index));
+              })
+            });
+            await timer(7000);
+            (await task).state;
+          }
+        } else {
+          alert('La cantidad de imágenes que permite su paquete es de 3');
+        }
+        break;
+      case 'INDEPENDIENTEORO':
+        //Con este paquete se pueden subir 4 fotos para oferta
+        if (e.target.files.length <= 4) {
+          for (let index = 0; index < e.target.files.length; index++) {
+            const id = Math.random().toString(36).substring(2);
+            const file = e.target.files[index];
+            const filePath = `Ofertas/${this.uid}/${id}`;
+            const ref = this.storage.ref(filePath);
+            const task = this.storage.upload(filePath, file);
+            this.uploadPercent = task.percentageChanges();
+            task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
+            //Guardar referencia de las imágenes en un array
+            task.then(() => {
+              this.urlImage.forEach(value => {
+                this.listaImagenes[this.contador] = value;
+                this.contador++;
+                //this.firestore.updateCamposDocCollDoc(value, path, id, 'Ofertas', ('IMG' + index));
+              })
+            });
+            await timer(7000);
+            (await task).state;
+          }
+        } else {
+          alert('La cantidad de imágenes que permite su paquete es de 4');
+        }
+        break;
+      case 'INDEPENDIENTEPLATA':
+        //Con este paquete se pueden subir 2 fotos para oferta
+        if (e.target.files.length <= 2) {
+          for (let index = 0; index < e.target.files.length; index++) {
+            const id = Math.random().toString(36).substring(2);
+            const file = e.target.files[index];
+            const filePath = `Ofertas/${this.uid}/${id}`;
+            const ref = this.storage.ref(filePath);
+            const task = this.storage.upload(filePath, file);
+            this.uploadPercent = task.percentageChanges();
+            task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
+            //Guardar referencia de las imágenes en un array
+            task.then(() => {
+              this.urlImage.forEach(value => {
+                this.listaImagenes[this.contador] = value;
+                this.contador++;
+                //this.firestore.updateCamposDocCollDoc(value, path, id, 'Ofertas', ('IMG' + index));
+              })
+            });
+            await timer(7000);
+            (await task).state;
+          }
+        } else {
+          alert('La cantidad de imágenes que permite su paquete es de 2');
+        }
+        break;
+      default:
+        alert('No se especifico su plan');
+        break;
     }
-
+    console.log(this.listaImagenes);
   }
 
   //Obtener Perfil del usuario actual
   getDatosUser(uid: string) {
     const path = 'Usuarios';
     const id = uid;
+    //Se obtiene el rol del usuario que va subir la oferta y que tipo de paquete tiene este usuario
     this.firestore.getDoc<Usuario>(path, id).subscribe(res => {
       if (res) {
         this.rol = res.perfil;
+        this.tipoPlan = res.tipoPlan;
       }
+    });
 
-    })
+    // this.firestore.getDocCol<Oferta>(path, this.uid, 'Ofertas').subscribe(res => {
+    //   this.oferta = res;
+    //   for (let index = 0; index < this.oferta.length; index++) {
+    //     const fecha = this.oferta[index].fechaInicio.day.toString() + '/' + this.oferta[index].fechaInicio.month.toString() + '/' + this.oferta[index].fechaInicio.year.toString();
+    //     //console.log(fecha);
+    //     //console.log(this.oferta[index].fechaInicio.month.toLocaleString() + ', ' + this.mes);
+    //     if (this.oferta[index].fechaInicio.month.toLocaleString() === (this.date.getMonth() + 1).toString() && this.oferta[index].fechaInicio.year.toLocaleString() === this.date.getFullYear().toString()) {
+    //       //console.log(true);
+    //       if (this.date.getDate() >= this.oferta[index].fechaInicio.day && this.date.getDate() <= this.oferta[index].fechaFin.day) {
+    //         this.oferta[index].estado = 'Activo';
+    //         this.firestore.updateCamposDocCollDoc2('Activo', path, this.uid, 'Ofertas', this.oferta[index].id, 'estado');
+    //       } else {
+    //         this.oferta[index].estado = 'Inactivo';
+    //         this.firestore.updateCamposDocCollDoc2('Inactivo', path, this.uid, 'Ofertas', this.oferta[index].id, 'estado');
+    //       }
+    //     }
+    //   }
+    // });
   }
 
   //Validaciones
@@ -138,6 +261,7 @@ export class SubirOfertaComponent implements OnInit {
   //Estructura
   private initForm(): void {
     this.ofertaForm = this.fb.group({
+      imagenes: ['', [Validators.required]],
       nombreOferta: ['', [Validators.required]],
       descripcion: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
       precio: ['', [Validators.required]],
