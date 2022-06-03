@@ -31,6 +31,11 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/perfilIndependiente', id])
   }
 
+  //Ver perfil independiente
+  verEstadisticas(id: string){
+    this.router.navigate(['/estadisticas', id])
+  }
+
   constructor(private modalService: NgbModal, private authService: AuthService, private firestore: DataServices, private router: Router) { 
     this.authService.stateUser().subscribe( res => {
       if(res) {
@@ -95,7 +100,7 @@ export class HeaderComponent implements OnInit {
         this.rol = res.perfil;
         console.log(res.perfil);
       }
-    })
+    });
   }
 
 }

@@ -17,10 +17,12 @@ export class PlanEmpresaComponent implements OnInit {
     console.log('Plan empresa');
   }
 
-  openRegisterEmpresa(e: any){
+  openRegisterEmpresa(e: any, tipoPlan: string, numPagos: string){
     this.plan = e;
     console.log(this.plan);
-    this.modalService.open(RegisterComponent);
+    const modalRef = this.modalService.open(RegisterComponent);
+    modalRef.componentInstance.passedData = tipoPlan;
+    modalRef.componentInstance.precioPlan = e;
   }
 
 

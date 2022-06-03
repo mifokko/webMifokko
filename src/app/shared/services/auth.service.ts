@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
-import { Usuario } from '../model/user.model';
+import { Usuario, UsuarioGeneral } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,18 @@ export class AuthService {
   constructor(private afauth: AngularFireAuth) { 
     
   }
-
+  //Usuarios Empresa e Independiente
   async register(datos: Usuario){
+    try {
+      return await this.afauth.createUserWithEmailAndPassword(datos.correo, datos.password);
+    } catch (e) {
+      console.log("Error en login: ", e);
+      return null;
+    }
+  }
+
+  //Usuarios generales
+  async registerGeneral(datos: UsuarioGeneral){
     try {
       return await this.afauth.createUserWithEmailAndPassword(datos.correo, datos.password);
     } catch (e) {

@@ -16,4 +16,5 @@ export interface Independiente {
     estado: boolean,
     numFotos: string,
     portafolio: string,
+    fotoPerfilInd: string
 }

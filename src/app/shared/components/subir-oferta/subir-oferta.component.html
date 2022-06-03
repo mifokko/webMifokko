@@ -8,7 +8,17 @@
       <div class="col-lg-16">
         <form novalidate class="billing-form float-start"  (ngSubmit)="OnSave()" [formGroup]="ofertaForm">
             <div class="form-group p-1">
-              <input class="form-control" type="file" accept="image/*" id="formFileMultiple" multiple (change)="onUpload($event)">
+              <input class="form-control" type="file" accept="image/*" id="formFileMultiple" multiple (change)="onUpload($event)" formControlName="imagenes" [class]="isValidField('imagenes')">
+              <input #image type="hidden" [value]="urlImage | async" >
+              <div class="invalid-feedback" *ngIf="ofertaForm.get('imagenes')?.hasError('required')">
+                Por favor cargue las imagenes de la oferta.
+              </div>
+            </div>
+            <!-- Barra de carga de imágenes -->
+            <div class="progress mb-1 form-group p-2">
+              <div class="progress-bar progress-bar-striped" role="progressbar"
+                [style.width]="(uploadPercent | async) + '%'">
+              </div>
             </div>
             <div class="form-group p-1">
               <input type="text" class="form-control" placeholder="Nombre de oferta" formControlName="nombreOferta" [class]="isValidField('nombreOferta')">

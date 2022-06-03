@@ -22,17 +22,26 @@ export class RegisterComponent implements OnInit {
   private isEmail = /\S+@\S+\.\S+/;
   fecha = new Date;
 
+  //Datos de plan, # de pagos y precio del plan
+  passedData!: string;
+  precioPlan!: number;
+  pagos!: string;
+
   usuario: Usuario = {
     correo: '',
     password: '',
     uid: '',
     perfil: 'empresa',
     referencia: '',
-    plan: 'mensualE',
+    plan: this.pagos,
+    tipoPlan: this.passedData,
+    pago: this.precioPlan,
     fechaInicio: '',
     fechaFin: '',
     estadoPago: false
   }
+  
+  fieldTextType: boolean = false;
 
   ciudades: Ciudades[] = [];
   municipios: string[] = [];
@@ -62,6 +71,7 @@ export class RegisterComponent implements OnInit {
     this.initForm();
   }
 
+  //Función que carga los municipios en una lista, según el departamento que se ha seleccionado 
   uploadMunicipios(){
     console.log(this.seleccion);
     for (let index = 0; index < this.ciudades.length; index++) {
@@ -77,6 +87,7 @@ export class RegisterComponent implements OnInit {
     console.log(this.municipios.length);
   }
 
+  //Función que llama a la funcion de almacenamiento y es la encargada de resetear los formularios
   async OnSave(): Promise<void> {
     if (this.empresaForm.valid) {
       try {
@@ -100,45 +111,50 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  //Creacion del Usuario, y almacenamiento de la información de la empresa 
   async registrar() {
     const formValue = this.empresaForm.value;
     console.log('datos -> ', this.usuario);
+    //Creación de cuenta con el correo y contraseña
     const res = await this.afs.register(this.usuario).catch(error => {
       console.log('error');
     });
     if (res) {
       console.log('Exito al crear el usuario');
-      const { correo } = this.empresaForm.value;
       const id = res.user!.uid;
-      this.usuario.correo = correo;
       this.usuario.uid = id;
       this.usuario.password = '';
       this.usuario.referencia = this.referenciaPago();
-      if (this.usuario.plan == 'mensualE') {
+      //Generar fecha de registro de la empresa y fecha de finalizacion de la subscripción
+      if (this.usuario.plan == '3MENSUALES') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
         this.usuario.fechaFin = (this.fecha.getDate() + '/' + (this.fecha.getMonth() + 2) + '/' + this.fecha.getFullYear());
         console.log(this.usuario.fechaInicio, '-', this.usuario.fechaFin);
-      } else if (this.usuario.plan == 'anualE') {
+      } else if (this.usuario.plan == 'ANUAL') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
         this.fecha.setDate(this.fecha.getFullYear() + 1);
         this.usuario.fechaFin = this.fecha.toLocaleDateString();
         console.log(this.usuario.fechaFin);
       }
+      //Se guarda la información de Usuario de la empresa y se guarda la información de la empresa
       await this.data.createDoc(this.usuario, 'Usuarios', id);
       await this.dataSvc.onSaveEmpresa(formValue, this.usuario, id);
     }
   }
 
+  //Validacion de campos obligatorios 
   isValidField(field: string): string {
     const validateField = this.empresaForm.get(field);
     return (!validateField?.valid && validateField?.touched)
       ? 'is-invalid' : validateField?.touched ? 'is-valid' : '';
   }
 
+  //Validacion de campos que no son obligatorios 
   notRequiredHasValue(field: string): string {
     return this.empresaForm.get(field)?.value ? 'is-valid' : '';
   }
 
+  //Estructura de datos del registro de la empresa
   private initForm(): void {
     this.empresaForm = this.fb.group({
       nombre: ['', [Validators.required]],
@@ -171,6 +187,7 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  //Se obtiene la referencia de pago
   referenciaPago() {
     let result = 'WP';
     const numeros = '0123456789';
@@ -180,4 +197,11 @@ export class RegisterComponent implements OnInit {
     console.log('Referencia de pago -> ', result)
     return result;
   }
+
+  //Ver contraseña
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
+  }
+
+
 }

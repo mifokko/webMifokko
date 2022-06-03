@@ -7,8 +7,9 @@
     <!--Imagen de portada por defecto independiente -->
     <div class="img" *ngIf="fotoPor == false">
       <!-- Botón de agregar Foto de portada -->
-      <div class="img2" style="position: absolute; right: 0; margin-bottom: -30%; right: 25;" *ngIf="rol === 'independiente'">
-        <a class="agregar center" data-bs-toggle="modal" data-bs-target="#portadaModal">
+      <div class="img2" style="position: absolute; right: 0; margin-bottom: -30%; right: 25;"
+        *ngIf="rol === 'independiente'">
+        <a class="agregar center" data-bs-toggle="modal" data-bs-target="#portadaModal" *ngIf="rol === 'independiente'">
           <img src="./assets/agregarPerfil.png" class="img-fluid rounded-circle" alt="Boton agregar"
             style="width: auto; height: 40%">
         </a>
@@ -16,11 +17,13 @@
     </div>
 
     <!--Imagen de portada seleccionada por el independiente-->
-    <div class="img2" *ngIf="fotoPor === true" style="background: url({{portadaSafe}}); background-repeat: no-repeat;">
+    <div class="img2" *ngIf="fotoPor === true">
+      <img [src]="portadaSafe" class="img2">
     </div>
 
     <!--- Imagen de perfil por defecto independiente -->
-    <div class="img1" style="position: absolute; right: 5%;" *ngIf="fotoP == false">
+    <div class="img1" style="position: absolute; right: 5%;"
+      *ngIf="fotoP === false">
       <!---Imagen de perfil por defecto-->
       <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
         class="rounded-circle img1" alt="...">
@@ -32,10 +35,17 @@
       </a>
     </div>
 
+    <div class="img1" style="position: absolute; right: 5%;"
+      *ngIf="fotoP === true && fotoPI === 'NO APROBADO'">
+      <!---Imagen de perfil por defecto-->
+      <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+        class="rounded-circle img1" alt="...">
+    </div>
+
     <!---Imagen de perfil seleccionada por el independiente-->
-    <div class="img1" style="position: absolute; right: 5%;" *ngIf="fotoP === true">
+    <div class="img1" style="position: absolute; right: 5%;" *ngIf="fotoP === true && fotoPI === 'APROBADO'">
       <!---Imagen de perfil seleccionada por el independiente-->
-      <img [src]="perfilSafe" class="rounded-circle img1" alt="..." *ngIf="fotoP === true">
+      <img [src]="perfilSafe" class="rounded-circle img1" alt="...">
 
     </div>
 
@@ -223,7 +233,8 @@
         </div>
       </div>
       <div class="container tamA mb-3" *ngIf="portafolio === true">
-        <a href="{{independiente.portafolio}}" class="tamA" target="_blank" style="color: #ea924a;"> <b> PORTAFOLIO </b> </a>
+        <a href="{{independiente.portafolio}}" class="tamA" target="_blank" style="color: #ea924a;"> <b> PORTAFOLIO </b>
+        </a>
       </div>
     </div>
 

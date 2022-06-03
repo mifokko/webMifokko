@@ -12,7 +12,7 @@ import { DataServices } from '../../services/data.service';
 })
 export class VerOfertasComponent implements OnInit {
 
-  date: Date = new Date();
+   
   oferta: Oferta[] = [];
   ofertas: Oferta[] = [];
   lista: string[] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -24,9 +24,14 @@ export class VerOfertasComponent implements OnInit {
   meses = '';
   mes = '';
   verSeleccion = '';
+  date = new Date();
 
   verPagina(id: string){
     this.route.navigate(['/perfilOferta', id])
+  }
+
+  verEstadisticas(idOfert: string){
+    this.route.navigate(['/estadisticas', this.mes, this.anio, this.uid, idOfert]);
   }
 
   constructor(private firestore: DataServices, private authService: AuthService, private route: Router) {
@@ -96,6 +101,7 @@ export class VerOfertasComponent implements OnInit {
         break;
     }
     console.log(this.anio, this.mes);
+    this.getOfertas();
   }
 
   getOfertas() {let cont = 0;
@@ -123,9 +129,10 @@ export class VerOfertasComponent implements OnInit {
               //console.log(true);
               if(this.date.getDate() >= this.oferta[index].fechaInicio.day && this.date.getDate() <= this.oferta[index].fechaFin.day){
                 this.oferta[index].estado = 'Activo';
+                //this.firestore.updateCamposDocCollDoc2(this.oferta[index].estado, path, this.uid, 'Ofertas', this.oferta[index].id , 'estado');
               }else{
                 this.oferta[index].estado = 'Inactivo';
-                this.firestore.updateCamposDocCollDoc('Inactivo', path, this.uid, 'Ofertas', 'estado')
+                //this.firestore.updateCamposDocCollDoc2(this.oferta[index].estado, path, this.uid, 'Ofertas', this.oferta[index].id , 'estado');
               }
               if(!this.ofertas.length){
                 this.ofertas[cont] = this.oferta[index];

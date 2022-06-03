@@ -17,10 +17,14 @@ export class PlanIndependienteComponent implements OnInit {
     console.log('Plan independiente');
   }
 
-  openRegisterIndependiente(e: any){
+  openRegisterIndependiente(e: any, tipoPlan: string, pagos: string){
     this.plan = e;
     console.log(this.plan);
-    this.modalService.open(RegisterIndependienteComponent);
+    const modalRef = this.modalService.open(RegisterIndependienteComponent);
+    //Pasando tipo de tipo de plan elegido, precio del plan y acuerdos de pago
+    modalRef.componentInstance.passedData = tipoPlan;
+    modalRef.componentInstance.precioPlan = e;
+    modalRef.componentInstance.pagos = pagos;
   }
 
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
-import { Usuario } from '../../model/user.model';
+import { Usuario, UsuarioGeneral } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
 import { RecuperarContrasenaComponent } from '../recuperar-contrasena/recuperar-contrasena.component';
@@ -20,16 +20,11 @@ export class LoginComponent implements OnInit {
     contrasena: ''
   }
 
-  user: Usuario = {
+  user: UsuarioGeneral = {
     correo: '',
     password: '',
     uid: '',
     perfil: 'general',
-    referencia: '',
-    plan: 'general',
-    fechaInicio: '',
-    fechaFin: '',
-    estadoPago: false,
   }
 
   fechaFin: string[] = []
@@ -65,14 +60,15 @@ export class LoginComponent implements OnInit {
 
   }
 
+  //Ingresar con Google
   IngresarGoogle() {
     this.authService.loginGoogle().then(res => {
       console.log("Ingreso");
-
       this.modal.close();
     });
   }
 
+  //Ingresar con Facebook
   IngresarFacebook() {
     this.authService.loginFacebook().then(res => {
       console.log("Ingreso", res);

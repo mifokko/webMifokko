@@ -24,6 +24,10 @@ export interface BusquedaO {
     rol: 'Oferta',
     alcance: string,
     fotoPerfil: SafeUrl | undefined;
+    path: string,
     id: string, 
-    uid: string
+    uid: string,
+    estado: string,
+    fechaInicio: {day: number, month: number, year: number},
+    fechaFin: {day: number, month: number, year: number},
 }

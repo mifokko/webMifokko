@@ -35,18 +35,18 @@ export class HomeComponent implements OnInit {
   //Ver perfil independiente
   verPaginaBuscar(seleccion: string, palabra: string){
     this.router.navigate(['/buscar', seleccion, palabra]);
-    console.log(seleccion + '/ ' + palabra);
+    //console.log(seleccion + '/ ' + palabra);
   }
 
   constructor(private modalService: NgbModal, private authService: AuthService, private firestore: DataServices, private router: Router) {
     this.authService.stateUser().subscribe(res => {
       if (res) {
-        console.log('Esta logeado');
+        //console.log('Esta logeado');
         this.login = true;
         this.id = res.uid
         this.getDatosUser(res.uid);
       } else {
-        console.log('No esta logeado');
+        //console.log('No esta logeado');
         this.login = false;
       }
     });
@@ -61,13 +61,13 @@ export class HomeComponent implements OnInit {
       for (let index = 0; index < value.length; index++) {
         this.ciudades[this.ciudades.length++] = (value[index].ciudad);
       }
-      console.log(this.ciudades.length);
+      //console.log(this.ciudades.length);
 
       this.municipios = this.ciudades.filter((valor, indice) => {
         return this.ciudades.indexOf(valor) === indice;
       });
 
-      console.log(this.municipios);
+      //console.log(this.municipios);
     });
     
   }
@@ -93,9 +93,10 @@ export class HomeComponent implements OnInit {
   }
 
   Capturar(seleccion: string) {
-    console.log('Seleccion: ' + seleccion);
+    //console.log('Seleccion: ' + seleccion);
   }
 
+  //Estado de subscripción 
   actualizarSubs() {
     const fecha = new Date();
     let fechaFin = '';
@@ -106,11 +107,13 @@ export class HomeComponent implements OnInit {
         fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 2) + '/' + fecha.getFullYear());
         this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
         this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
+        this.firestore.updateCamposDoc(true, 'Empresas', this.id, 'estadoPago');
       } else {
         this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
         fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 1) + '/' + (fecha.getFullYear() + 1));
         this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
         this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
+        this.firestore.updateCamposDoc(true, 'Empresas', this.id, 'estadoPago');
       }
 
     } else if (this.plan == 'mensualI' || this.plan == 'anualI') {
@@ -120,11 +123,13 @@ export class HomeComponent implements OnInit {
         fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 2) + '/' + fecha.getFullYear());
         this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
         this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
+        this.firestore.updateCamposDoc(true, 'Independiente', this.id, 'estadoPago');
       } else {
         this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
         fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 1) + '/' + (fecha.getFullYear() + 1));
         this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
         this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
+        this.firestore.updateCamposDoc(true, 'Independiente', this.id, 'estadoPago');
       }
 
     }
@@ -138,7 +143,7 @@ export class HomeComponent implements OnInit {
         this.usuarios = res;
         const fecha = new Date();
         this.fechaFin = this.usuarios.fechaFin.split('/');
-        console.log(this.fechaFin);
+        //console.log(this.fechaFin);
         if (fecha.getDate() > parseInt(this.fechaFin[0])) {
           if ((fecha.getMonth() + 1) >= parseInt(this.fechaFin[1])) {
             if (fecha.getFullYear() >= parseInt(this.fechaFin[2]) && this.usuarios.estadoPago == true) {
@@ -147,6 +152,7 @@ export class HomeComponent implements OnInit {
                 this.usuarios.perfil = 'general';
                 this.usuarios.estadoPago = false;
                 this.firestore.updateCamposDoc(this.usuarios.perfil, 'Usuarios', id, 'perfil');
+                this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
                 this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
                 this.alerta = true;
               }

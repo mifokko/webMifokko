@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
 import { finalize, Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Ciudades } from '../../model/ciudades.model';
@@ -18,16 +18,19 @@ import { DataService1 } from '../../services/dataRegIndependiente.services';
 })
 export class RegisterIndependienteComponent implements OnInit, OnChanges {
   independienteForm!: FormGroup;
-  private isCel= "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
-  private isDoc= "\[0-9]{8,10}";
-  private isEmail= /\S+@\S+\.\S+/;
+  private isCel = "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
+  private isDoc = "\[0-9]{8,10}";
+  private isEmail = /\S+@\S+\.\S+/;
   fecha = new Date();
-
-  @Input() valorPagoP!: number;
 
   @ViewChild('imageFotoDoc') inputImageFotoDoc: ElementRef | undefined;
   urlFotoDoc!: Observable<string>;
   uploadPercent!: Observable<number | undefined>;
+
+  //Datos de plan, # de pagos y precio del plan
+  passedData!: string;
+  precioPlan!: number;
+  pagos!: string;
 
   usuario: Usuario = {
     correo: '',
@@ -35,19 +38,22 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
     uid: '',
     perfil: 'independiente',
     referencia: '',
-    plan: 'mensualI',
+    plan: this.pagos,
+    tipoPlan: this.passedData,
+    pago: this.precioPlan,
     fechaInicio: '',
     fechaFin: '',
     estadoPago: false
   }
   seleccion = '';
+  fieldTextType: boolean = false;
 
   ciudades: Ciudades[] = [];
   municipios: string[] = [];
   departamentos: string[] = [];
   departamento: string[] = [];
 
-  constructor(private fb: FormBuilder, private dataSvc: DataService1, public modal: NgbActiveModal, private data: DataServices,private storage: AngularFireStorage, private afs: AuthService) { 
+  constructor(private fb: FormBuilder, private dataSvc: DataService1, config: NgbDatepickerConfig, public modal: NgbActiveModal, private data: DataServices, private storage: AngularFireStorage, private afs: AuthService) {
     data.getCollection<Ciudades>('Ciudades').subscribe(res => {
       //console.log(res);
       this.ciudades = res;
@@ -61,6 +67,8 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
       this.departamento = this.departamento.sort();
     })
     console.log(this.departamento);
+    config.minDate = { year: 1900, month: 1, day: 1 };
+    config.maxDate = { year: 2022, month: 12, day: 31 };
   }
 
   ngOnChanges(): void {
@@ -70,13 +78,14 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
     this.initForm();
   }
 
-  uploadMunicipios(){
+  //Función que carga los municipios en una lista, según el departamento que se ha seleccionado 
+  uploadMunicipios() {
     this.municipios = [];
     console.log(this.seleccion);
     for (let index = 0; index < this.ciudades.length; index++) {
       if (this.seleccion === this.ciudades[index].departamento) {
         this.municipios[index] = this.ciudades[index].municipio
-      }else {
+      } else {
         console.log('paso');
       }
     }
@@ -86,7 +95,8 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
     console.log(this.municipios.length);
   }
 
-  onUpload(e: any){
+  //Función que se encarga de guardar el documento en el almacenamiento 
+  onUpload(e: any) {
     const id = Math.random().toString(36).substring(2);
     const file = e.target.files[0];
     const filePath = `Documentos/${id}`;
@@ -96,6 +106,7 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
     task.snapshotChanges().pipe(finalize(() => this.urlFotoDoc = ref.getDownloadURL())).subscribe();
   }
 
+  //Función que llama a la funcion de almacenamiento y es la encargada de resetear los formularios
   async OnSave(): Promise<void> {
     if (this.independienteForm.valid) {
       try {
@@ -103,7 +114,7 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
         this.independienteForm.reset()
         this.modal.close();
         //Notificación de confirmación
-        Swal.fire('Registro exitoso', 'Volver al inicio', 'success'); 
+        Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
       } catch (e) {
         alert(e);
       }
@@ -118,59 +129,65 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
     }
   }
 
-
+  //Creacion del Usuario, y almacenamiento de la información del independiente 
   async registrar() {
     const formValue = this.independienteForm.value;
     console.log('datos -> ', this.usuario);
-    const res = await this.afs.register(this.usuario).catch( error => {
+    //Creación de cuenta con el correo y contraseña
+    const res = await this.afs.register(this.usuario).catch(error => {
       console.log('error');
     });
     if (res) {
       console.log('Exito al crear el usuario');
-      const {correo} = this.independienteForm.value;
-      this.usuario.correo = correo;
       const id = res.user!.uid;
       this.usuario.uid = id;
       this.usuario.password = '';
       this.usuario.referencia = this.referenciaPago();
-      if (this.usuario.plan == 'mensualI') {
+      //Generar fecha de registro de la empresa y fecha de finalizacion de la subscripción
+      if (this.usuario.plan == '3MENSUALES') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
         this.usuario.fechaFin = (this.fecha.getDate() + '/' + (this.fecha.getMonth() + 2) + '/' + this.fecha.getFullYear());
         console.log(this.usuario.fechaInicio, '-', this.usuario.fechaFin);
-      } else if (this.usuario.plan == 'anualI') {
+      } else if (this.usuario.plan == 'ANUAL') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
         this.fecha.setDate(this.fecha.getFullYear() + 1);
         this.usuario.fechaFin = this.fecha.toLocaleDateString();
         console.log(this.usuario.fechaFin);
       }
+      //Se guarda la información de Usuario de la empresa y se guarda la información de la empresa
       await this.data.createDoc(this.usuario, 'Usuarios', id);
       await this.dataSvc.onSaveIndependiente(formValue, this.usuario, id);
+
+      //Guardar la referencia del archivo de documento 
       this.urlFotoDoc.forEach(async value => {
         this.data.updateCamposDoc(value, 'Independiente', id, 'fotoDoc');
       });
     }
   }
-
-  isValidField (field:string): string {
+  //Validacion de campos obligatorios 
+  isValidField(field: string): string {
     const validateField = this.independienteForm.get(field);
     return (!validateField?.valid && validateField?.touched)
       ? 'is-invalid' : validateField?.touched ? 'is-valid' : '';
   }
-
-  notRequiredHasValue(field: string):string {
+  //Validacion de campos que no son obligatorios 
+  notRequiredHasValue(field: string): string {
     return this.independienteForm.get(field)?.value ? 'is-valid' : '';
   }
 
+  //Estructura de datos del registro del independiente
   private initForm(): void {
     this.independienteForm = this.fb.group({
       nombre: ['', [Validators.required]],
       documento: ['', [Validators.required, Validators.pattern(this.isDoc)]],
       tipoDocumento: ['', [Validators.required]],
       fotoDoc: ['', [Validators.required]],
+      fechanacimiento: [''],
       profesion: ['', [Validators.required]],
       departamento: ['', [Validators.required]],
       ciudad: ['', [Validators.required]],
       direccion: [''],
+      barrio: [''],
       telefono: [''],
       celular: ['', [Validators.required, Validators.pattern(this.isCel)]],
       correo: ['', [Validators.required, Validators.pattern(this.isEmail)]],
@@ -180,24 +197,25 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
       servicios: ['', [Validators.required]],
       nombreReferencia1: ['', [Validators.required]],
       celularReferencia1: ['', [Validators.required, Validators.pattern(this.isCel)]],
-      ocupacionReferencia1: ['', [Validators.required]],
-      nombreReferencia2: ['', [Validators.required]],
-      celularReferencia2: ['', [Validators.required, Validators.pattern(this.isCel)]],
-      ocupacionReferencia2: ['', [Validators.required]],
+      ocupacionReferencia1: [''],
       codigoAsesor: [''],
       terminosyCondiciones: ['', [Validators.required]],
     });
 
   }
-
+  //Se obtiene la referencia de pago
   referenciaPago() {
     let result = 'WP';
     const numeros = '0123456789';
     for (let i = 0; i < 6; i++) {
       result += numeros.charAt(Math.floor(Math.random() * numeros.length));
     }
-    console.log('Referencia de pago -> ' ,result)
+    console.log('Referencia de pago -> ', result)
     return result;
+  }
+  //Ver contraseña
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
   }
 }
 

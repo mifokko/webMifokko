@@ -1,6 +1,10 @@
 <section class="bg-blanco">
   <img src="./assets/FondoBlanco.jpg" class="img-fluid" id="Responsive image"
     style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;">
+
+  <div class="m-3">
+    <h3 style="position: absolute; z-index: -100; margin-left: 3%;">Resultado de: {{palabra}}</h3>
+  </div>
   <div class="container-fluid mb-2">
     <div class="form-group row col-xs-3 col-sm-4 col-md-4 my-2 float-end mb-4">
       <div class="input-group rounded">
@@ -12,50 +16,55 @@
   <br>
 
   <!-- Busqueda empresas -->
-<section #empresas *ngIf="seleccion === 'empresa'">
-  <div class="container mt-5">
-    <div class="row">
-      <div class="row col-lg-4 col-md-4 col-sx p-2" *ngFor="let buscar of busquedaE">
-        <div class="row ">
-          <div class="my-2 img1">
-            <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
-              *ngIf="buscar.fotoPerfil !== undefined" (click)="verPerfilEmpresa(buscar.id)" />
-            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-              class="rounded-circle img1" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined" (click)="verPerfilEmpresa(buscar.id)"/>
-          </div>
-          <div class="col mt-2 align-items-center justify-content-center text-center" style="margin-left: -10px;">
-            <h5 (click)="verPerfilEmpresa(buscar.id)">{{buscar.nombre}}</h5>
-            <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.actividadPrincipal}}</b></p>
-            <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
+  <section #empresas *ngIf="seleccion === 'empresa'">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="row col-lg-4 col-md-4 col-sx p-2" *ngFor="let buscar of busquedaE">
+          <div class="row ">
+            <div class="my-2 img1">
+              <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
+                *ngIf="buscar.fotoPerfil !== undefined"
+                (click)="verPerfilEmpresa(buscar.id); saveEstadistica(buscar.id, 'Empresas')" />
+              <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                class="rounded-circle img1" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined"
+                (click)="verPerfilEmpresa(buscar.id); saveEstadistica(buscar.id, 'Empresas')" />
+            </div>
+            <div class="col align-items-center justify-content-center text-center" style="margin-left: -10px;">
+              <h5 (click)="verPerfilEmpresa(buscar.id); saveEstadistica(buscar.id, 'Empresas')">{{buscar.nombre}}</h5>
+              <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.actividadPrincipal}}</b></p>
+              <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Busqueda independientes -->
-<section #independiente *ngIf="seleccion === 'independiente'">
-  <div class="container mt-5">
-    <div class="row">
-      <div class="row col-lg-4 col-md-4 col-sx p-2" *ngFor="let buscar of busquedaI">
-        <div class="row ">
-          <div class="my-2 img2">
-            <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
-              *ngIf="buscar.fotoPerfil !== undefined" (click)="verPerfilIndep(buscar.id)" />
-            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-              class="rounded-circle img2" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined" (click)="verPerfilIndep(buscar.id)"/>
-          </div>
-          <div class="col mt-2 align-items-center justify-content-center text-center" style="margin-left: -10px;">
-            <h5 (click)="verPerfilIndep(buscar.id)">{{buscar.nombre}}</h5>
-            <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.profesion}}</b></p>
-            <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
+  <!-- Busqueda independientes -->
+  <section #independiente *ngIf="seleccion === 'independiente'">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="row col-lg-4 col-md-4 col-sx p-2" *ngFor="let buscar of busquedaI">
+          <div class="row ">
+            <div class="my-2 img2">
+              <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
+                *ngIf="buscar.fotoPerfil !== undefined"
+                (click)="verPerfilIndep(buscar.id); saveEstadistica(buscar.id, 'Independiente')" />
+              <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                class="rounded-circle img2" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined"
+                (click)="verPerfilIndep(buscar.id); saveEstadistica(buscar.id, 'Independiente')" />
+            </div>
+            <div class="col mt-2 align-items-center justify-content-center text-center" style="margin-left: -10px;">
+              <h5 (click)="verPerfilIndep(buscar.id); saveEstadistica(buscar.id, 'Independiente')">{{buscar.nombre}}
+              </h5>
+              <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.profesion}}</b></p>
+              <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- Busqueda ofertas -->
   <section #ofertas *ngIf="seleccion === 'ofertas'">
@@ -65,12 +74,16 @@
           <div class="row ">
             <div class="my-2 img3">
               <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
-                *ngIf="buscar.fotoPerfil !== undefined" (click)="verPerfilOferta(buscar.uid, buscar.id)" />
+                *ngIf="buscar.fotoPerfil !== undefined"
+                (click)="verPerfilOferta(buscar.uid, buscar.id); saveEstadisticaOferta(buscar.uid, buscar.id, buscar.path)" />
               <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                class="rounded-circle img3" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined" (click)="verPerfilOferta(buscar.uid, buscar.id)"/>
+                class="rounded-circle img3" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined"
+                (click)="verPerfilOferta(buscar.uid, buscar.id); saveEstadisticaOferta(buscar.uid, buscar.id, buscar.path)" />
             </div>
             <div class="col mt-2 align-items-center justify-content-center text-center" style="margin-left: -10px;">
-              <h5 (click)="verPerfilOferta(buscar.uid, buscar.id)">{{buscar.nombreOferta}}</h5>
+              <h5
+                (click)="verPerfilOferta(buscar.uid, buscar.id); saveEstadisticaOferta(buscar.uid, buscar.id, buscar.path)">
+                {{buscar.nombreOferta}}</h5>
               <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.alcance}}</b></p>
               <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
             </div>
@@ -84,18 +97,22 @@
   <section #todos *ngIf="seleccion === 'todos'">
     <div class="container mt-5">
       <div class="row">
+        <!-- Empresa -->
         <div class="row col-lg-4 col-md-4 col-sx p-2">
           <ul class="list-group list-group-flush">
             <li class="list-group" *ngFor="let buscar of busquedaE">
               <div class="row ">
                 <div class="my-2 img1">
                   <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
-                    *ngIf="buscar.fotoPerfil !== undefined" (click)="verPerfilEmpresa(buscar.id)" />
+                    *ngIf="buscar.fotoPerfil !== undefined"
+                    (click)="verPerfilEmpresa(buscar.id); saveEstadistica(buscar.id, 'Empresas')" />
                   <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                    class="rounded-circle img1" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined" />
+                    class="rounded-circle img1" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined"
+                    (click)="verPerfilEmpresa(buscar.id); saveEstadistica(buscar.id, 'Empresas')" />
                 </div>
                 <div class="col mt-2 align-items-center justify-content-center text-center" style="margin-left: -10px;">
-                  <h5 (click)="verPerfilEmpresa(buscar.id)">{{buscar.nombre}}</h5>
+                  <h5 (click)="verPerfilEmpresa(buscar.id); saveEstadistica(buscar.id, 'Empresas')">{{buscar.nombre}}
+                  </h5>
                   <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.actividadPrincipal}}</b></p>
                   <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
                 </div>
@@ -103,18 +120,22 @@
             </li>
           </ul>
         </div>
+        <!-- Independiente -->
         <div class="row col-lg-4 col-md-4 col-sx p-2">
           <ul class="list-group list-group-flush">
             <li class="list-group" *ngFor="let buscar of busquedaI">
               <div class="row ">
                 <div class="my-2 img2">
                   <img [src]="buscar.fotoPerfil" class="rounded-circle img2" alt="" loading="lazy"
-                    *ngIf="buscar.fotoPerfil !== undefined" (click)="verPerfilIndep(buscar.id)" />
+                    *ngIf="buscar.fotoPerfil !== undefined"
+                    (click)="verPerfilIndep(buscar.id); saveEstadistica(buscar.id, 'Independiente')" />
                   <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                    class="rounded-circle img1" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined" />
+                    class="rounded-circle img1" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined"
+                    (click)="verPerfilIndep(buscar.id); saveEstadistica(buscar.id, 'Independiente')" />
                 </div>
                 <div class="col mt-2 align-items-center justify-content-center text-center">
-                  <h5 (click)="verPerfilIndep(buscar.id)">{{buscar.nombre}}</h5>
+                  <h5 (click)="verPerfilIndep(buscar.id); saveEstadistica(buscar.id, 'Independiente')">{{buscar.nombre}}
+                  </h5>
                   <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.profesion}}</b></p>
                   <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
                 </div>
@@ -122,18 +143,23 @@
             </li>
           </ul>
         </div>
+        <!-- Ofertas -->
         <div class="row col-lg-4 col-md-4 col-sx p-2">
           <ul class="list-group list-group-flush">
             <li class="list-group" *ngFor="let buscar of busquedaO">
               <div class="row">
                 <div class="my-2 img3">
                   <img [src]="buscar.fotoPerfil" class="rounded-circle img3" alt="" loading="lazy"
-                    *ngIf="buscar.fotoPerfil !== undefined" (click)="verPerfilOferta(buscar.uid, buscar.id)" />
+                    *ngIf="buscar.fotoPerfil !== undefined"
+                    (click)="verPerfilOferta(buscar.uid, buscar.id); saveEstadisticaOferta(buscar.uid, buscar.id, buscar.path)" />
                   <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-                    class="rounded-circle img1" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined" />
+                    class="rounded-circle img1" alt="" loading="lazy" *ngIf="buscar.fotoPerfil === undefined"
+                    (click)="verPerfilOferta(buscar.uid, buscar.id); saveEstadisticaOferta(buscar.uid, buscar.id, buscar.path)" />
                 </div>
                 <div class="col mt-2 align-items-center justify-content-center text-center">
-                  <h5 (click)="verPerfilOferta(buscar.uid, buscar.id)">{{buscar.nombreOferta}}</h5>
+                  <h5
+                    (click)="verPerfilOferta(buscar.uid, buscar.id); saveEstadisticaOferta(buscar.uid, buscar.id, buscar.path)">
+                    {{buscar.nombreOferta}}</h5>
                   <p style="margin-top: -10px;"> <b style="color: darkgray;">{{buscar.alcance}}</b></p>
                   <p style="margin-top: -20px;"> <b>{{buscar.ciudad}}</b></p>
                 </div>

@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { NgForm } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Gallery, GalleryItem, ImageItem, ThumbnailsPosition, ThumbnailsView } from 'ng-gallery';
 import { Lightbox } from 'ng-gallery/lightbox';
 import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
+import { Comentario } from '../../model/comentario.model';
 import { Empresa } from '../../model/empresa.model';
 import { Independiente } from '../../model/independiente.model';
 import { Ofertas } from '../../model/oferta.model';
@@ -49,6 +52,13 @@ export class PerfilOfertaComponent implements OnInit {
   telefono!: boolean;
   login!: boolean;
 
+  comentarios = {
+    nombre: '',
+    comentario: ''
+  }
+  coment = 0;
+  chat: Comentario[] = [];
+
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
     activatedRoute.params.subscribe( prm => {
       console.log(prm);
@@ -67,7 +77,11 @@ export class PerfilOfertaComponent implements OnInit {
       if(res) {
         console.log('Esta logeado');
         this.login = true;
-        this.rol = 'empresa';
+        if (res.uid != this.id) {
+          this.rol = 'general';
+        }else {
+          this.rol = 'empresa';
+        }
         this.getDatosUser(res.uid, this.idOfert);
         //console.log(res.uid);
       }else {
@@ -100,6 +114,36 @@ export class PerfilOfertaComponent implements OnInit {
 
   onUploadGaleria(e: any){
 
+  }
+
+  //Guardar comentarios
+  saveComentarios(form: NgForm){
+    try {
+      if(this.comentarios.nombre == ''){
+        this.comentarios.nombre = 'Anónimo';
+      }
+      console.log(this.comentarios);
+      if (this.coment == 0){
+        this.firestore.createColInDocColl(this.comentarios, 'Empresas', this.id, 'Ofertas', this.idOfert, 'Comentarios', this.coment.toString());
+        this.coment = this.coment + 1;
+      }else{
+        this.firestore.getDocColDocColl<Comentario>('Empresas', this.id, 'Ofertas', this.idOfert, 'Comentarios').subscribe(res => {
+          this.coment =  res.length+1
+        })
+        this.firestore.createColInDocColl(this.comentarios, 'Empresas', this.id, 'Ofertas', this.idOfert, 'Comentarios', this.coment.toString());
+        this.coment = this.coment + 1;
+      }
+      form.resetForm();
+      Swal.fire('Comentario guardado', 'Regresar', 'success');
+    } catch (error) {
+      Swal.fire(
+        'Error',
+        'Error guardando comentario',
+        'error'
+      );
+    }
+    
+    
   }
 
   //Consulta de datos de los usuarios para mostrar en el perfil 
@@ -169,6 +213,12 @@ export class PerfilOfertaComponent implements OnInit {
           this.oferta = res;
           this.fecha = this.oferta?.fechaFin.day.toString() + '/' + this.oferta?.fechaFin.month.toString() + '/' + this.oferta?.fechaFin.year.toString();
           console.log(this.oferta);
+        });
+
+        //Mostrar comentarios almacenados 
+        this.firestore.getDocColDocColl<Comentario>('Empresas', this.id, 'Ofertas', idOfert, 'Comentarios').subscribe(res => {
+          this.chat = res;
+          console.log(this.chat); 
         })
 
         //obtener dirección de almacenamiento imágenes de la galeria y mostrarlas
@@ -283,6 +333,12 @@ export class PerfilOfertaComponent implements OnInit {
           this.oferta = res;
           this.fecha = this.oferta?.fechaFin.day.toString() + '/' + this.oferta?.fechaFin.month.toString() + '/' + this.oferta?.fechaFin.year.toString();
           //console.log(this.oferta);
+        })
+
+        //Mostrar comentarios almacenados 
+        this.firestore.getDocColDocColl<Comentario>('Independiente', this.id, 'Ofertas', idOfert, 'Comentarios').subscribe(res => {
+          this.chat = res;
+          console.log(this.chat); 
         })
 
         //obtener dirección de almacenamiento imágenes de la galeria y mostrarlas

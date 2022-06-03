@@ -44,7 +44,7 @@
           </li>
           <!--Estadisticas-->
           <li class="nav-item">
-            <a type="button" class="nav-link" [routerLink]="'/estadisticas'" *ngIf="login === true && rol !== 'general'"> 
+            <a type="button" class="nav-link" (click)="verEstadisticas(id)" *ngIf="login === true && rol !== 'general'"> 
               <svg version="1.1"  width="16" height="16" fill="currentColor" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                 viewBox="0 0 459.75 459.75" style="enable-background:new 0 0 459.75 459.75;" xml:space="preserve">
                 <path d="M447.652,304.13h-40.138c-6.681,0-12.097,5.416-12.097,12.097v95.805c0,6.681,5.416,12.098,12.097,12.098h40.138

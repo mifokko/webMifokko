@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GoogleChartInterface, GoogleChartType } from 'ng2-google-charts';
-import { Estadisticas } from 'src/app/shared/model/estadistica.model';
-import { Usuario } from 'src/app/shared/model/user.model';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { DataServices } from 'src/app/shared/services/data.service';
+import { Estadisticas } from '../../model/estadistica.model';
+import { Usuario } from '../../model/user.model';
+import { AuthService } from '../../services/auth.service';
+import { DataServices } from '../../services/data.service';
 
 @Component({
-  selector: 'app-estadisticas',
-  templateUrl: './estadisticas.component.html',
-  styleUrls: ['./estadisticas.component.scss']
+  selector: 'app-estadisticas-oferta',
+  templateUrl: './estadisticas-oferta.component.html',
+  styleUrls: ['./estadisticas-oferta.component.scss']
 })
-export class EstadisticasComponent implements OnInit {
+export class EstadisticasOfertaComponent implements OnInit {
   idOfert = '';
   idUser = '';
   rol = '';
@@ -45,82 +45,36 @@ export class EstadisticasComponent implements OnInit {
       //console.log(`La seleccion es: ${prm['seleccion']}`);
       this.idUser = JSON.stringify(prm['id']).toString();
       this.idUser = this.idUser.substring(1, this.idUser.length - 1);
-      this.idOfert = JSON.stringify(prm['idOferta']).toString();
+      this.idOfert = JSON.stringify(prm['idOfert']).toString();
       this.idOfert = this.idOfert.substring(1, this.idOfert.length - 1);
+      this.mes = JSON.stringify(prm['mes']).toString();
+      this.mes = this.mes.substring(1, this.mes.length - 1);
+      this.anio = JSON.stringify(prm['anio']).toString();
+      this.anio = this.anio.substring(1, this.anio.length - 1);
       //console.log(this.seleccion + ' / ' + this.palabra);
     });
-    const year = this.date.getFullYear();
-    for (let i = 2020; i < year + 1; i++) {
-      this.years[this.cont] = i.toString();
-      this.cont += 1;
-    }
   }
 
   ngOnInit(): void {
-    console.log('Estadisticas');
-    //this.getDatosEstadisticos(this.idUser);
+    this.getDatosEstadisticos(this.idUser);
   }
 
-  capturar() {
-    switch (this.meses) {
-      case 'Enero':
-        this.mes = '1';
-        break;
-      case 'Febrero':
-        this.mes = '2';
-        break;
-      case 'Marzo':
-        this.mes = '3';
-        break;
-      case 'Abril':
-        this.mes = '4';
-        break;
-      case 'Mayo':
-        this.mes = '5';
-        break;
-      case 'Junio':
-        this.mes = '6';
-        break;
-      case 'Julio':
-        this.mes = '7';
-        break;
-      case 'Agosto':
-        this.mes = '8';
-        break;
-      case 'Septiembre':
-        this.mes = '9';
-        break;
-      case 'Octubre':
-        this.mes = '10';
-        break;
-      case 'Noviembre':
-        this.mes = '11';
-        break;
-      case 'Diciembre':
-        this.mes = '12';
-        break;
-      default:
-        break;
-    }
-    this.getDatosEstadisticos(this.idUser, this.mes, this.anio);
-    console.log(this.mes, this.anio);
-  }
   //Obtener datos de la BD
-  getDatosEstadisticos(idUser: string, mes: string, anio: string) {
+  getDatosEstadisticos(idUser: string) {
     let path = '';
     this.firestore.getDoc<Usuario>('Usuarios', idUser).subscribe(res => {
       if (res) {
         this.rol = res.perfil;
       }
       if (this.rol == 'empresa') {
-        this.firestore.getDocCol<Estadisticas>('Empresas', idUser, 'Estadisticas').subscribe(res => {
-          if (res) {
-            this.estadistica = res;
-            console.log(this.estadistica);
+        this.firestore.getDocColDocColl<Estadisticas>('Empresas', idUser, 'Ofertas', this.idOfert, 'Estadisticas').subscribe(res => {
+          this.estadistica = res;
+          console.log(res);
+          if (res.length >= 0) {
             for (let index = 0; index < this.estadistica.length; index++) {
               const fecha = this.estadistica[index].fecha.split('/');
-              console.log(fecha)
-              if (mes == fecha[1] && anio == fecha[2]) {
+              console.log(fecha[1], this.mes, this.anio, fecha[2]);
+              if (this.mes == fecha[1] && this.anio == fecha[2]) {
                 if (this.estadistica[index].genero == 'Femenino') {
                   this.femenino = this.femenino + 1;
                 } else if (this.estadistica[index].genero == 'Masculino') {
@@ -132,27 +86,33 @@ export class EstadisticasComponent implements OnInit {
                 this.pieChart.dataTable = [['Genero', 'Vistas'],
                 ['Femenino', this.femenino],
                 ['Masculino', this.masculino],
-                ['Otros', this.otros]]
+                ['Otros', this.otros]],
                 this.mostrar = true;
               } else if (this.masculino == 0 && this.otros == 0 && this.femenino == 0) {
-                alert('No hubo visitas en el mes de ' + this.meses + ' .');
+                const month = parseInt(this.mes);
+                this.meses = this.lista[month - 1];
+                alert('No hubo visitas a esta oferta en el mes de ' + this.meses + ' .');
                 this.estadistica = [];
                 this.mostrar = false;
               }
             }
-            console.log(this.femenino, this.masculino, this.otros);
-
+          }else{
+            const month = parseInt(this.mes);
+            this.meses = this.lista[month - 1];
+            alert('No hubo visitas a esta oferta en el mes de ' + this.meses + ' .');
+            this.estadistica = [];
+            this.mostrar = false;
           }
         })
       } else if (this.rol == 'independiente') {
-        this.firestore.getDocCol<Estadisticas>('Independiente', idUser, 'Estadisticas').subscribe(res => {
-          if (res) {
-            this.estadistica = res;
-            console.log(this.estadistica);
+        this.firestore.getDocColDocColl<Estadisticas>('Independiente', idUser, 'Ofertas', this.idOfert, 'Estadisticas').subscribe(res => {
+          this.estadistica = res;
+          console.log(res);
+          if (res.length != 0) {
             for (let index = 0; index < this.estadistica.length; index++) {
               const fecha = this.estadistica[index].fecha.split('/');
               console.log(fecha)
-              if (mes == fecha[1] && anio == fecha[2]) {
+              if (this.mes == fecha[1] && this.anio == fecha[2]) {
                 if (this.estadistica[index].genero == 'Femenino') {
                   this.femenino = this.femenino + 1;
                 } else if (this.estadistica[index].genero == 'Masculino') {
@@ -167,13 +127,19 @@ export class EstadisticasComponent implements OnInit {
                 ['Otros', this.otros]]
                 this.mostrar = true;
               } else if (this.masculino == 0 && this.otros == 0 && this.femenino == 0) {
-                alert('No hubo visitas en el mes de ' + this.meses + ' .');
+                const month = parseInt(this.mes);
+                this.meses = this.lista[month - 1];
+                alert('No hubo visitas a esta oferta en el mes de ' + this.meses + ' .');
                 this.estadistica = [];
                 this.mostrar = false;
               }
             }
-            console.log(this.femenino, this.masculino, this.otros);
-
+          } else {
+            const month = parseInt(this.mes);
+            this.meses = this.lista[month - 1];
+            alert('No hubo visitas a esta oferta en el mes de ' + this.meses + ' .');
+            this.estadistica = [];
+            this.mostrar = false;
           }
         })
       }

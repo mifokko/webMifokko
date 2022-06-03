@@ -122,12 +122,18 @@ export class PerfilComponent implements OnInit {
       if(res) {
         console.log('Esta logeado');
         this.login = true;
-        this.rol = 'empresa';
+        if (res.uid != this.id) {
+          this.rol = 'general';
+        }else {
+          this.rol = 'empresa';
+        }
+        console.log(this.rol);
         //console.log(res.uid);
       }else {
         console.log('No esta logeado');
         this.login = false;
         this.rol = 'general';
+        console.log(this.rol);
       }
     })
   }

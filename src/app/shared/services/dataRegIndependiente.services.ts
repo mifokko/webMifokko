@@ -5,6 +5,9 @@ import { Observable } from "rxjs";
 export interface Independiente {
     nombre: string,
     documento: string,
+    tipoDocumento: string,
+    fotoDoc: string,
+    fechanacimiento: string,
     profesion: string,
     departamento: string,
     ciudad: string,
@@ -19,9 +22,6 @@ export interface Independiente {
     nombreReferencia1: string,
     celularReferencia1: string,
     ocupacionReferencia1: string,
-    nombreReferencia2: string,
-    celularReferencia2: string,
-    ocupacionReferencia2: string,
     codigoAsesor?: string,
 }
 

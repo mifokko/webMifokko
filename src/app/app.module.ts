@@ -39,6 +39,8 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { PerfilOfertaComponent } from './shared/components/perfil-oferta/perfil-oferta.component';
 import { PerfilIndependienteComponent } from './shared/components/perfil-independiente/perfil-independiente.component';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { EstadisticasOfertaComponent } from './shared/components/estadisticas-oferta/estadisticas-oferta.component';
 
 
 @NgModule({
@@ -57,7 +59,8 @@ import { PerfilIndependienteComponent } from './shared/components/perfil-indepen
     VerOfertasComponent,
     FooterComponent,
     PerfilOfertaComponent,
-    PerfilIndependienteComponent
+    PerfilIndependienteComponent,
+    EstadisticasOfertaComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +84,8 @@ import { PerfilIndependienteComponent } from './shared/components/perfil-indepen
     provideStorage(() => getStorage()),
     SubirOfertaModule,
     AngularFireStorageModule,
-    YouTubePlayerModule
+    YouTubePlayerModule,
+    Ng2GoogleChartsModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]

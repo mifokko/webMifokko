@@ -102,7 +102,7 @@ export class PerfilIndependienteComponent implements OnInit {
     comentario: ''
   }
   coment = 0;
-
+  fotoPI: 'APROBADO' | 'NO APROBADO' | undefined;
   login!: boolean;
 
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
@@ -119,12 +119,18 @@ export class PerfilIndependienteComponent implements OnInit {
       if (res) {
         console.log('Esta logeado');
         this.login = true;
-        this.rol = 'empresa';
+        if (res.uid != this.id) {
+          this.rol = 'general';
+        }else{
+          this.rol = 'independiente';
+        }
+        console.log(this.rol);
         //console.log(res.uid);
       } else {
         console.log('No esta logeado');
         this.login = false;
         this.rol = 'general';
+        console.log(this.rol);
       }
     })
   }
@@ -170,8 +176,11 @@ export class PerfilIndependienteComponent implements OnInit {
       this.firestore.updateCamposDoc(value, path, this.id, 'fotoPerfil');
     });
     this.fotoP = true;
+    this.firestore.updateCamposDoc('No Aprobada', path, this.id, 'fotoPerfilInd');
 
     //console.log('Paso');
+    this.fotoPI = 'NO APROBADO';
+    Swal.fire('Archivo guardado', 'Su foto esta siendo evaluada, sera aprovada en las proximas 12 horas', 'success')
   }
 
   //Cargar Imagen de Portada
@@ -354,6 +363,12 @@ export class PerfilIndependienteComponent implements OnInit {
           this.portafolio = true;
         }
 
+        if (res?.fotoPerfilInd == 'APROBADO') {
+          this.fotoPI = 'APROBADO';
+        } else {
+          this.fotoPI = 'NO APROBADO';
+        }
+
       });
       this.firestore.getDocColDoc<Redes>('Independiente', id, 'Redes').subscribe(res => {
         if (res == undefined) {
@@ -392,6 +407,7 @@ export class PerfilIndependienteComponent implements OnInit {
           this.fotoPor = false;
         } else {
           this.fotoP = true;
+          this.fotoPor = true;
           this.perfilSafe = res?.fotoPerfil;
           this.portadaSafe = res?.fotoPortada;
           console.log(res?.fotoPerfil + ' / ' + res?.fotoPortada);
