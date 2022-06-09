@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { merge, Observable } from 'rxjs';
+import firebase from 'firebase/compat/app';
 
 @Injectable({
   providedIn: 'root'
@@ -93,5 +93,18 @@ export class DataServices {
     this.afs.doc(path + '/' + uid + '/' + subpath + '/' + id + '/' + subbpath + '/' + index).update({
       [(campo)] : data
     })
+  }
+
+  //Borrar campos de un documento 
+  async deleteCamposDoc(path: string, id: string, campo: string){
+    const docRef = this.afs.collection(path).doc(id);
+    return await docRef.update({
+      [(campo)] : firebase.firestore.FieldValue.delete()
+    });
+  }
+
+  //Borrar campos de un documento destro de una subcolección 
+  async deleteCamposColDoc(path: string, uid: string, subpath: string, id: string){
+    const docRef = this.afs.collection(path).doc(uid).collection(subpath).doc(id).delete();
   }
 }

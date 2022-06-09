@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -41,7 +41,7 @@ import { PerfilOfertaComponent } from './shared/components/perfil-oferta/perfil-
 import { PerfilIndependienteComponent } from './shared/components/perfil-independiente/perfil-independiente.component';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { EstadisticasOfertaComponent } from './shared/components/estadisticas-oferta/estadisticas-oferta.component';
-
+import { FooterModule } from './shared/components/footer/footer.module';
 
 @NgModule({
   declarations: [
@@ -85,7 +85,9 @@ import { EstadisticasOfertaComponent } from './shared/components/estadisticas-of
     SubirOfertaModule,
     AngularFireStorageModule,
     YouTubePlayerModule,
-    Ng2GoogleChartsModule
+    Ng2GoogleChartsModule,
+    FooterModule,
+    ReactiveFormsModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]

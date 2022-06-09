@@ -1,146 +1,176 @@
 <div class="modal-header">
-    <h5 class="modal-title">Subir Oferta</h5>
-    <button type="button" class="btn-close" (click)="modal.close()"></button>
+  <h5 class="modal-title">Subir Oferta</h5>
+  <button type="button" class="btn-close" (click)="modal.close()"></button>
 </div>
 <div class="modal-body">
   <div class="container">
     <div class="row">
       <div class="col-lg-16">
-        <form novalidate class="billing-form float-start"  (ngSubmit)="OnSave()" [formGroup]="ofertaForm">
-            <div class="form-group p-1">
-              <input class="form-control" type="file" accept="image/*" id="formFileMultiple" multiple (change)="onUpload($event)" formControlName="imagenes" [class]="isValidField('imagenes')">
-              <input #image type="hidden" [value]="urlImage | async" >
-              <div class="invalid-feedback" *ngIf="ofertaForm.get('imagenes')?.hasError('required')">
-                Por favor cargue las imagenes de la oferta.
+        <form novalidate class="billing-form float-start" (ngSubmit)="OnSave()" [formGroup]="ofertaForm">
+          <!-- Subir imagenes de oferta -->
+          <div class="form-group p-1">
+            <input class="form-control" type="file" accept="image/*" id="formFileMultiple" multiple
+              (change)="onUpload($event)" formControlName="imagenes" [class]="isValidField('imagenes')">
+            <input #image type="hidden" [value]="urlImage | async">
+            <div class="invalid-feedback" *ngIf="ofertaForm.get('imagenes')?.hasError('required')">
+              Por favor cargue las imagenes de la oferta.
+            </div>
+          </div>
+          <!-- Nombre de la Oferta -->
+          <div class="form-group p-1">
+            <input type="text" class="form-control" placeholder="Nombre de oferta" formControlName="nombreOferta"
+              [class]="isValidField('nombreOferta')">
+            <div class="invalid-feedback" *ngIf="ofertaForm.get('nombreOferta')?.hasError('required')">
+              Por favor ingrese el nombre de la oferta.
+            </div>
+          </div>
+          <!-- Descripcón de la oferta -->
+          <div class="form-group p-1">
+            <textarea rows="3" class="form-control" placeholder="Descripción" formControlName="descripcion"
+              [class]="isValidField('descripcion')"></textarea>
+            <div class="invalid-feedback" *ngIf="ofertaForm.get('descripcion')?.hasError('required')">
+              Por favor ingrese la descripción.
+            </div>
+            <div class="invalid-feedback" *ngIf="ofertaForm.get('descripcion')?.hasError('minlength')">
+              Debe ser mayor a {{ofertaForm.get('descripcion')?.errors?.['minlength'].requiredLength}} caracteres
+            </div>
+            <div class="invalid-feedback" *ngIf="ofertaForm.get('descripcion')?.hasError('maxlength')">
+              Debe ser menor o igual a {{ofertaForm.get('descripcion')?.errors?.['maxlength'].requiredLength}}
+              caracteres.
+            </div>
+          </div>
+          <!-- Precio -->
+          <div class="row g-3 p-1">
+            <div class="form-group col-md-2">
+              <label for="inputState" class="col-sm-2 col-form-label">Precio:</label>
+            </div>
+            <div class="form-group col-md-6">
+              <input type="text" class="form-control" placeholder="$ " formControlName="precio"
+                [class]="isValidField('precio')">
+              <div class="invalid-feedback" *ngIf="ofertaForm.get('precio')?.hasError('required')">
+                Por favor ingrese el precio de la oferta.
               </div>
             </div>
-            <!-- Barra de carga de imágenes -->
-            <div class="progress mb-1 form-group p-2">
-              <div class="progress-bar progress-bar-striped" role="progressbar"
-                [style.width]="(uploadPercent | async) + '%'">
-              </div>
-            </div>
-            <div class="form-group p-1">
-              <input type="text" class="form-control" placeholder="Nombre de oferta" formControlName="nombreOferta" [class]="isValidField('nombreOferta')">
-              <div class="invalid-feedback" *ngIf="ofertaForm.get('nombreOferta')?.hasError('required')">
-                Por favor ingrese el nombre de la oferta.
-              </div>
-            </div>
-            <div class="form-group p-1">
-              <textarea rows="3" class="form-control" placeholder="Descripción" formControlName="descripcion" [class]="isValidField('descripcion')"></textarea>
-              <div class="invalid-feedback"  *ngIf="ofertaForm.get('descripcion')?.hasError('required')">
-                Por favor ingrese la descripción.
-              </div>
-              <div class="invalid-feedback"  *ngIf="ofertaForm.get('descripcion')?.hasError('minlength')">
-                Debe ser mayor a {{ofertaForm.get('descripcion')?.errors?.['minlength'].requiredLength}} caracteres
-              </div>
-              <div class="invalid-feedback"  *ngIf="ofertaForm.get('descripcion')?.hasError('maxlength')">
-                Debe ser menor o igual a {{ofertaForm.get('descripcion')?.errors?.['maxlength'].requiredLength}} caracteres.
-              </div>
-            </div>
-            <div class="row g-3 p-1">
-              <div class="form-group col-md-2">
-                <label for="inputState" class="col-sm-2 col-form-label">Precio:</label>
-              </div>
-              <div class="form-group col-md-6">
-                <input type="text" class="form-control" placeholder="$ " formControlName="precio" [class]="isValidField('precio')">
-                <div class="invalid-feedback" *ngIf="ofertaForm.get('precio')?.hasError('required')">
-                  Por favor ingrese el precio de la oferta.
-                </div>
-              </div>
-            </div>
-            <div class="row g-3 p-1">
-              <label for="inputState">Tiempo de Validez:</label>
-              <div class="form-group col-md-6">
-                <div class="input-group">
-                  <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker" formControlName="fechaInicio" [class]="isValidField('fechaInicio')">
-                  <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
-                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+          </div>
+          <!-- Tiempo de Validez de la oferta -->
+          <div class="row g-3 p-1">
+            <label for="inputState">Tiempo de Validez:</label>
+            <!-- Fecha de inicio -->
+            <div class="form-group col-md-6">
+              <div class="input-group">
+                <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker
+                  #dp="ngbDatepicker" formControlName="fechaInicio" [class]="isValidField('fechaInicio')">
+                <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-calendar" viewBox="0 0 16 16">
+                    <path
+                      d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                   </svg>
                   <span class="visually-hidden">Button</span></button>
-                  </div>
-                  <div class="invalid-feedback" *ngIf="ofertaForm.get('fechaInicio')?.hasError('required')">
-                    Por favor ingrese fecha de inicio de la oferta.
-                  </div>
               </div>
-              <div class="form-group col-md-6">
-                <div class="input-group">
-                  <input id="dateOfBirth1" class="form-control" placeholder="yyyy-mm-dd" name="dpa" ngbDatepicker #dpa="ngbDatepicker" formControlName="fechaFin" [class]="isValidField('fechaFin')">
-                  <button class="btn btn-outline-secondary" (click)="dpa.toggle()" type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
-                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+              <div class="invalid-feedback" *ngIf="ofertaForm.get('fechaInicio')?.hasError('required')">
+                Por favor ingrese fecha de inicio de la oferta.
+              </div>
+            </div>
+            <!-- Fecha de fin -->
+            <div class="form-group col-md-6">
+              <div class="input-group">
+                <input id="dateOfBirth1" class="form-control" placeholder="yyyy-mm-dd" name="dpa" ngbDatepicker
+                  #dpa="ngbDatepicker" formControlName="fechaFin" [class]="isValidField('fechaFin')">
+                <button class="btn btn-outline-secondary" (click)="dpa.toggle()" type="button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-calendar" viewBox="0 0 16 16">
+                    <path
+                      d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
                   </svg>
                   <span class="visually-hidden">Button1</span></button>
-                  </div>
-                  <div class="invalid-feedback" *ngIf="ofertaForm.get('fechaFin')?.hasError('required')">
-                    Por favor ingrese fecha de fin de la oferta.
-                  </div>
+              </div>
+              <div class="invalid-feedback" *ngIf="ofertaForm.get('fechaFin')?.hasError('required')">
+                Por favor ingrese fecha de fin de la oferta.
               </div>
             </div>
-            <div class="form-group p-1">
-              <input class="form-control" type="text" placeholder="Ciudad" formControlName="ciudad" [class]="isValidField('ciudad')">
-              <div class="invalid-feedback" *ngIf="ofertaForm.get('cuidad')?.hasError('required')">
-                Por favor ingrese la ciudad de la oferta.
+          </div>
+          <!-- Ciudad donde se esta publicando la oferta -->
+          <div class="form-group p-1">
+            <input class="form-control" type="text" placeholder="Ciudad" formControlName="ciudad"
+              [class]="isValidField('ciudad')">
+            <div class="invalid-feedback" *ngIf="ofertaForm.get('cuidad')?.hasError('required')">
+              Por favor ingrese la ciudad de la oferta.
+            </div>
+          </div>
+          <!-- Servicio a domicilio -->
+          <div class="row g-3 p-1">
+            <div class="form-group col-md-2">
+              <label for="inputState" class="col-sm-2 col-form-label">Servicio a Domicilio:</label>
+            </div>
+            <div class="form-group col-md-6">
+              <select id="inputState" class="form-control" formControlName="domicilio"
+                [class]="isValidField('domicilio')">
+                <option selected>Seleccione...</option>
+                <option>Si</option>
+                <option>No</option>
+              </select>
+              <div class="invalid-feedback" *ngIf="ofertaForm.get('domicilio')?.hasError('required')">
+                Por favor seleccione una opción.
               </div>
             </div>
-            <div class="row g-3 p-1">
-              <div class="form-group col-md-2">
-                <label for="inputState" class="col-sm-2 col-form-label">Domicilio:</label>
-              </div>
-              <div class="form-group col-md-6">
-                <select id="inputState" class="form-control" formControlName="domicilio" [class]="isValidField('domicilio')">
-                  <option selected>Seleccione...</option>
-                  <option>Si</option>
-                  <option>No</option>
-                </select>
-                <div class="invalid-feedback" *ngIf="ofertaForm.get('domicilio')?.hasError('required')">
-                  Por favor seleccione una opción.
-                </div>
+          </div>
+          <!-- Alcance de la oferta -->
+          <div class="form-group p-1">
+            <input class="form-control" type="text" placeholder="Alcance" formControlName="alcance"
+              [class]="isValidField('alcance')">
+            <div class="invalid-feedback" *ngIf="ofertaForm.get('alcance')?.hasError('required')">
+              Por favor ingrese el alcance de la oferta.
+            </div>
+          </div>
+          <!-- Número de celular -->
+          <div class="form-group p-1">
+            <input class="form-control" type="tel" placeholder="Celular" formControlName="celular"
+              [class]="isValidField('celular')">
+            <!-- Validaciones -->
+            <div class="invalid-feedback" *ngIf="ofertaForm.get('celular')?.hasError('required')">
+              Por favor ingrese celular.
+            </div>
+            <div class="invalid-feedback" *ngIf="ofertaForm.get('celular')?.hasError('pattern')">
+              # Celular invalido.
+            </div>
+          </div>
+          <!-- Dirección -->
+          <div class="form-group p-1">
+            <input class="form-control" type="text" placeholder="Dirección" formControlName="direccion"
+              [class]="notRequiredHasValue('direccion')">
+          </div>
+          <!-- Horario de inicio de la oferta -->
+          <div class="row g-3 p-1">
+            <div class="form-group col-md-4">
+              <label for="inputState" class="col-form-label">Horario Oferta:</label>
+            </div>
+            <!-- Hora de inicio -->
+            <div class="form-group col-md-4">
+              <input type="time" class="form-control" name="inicio" min="00:00" max="11:59" value="08:00"
+                formControlName="horaInicio" [class]="isValidField('horaInicio')">
+              <div class="invalid-feedback" *ngIf="ofertaForm.get('horaInicio')?.hasError('required')">
+                Por favor ingrese hora de inicio de la oferta.
               </div>
             </div>
-            <div class="form-group p-1">
-              <input class="form-control" type="text" placeholder="Alcance" formControlName="alcance" [class]="isValidField('alcance')">
-              <div class="invalid-feedback" *ngIf="ofertaForm.get('alcance')?.hasError('required')">
-                Por favor ingrese el alcance de la oferta.
+            <!-- Hora de fin -->
+            <div class="form-group col-md-4">
+              <input type="time" class="form-control" name="inicio" min="12:00" max="18:00" value="14:00"
+                formControlName="horaFin" [class]="isValidField('horaFin')">
+              <div class="invalid-feedback" *ngIf="ofertaForm.get('horaFin')?.hasError('required')">
+                Por favor ingrese hora de fin de la oferta.
               </div>
             </div>
-            <div class="form-group p-1">
-              <input class="form-control" type="tel" placeholder="Celular" formControlName="celular" [class]="isValidField('celular')" >
-              <div class="invalid-feedback" *ngIf="ofertaForm.get('celular')?.hasError('required')">
-                Por favor ingrese celular.
-              </div>
-              <div class="invalid-feedback" *ngIf="ofertaForm.get('celular')?.hasError('pattern')">
-                # Celular invalido.
-              </div>
-            </div>
-            <div class="form-group p-1">
-              <input class="form-control" type="text" placeholder="Dirección" formControlName="direccion" [class]="notRequiredHasValue('direccion')">
-            </div>
-            <div class="row g-3 p-1">
-              <div class="form-group col-md-4">
-                <label for="inputState" class="col-form-label">Horario Oferta:</label>
-              </div>
-              <div class="form-group col-md-4">
-                <input type="time" class="form-control" name="inicio" min="00:00" max="11:59" value="08:00" formControlName="horaInicio" [class]="isValidField('horaInicio')">
-                <div class="invalid-feedback" *ngIf="ofertaForm.get('horaInicio')?.hasError('required')">
-                  Por favor ingrese hora de inicio de la oferta.
-                </div>
-              </div>
-              <div class="form-group col-md-4">
-                <input type="time" class="form-control" name="inicio" min="12:00" max="18:00" value="14:00" formControlName="horaFin" [class]="isValidField('horaFin')">
-                <div class="invalid-feedback" *ngIf="ofertaForm.get('horaFin')?.hasError('required')">
-                  Por favor ingrese hora de fin de la oferta.
-                </div>
-              </div>
-            </div>
-            <div class="form-group p-1">
-              <textarea rows="3" class="form-control" placeholder="Información Adicional" formControlName="informacionAdicional" [class]="notRequiredHasValue('informacionAdicional')"></textarea>
-              
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary rounded-pill" (click)="modal.close()" >Subir Oferta</button>
-            </div>
+          </div>
+          <!-- Informacion adicional de la oferta -->
+          <div class="form-group p-1">
+            <textarea rows="3" class="form-control" placeholder="Información Adicional"
+              formControlName="informacionAdicional" [class]="notRequiredHasValue('informacionAdicional')"></textarea>
+          </div>
+          <!-- Guardar información de la oferta -->
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary rounded-pill">Subir Oferta</button>
+          </div>
         </form>
       </div>
     </div>

@@ -33,6 +33,7 @@
 
         <!--Barra informacion de perfil-->
         <ul class="nav nav-tabs mt-3 justify-content-center" id="myTab" role="tablist">
+            <!-- Información -->
             <li class="nav-item" role="presentation">
                 <a class="nav-link tamaño active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info"
                     type="button" role="tab" aria-controls="info" aria-selected="true">
@@ -43,6 +44,7 @@
                         </svg></span>
                     Info</a>
             </li>
+            <!-- Galeria -->
             <li class="nav-item" role="presentation">
                 <a class="nav-link tamaño" id="galeria-tab" data-bs-toggle="tab" data-bs-target="#galeria" type="button"
                     role="tab" aria-controls="galeria" aria-selected="false">
@@ -54,6 +56,7 @@
                         </svg> </span>
                     Galeria</a>
             </li>
+            <!-- Contacto -->
             <li class="nav-item" role="presentation">
                 <a class="nav-link tamaño" id="contacto-tab" data-bs-toggle="tab" data-bs-target="#contacto"
                     type="button" role="tab" aria-controls="contacto" aria-selected="false">
@@ -64,6 +67,7 @@
                         </svg></span>
                     Contacto</a>
             </li>
+            <!-- Comentario -->
             <li class="nav-item" role="presentation">
                 <a class="nav-link tamaño" id="comentarios-tab" data-bs-toggle="tab" data-bs-target="#comentarios"
                     type="button" role="tab" aria-controls="comentarios" aria-selected="false">
@@ -100,7 +104,7 @@
         <!--Galeria-->
         <div class="tab-pane fade mt-3" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
             <!-- Subir Imagenes de la galeria -->
-            <form *ngIf="rol === 'empresa' && login === true">
+            <form *ngIf="rol === 'empresa' && login === true && galeria == false">
                 <div class="input-group center col-lg-4 col-sx-6 col-md-4" id="div_file" style="margin-left: 60px;">
                     <p id="textos" style="color: white; text-align: center;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
@@ -122,8 +126,8 @@
                     </div>
                 </div>
             </form>
+            
             <!-- Mostrar imágenes y video de la galeria -->
-
             <div class="container mt-2">
                 <!-- <youtube-player videoId="{{empresa.youtubeVideo}}" *ngIf="video === true" [height]="220" [width]="360" class="col-lg-4 col-md-4 col-sx-12 mb-4"></youtube-player> -->
                 <div class="row galeria" gallerize="gallery-1">
@@ -171,6 +175,7 @@
                 </div>
             </div>
         </div>
+
         <!--Comentarios-->
         <div class="tab-pane fade mt-3" id="comentarios" role="tabpanel" aria-labelledby="comentarios-tab">
             <div class="container tamA">

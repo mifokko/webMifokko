@@ -6,10 +6,13 @@
   <section>
     <!--Imagen de portada por defecto-->
     <div class="img" *ngIf="fotoPor === false">
+      <!-- Editar Perfil -->
+      <button class="btn btn-primary rounded-pill editarBtn" (click)="editarPerfil()"
+      *ngIf="rol === 'empresa'">Editar</button>
       <!-- Botón de agregar Foto de portada -->
       <div class="img2" style="position: absolute; right: 0; margin-bottom: -30%; right: 25%;"
         *ngIf="rol === 'empresa'">
-        <a class="agregar center" data-bs-toggle="modal" data-bs-target="#portadaModal">
+        <a class="agregar" data-bs-toggle="modal" data-bs-target="#portadaModal">
           <img src="./assets/agregarPerfil.png" class="img-fluid rounded-circle" alt="Boton agregar"
             style="width: auto; height: 40%">
         </a>
@@ -17,9 +20,20 @@
     </div>
 
 
+
     <!--Imagen de portada seleccionada por la empresa-->
-    <div class="img2" *ngIf="fotoPor === true">
+    <div class="img2 justify-content-center" *ngIf="fotoPor === true">
+      <!-- Editar Perfil -->
+      <button class="btn btn-primary rounded-pill editarBtn" (click)="editarPerfil()"
+        *ngIf="rol === 'empresa'">Editar</button>
+      <!-- Imagen de Portada -->
       <img [src]="portadaSafe" class="img2">
+      <!-- Botón de agregar Foto de portada -->
+      <div class="img2 agregarBtn" *ngIf="rol === 'empresa' && editarInfo === true">
+        <a class="" data-bs-toggle="modal" data-bs-target="#portadaModal">
+          <img src="./assets/agregarPerfil.png" class="img-fluid rounded-circle" alt="Boton agregar">
+        </a>
+      </div>
     </div>
 
     <!---Imagen de perfil-->
@@ -28,7 +42,7 @@
       <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
         class="rounded-circle img1" alt="...">
 
-      <!-- Botón de agregar Fotos de perfil y portada -->
+      <!-- Botón de agregar Fotos de perfil -->
       <a class="agregar" data-bs-toggle="modal" data-bs-target="#exampleModal" *ngIf="rol === 'empresa'">
         <img src="./assets/agregarPerfil.png" class="img-fluid rounded-circle" alt="Boton agregar"
           style="width: auto; height: 40%;">
@@ -37,10 +51,14 @@
 
     <!---Imagen de perfil seleccionada por la empresa-->
     <div class="img1" style="position: absolute; right: 5%;" *ngIf="fotoP === true">
-
       <!---Imagen de perfil seleccionada por la empresa-->
       <img [src]="perfilSafe" class="rounded-circle img1" alt="..." *ngIf="fotoP === true">
-
+      <!-- Botón de agregar Fotos de perfil -->
+      <a class="agregar" data-bs-toggle="modal" data-bs-target="#exampleModal"
+        *ngIf="rol === 'empresa' && editarInfo === true">
+        <img src="./assets/agregarPerfil.png" class="img-fluid rounded-circle" alt="Boton agregar"
+          style="width: auto; height: 40%;">
+      </a>
     </div>
 
 
@@ -174,7 +192,7 @@
   <section class="tab-content bg-blanco" *ngIf="empresa">
     <!--Informacion-->
     <div class="tab-pane fade show active mt-3" id="info" role="tabpanel" aria-labelledby="info-tab">
-      <div class="container tamA">
+      <div class="container tamA" *ngIf="editarInfo === false">
         <h5>DESCRICIÓN</h5>
         <p>{{empresa.descripcion}}</p>
         <h5>CIUDAD: </h5>
@@ -191,11 +209,74 @@
         <h5>INFORMACIÓN ADICIONAL</h5>
         <p> {{empresa.informacionAdicional}} </p>
       </div>
+      <!-- Formulario para aeditar informacion del perfil de usuario -->
+      <div class="container tamA" *ngIf="editarInfo === true">
+        <form action="">
+          <!-- Descripcion de la empresa -->
+          <h5>DESCRICIÓN</h5>
+          <textarea class="form-control" rows="3" #descripcion name="descripcion">{{empresa.descripcion}}</textarea>
+          <!-- Ciudad -->
+          <h5>CIUDAD: </h5>
+          <input type="text" class="form-control p-1" #ciudad name="ciudad" value="{{empresa.ciudad}}">
+          <!-- Direccion -->
+          <h5>DIRECCIÓN:</h5>
+          <input type="text" class="form-control p-1" #direccion name="direccion" value="{{empresa.direccion}}">
+          <!-- Celular -->
+          <h5>CELULAR:</h5>
+          <input type="text" class="form-control p-1" #celular name="direccion" value="{{empresa.celular}}">
+          <!-- Horarios -->
+          <h5>HORARIO:</h5>
+          <!-- Horario Mañana -->
+          <div class="row p-1">
+            <div class="form-group col-md-6">
+              <input type="time" class="form-control" #horaMInicio min="00:00" max="11:59"
+                value="{{empresa.horaMInicio}}" name="horaMInicio">
+            </div>
+            <div class="form-group col-md-6">
+              <input type="time" class="form-control" #horaMFin min="00:00" max="12:00" value="{{empresa.horaMFin}}"
+                name="horaMFin">
+            </div>
+          </div>
+          <!-- Horario Tarde -->
+          <div class="row p-1">
+            <div class="form-group col-md-6">
+              <input type="time" class="form-control" #horaTInicio min="12:00" max="18:00"
+                value="{{empresa.horaTInicio}}" name="horaTInicio">
+            </div>
+            <div class="form-group col-md-6">
+              <input type="time" class="form-control" #horaTFin min="12:00" max="18:00" value="{{empresa.horaTFin}}"
+                name="horaTFin">
+            </div>
+          </div>
+          <!-- Servicio a domicilio -->
+          <div class="row g-3 p-1">
+            <div class="form-group col-md-6">
+              <h5 for="inputState" class="col-form-label">SERVICIO A DOMICILIO:</h5>
+            </div>
+            <div class="form-group col-md-6">
+              <select id="inputState" class="form-control" #domicilio name="domicilio" [value]="empresa.domicilio">
+                <option selected>Seleccione...</option>
+                <option>Si</option>
+                <option>No</option>
+              </select>
+            </div>
+          </div>
+          <!-- Informacion adicional -->
+          <h5>INFORMACIÓN ADICIONAL</h5>
+          <textarea name="descripcion" class="form-control" rows="3"
+            #informacionAdicional>{{empresa.informacionAdicional}}</textarea>
+          <!-- Se envia la informacion para guardarse -->
+          <div class="justify-content-right">
+            <button type="submit" class="btn btn-secondary rounded-pill my-2"
+              (click)="guardarEdicion(descripcion.value, ciudad.value, direccion.value, celular.value, horaMInicio.value, horaMFin.value, horaTInicio.value, horaTFin.value, domicilio.value, informacionAdicional.value)">Guardar</button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <!--Servicios-->
     <div class="tab-pane fade mt-3" id="servicios" role="tabpanel" aria-labelledby="servicios-tab">
-      <div class="container tamA">
+      <div class="container tamA" *ngIf="editarInfo === false">
         <h5>SERVICIOS</h5>
         <div class="row">
           <div class="col-lg-4 col-md-4 col-sx-12" *ngFor="let data of servicios">
@@ -208,6 +289,22 @@
           </div>
         </div>
       </div>
+      <!-- Formulario para editar informacion de servicios -->
+      <div class="container tamA" *ngIf="editarInfo === true">
+        <form action="">
+          <h5>SERVICIOS</h5>
+          <label for="">Agregar o modificar la lista de servicios. Recuerde escribir los servicios separados por ','
+            (coma).</label>
+          <br>
+          <input type="text" class="form-control col" #servicios value="{{empresa.servicios}}">
+          <!-- Se envia la informacion para guardarse -->
+          <div class="justify-content-right">
+            <button type="submit" class="btn btn-secondary rounded-pill my-2"
+              (click)="guardarServicios(servicios.value)">Guardar</button>
+          </div>
+        </form>
+      </div>
+      <!-- Boton para subir portafolio de empresa -->
       <div class="container tamA mb-3" *ngIf="portafolio === false && rol === 'empresa'">
         <h5>PORTAFOLIO</h5>
         <div class="input-group center col-lg-4 col-sx-6 col-md-4" id="div_file">
@@ -226,16 +323,32 @@
           </p>
         </div>
       </div>
+
+      <!-- Portafolio -->
       <div class="container tamA mb-3" *ngIf="portafolio === true">
         <a href="{{empresa.portafolio}}" class="tamA" target="_blank" style="color: #ea924a;"> <b> PORTAFOLIO </b> </a>
       </div>
+
+      <!-- Eliminar portafolio -->
+      <div class="container my-3" *ngIf="editarInfo === true">
+        <label for=""> Si desea cambiar su portafolio: <br> 1. Elimine el archivo actual <br> 2. Proceda a subir su
+          nuevo portafolio</label>
+        <br>
+        <button type="button" *ngIf="editarInfo === true" class="btn btn-warning rounded"
+          (click)="eliminarArchivo(empresa.portafolio)"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+            fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+            <path
+              d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+          </svg> Eliminar </button>
+      </div>
+
     </div>
 
 
     <!--Galeria-->
     <div class="tab-pane fade mt-3" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
       <!-- Subir Imagenes de la galeria -->
-      <form *ngIf="rol === 'empresa' && login === true">
+      <form *ngIf="rol === 'empresa' && login === true && gallerys == false">
         <div class="input-group center col-lg-4 col-sx-6 col-md-4" id="div_file" style="margin-left: 60px;">
           <p id="textos" style="color: white; text-align: center;">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
@@ -259,7 +372,7 @@
       </form>
       <!-- Mostrar imágenes y video de la galeria -->
 
-      <div class="container mt-2">
+      <div class="container mt-2" *ngIf="editarInfo === false">
         <!-- <youtube-player videoId="{{empresa.youtubeVideo}}" *ngIf="video === true" [height]="220" [width]="360" class="col-lg-4 col-md-4 col-sx-12 mb-4"></youtube-player> -->
         <div class="row galeria" gallerize="gallery-1">
           <div class="col-lg-4 col-md-4 col-sx-12 mb-4" *ngFor="let img of imageData; index as i">
@@ -267,6 +380,27 @@
           </div>
         </div>
       </div>
+
+      <!-- Formulario para eliminar imagenes -->
+      <div class="container" *ngIf="editarInfo === true">
+        <form name="imagenesForm">
+          <div class="row galeria">
+            <div *ngFor="let img of imageData; index as i" class="col-md-4 col-lg-4 col-sx-12">
+              <input class="form-check-input" name="checkImagenes" type="checkbox" (change)="agregar(img.srcUrl,$event.target, img.id)"
+                value="{{img.srcUrl}}">
+              <img class="img-fluid" [src]="img.srcUrl">
+            </div>
+          </div>
+          <br>
+          <button type="button" class="btn btn-warning rounded m-2" (click)="eliminarImagenes()"><svg
+              xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-trash3"
+              viewBox="0 0 16 16">
+              <path
+                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+            </svg> Eliminar</button>
+        </form>
+      </div>
+
     </div>
 
     <!--Contacto-->
@@ -315,7 +449,7 @@
             <div class="row g-3 p-1">
 
               <!--Youtube-->
-              <div class="form-group col-md-6" *ngIf="mostrar === true && networks.youtube === ''">
+              <div class="form-group col-md-6" *ngIf="mostrar === true && networks.youtube === '' || editarInfo === true">
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
@@ -329,7 +463,7 @@
                 </div>
               </div>
               <!--Facebook-->
-              <div class="form-group col-md-6" *ngIf="mostrar === true && networks.facebook === ''">
+              <div class="form-group col-md-6" *ngIf="mostrar === true && networks.facebook === '' || editarInfo === true">
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
@@ -345,7 +479,7 @@
             </div>
             <div class="row g-3 p-1">
               <!--Instagram-->
-              <div class="form-group col-md-6" *ngIf="mostrar === true && networks.instagram === ''">
+              <div class="form-group col-md-6" *ngIf="mostrar === true && networks.instagram === '' || editarInfo === true">
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
@@ -359,7 +493,7 @@
                 </div>
               </div>
               <!--Whatsapp-->
-              <div class="form-group col-md-6" *ngIf="mostrar === true && networks.whatsapp === ''">
+              <div class="form-group col-md-6" *ngIf="mostrar === true && networks.whatsapp === '' || editarInfo === true">
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
@@ -377,7 +511,7 @@
               *ngIf="mostrar === true && net === undefined" (tapClick)="redesSocialesR()">
               Guardar
             </button>
-            <button type="submit" class="btn btn-secondary rounded-pill m-1" *ngIf="mostrar === true && net === 'save'"
+            <button type="submit" class="btn btn-secondary rounded-pill m-1" *ngIf="mostrar === true && net === 'save' || editarInfo === true"
               (tapClick)="actualizarRedesS()">
               Actualizar
             </button>
@@ -402,11 +536,13 @@
           <form #comentariosForm="ngForm" (ngSubmit)="saveComentarios(comentariosForm)">
             <div class="col-md-6 col-sx-12 col-lg-6 b-3">
               <label for="exampleFormControlInput1" class="form-label">Nombre Usuario</label>
-              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="nombre" [(ngModel)]="comentarios.nombre" name="nombre">
+              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="nombre"
+                [(ngModel)]="comentarios.nombre" name="nombre">
             </div>
             <div class="col-md-6 col-sx-12 col-lg-6 mb-3">
               <label for="exampleFormControlTextarea1" class="form-label">Comentario</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="comentarios.comentario" name="comentario"></textarea>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                [(ngModel)]="comentarios.comentario" name="comentario"></textarea>
             </div>
             <div class="col-md-6 col-sx-12 col-lg-6 mb-3">
               <button type="submit" class="btn btn-primary rounded-pill" value="Save Comentarios">Enviar</button>

@@ -68,6 +68,7 @@
   border-radius: 1rem;
   width:100%;
   height:250px;
+  text-align:center;
   background-size: 100% 100%;
   background-repeat:no-repeat;
   background-size: cover;
@@ -81,6 +82,7 @@
   border-radius: 1rem;
   width:100%;
   height:300px;
+  text-align:center;
   background-size: 100% 100%;
   background-repeat:no-repeat;
   background-size: cover;
@@ -152,13 +154,13 @@ div .tamA h5 {
   
 }
   /* 2 columnas para tablets */
-@media (min-width: 420px) {
+@media all and (min-width: 420px) {
   .breakpoint  {
     max-width: 50%;
   }
 }
   /* 4 columnas para grandes dispositivos*/
-@media (min-width: 760px) {
+@media all and (min-width: 760px) {
   .breakpoint  {
     max-width: 50%;
   }
@@ -177,4 +179,41 @@ div #div_file{
   background-color: steelblue;
   border-radius: 10px;
   box-shadow: 0px 3px 0px #1a71a9;
+}
+
+
+//---------------------------------------------------------------------------------------------
+// Botón Editar Perfil
+//---------------------------------------------------------------------------------------------
+
+.editarBtn {
+  position: absolute;
+  right: 1em;
+  top: 6em;
+  box-shadow: 0 8px 10px -4px rgba(0,0,0,0.6); 
+}
+
+//---------------------------------------------------------------------------------------------
+// Botón Agregar Foto Portada
+//---------------------------------------------------------------------------------------------
+
+.agregarBtn {
+  position: relative;
+  top: 6em;
+  width: 8%;
+  height: 8%;
+  margin:0px auto;
+  margin-top: -17em;
+}
+
+@media  all and (min-width: 300px) and (max-width: 500px)
+{
+  .agregarBtn {
+    position: relative;
+    top: 6em;
+    width: 15%;
+    height: 15%;
+    margin:0px auto;
+    margin-top: -15em;
+  }
 }

@@ -36,6 +36,9 @@ export class SubirOfertaComponent implements OnInit {
   listaImagenes: SafeUrl[] = [];
   contador = 0;
 
+  //Lista de archivos
+  listaArchivos: any[] = [];
+
   oferta: Oferta[] = [];
   date: Date = new Date();
 
@@ -56,6 +59,7 @@ export class SubirOfertaComponent implements OnInit {
   async OnSave(): Promise<void> {
     if (this.ofertaForm.valid) {
       try {
+        this.modal.close();
         const formValue = this.ofertaForm.value;
         console.log('datos ->', this.ofertaForm);
         let path = '';
@@ -73,12 +77,31 @@ export class SubirOfertaComponent implements OnInit {
           id += numeros.charAt(Math.floor(Math.random() * numeros.length));
         }
 
+        for (let index = 0; index < this.listaArchivos.length; index++) {
+          const id = Math.random().toString(36).substring(2);
+          const file = this.listaArchivos[index];
+          const filePath = `Ofertas/${id}_${this.uid}`;
+          const ref = this.storage.ref(filePath);
+          const task = this.storage.upload(filePath, file);
+          this.uploadPercent = task.percentageChanges();
+          task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
+          //Guardar referencia de las imágenes en un array
+          task.then(() => {
+            this.urlImage.forEach(value => {
+              this.listaImagenes[this.contador] = value;
+              this.contador++;
+              //this.firestore.updateCamposDocCollDoc(value, path, id, 'Ofertas', ('IMG' + index));
+            })
+          });
+          await timer(6000);
+          (await task).state;
+        }
         await this.data.createColInDoc(formValue, path, this.uid, subpath, id);
         await this.data.updateCamposDocCollDoc2(id, path, this.uid, subpath, id, 'id');
         this.firestore.updateCamposDocCollDoc2(this.listaImagenes, path, this.uid, subpath, id,'imagenes');
         Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
         this.ofertaForm.reset()
-
+        this.modal.close();
       } catch (e) {
         alert(e);
       }
@@ -95,37 +118,11 @@ export class SubirOfertaComponent implements OnInit {
 
   //Almacenar imagenes en storage
   async onUpload(e: any) {
-    let path = '';
-    if (this.rol == 'empresa') {
-      path = 'Empresas';
-    } else if (this.rol == 'independiente') {
-      path = 'Independiente';
-    } else {
-      path = '';
-    }
     switch (this.tipoPlan) {
       case 'EMPRESARIALORO':
         //Con este paquete se pueden subir 5 fotos para oferta
         if (e.target.files.length <= 5) {
-          for (let index = 0; index < e.target.files.length; index++) {
-            const id = Math.random().toString(36).substring(2);
-            const file = e.target.files[index];
-            const filePath = `Ofertas/${id}_${this.uid}`;
-            const ref = this.storage.ref(filePath);
-            const task = this.storage.upload(filePath, file);
-            this.uploadPercent = task.percentageChanges();
-            task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
-            //Guardar referencia de las imágenes en un array
-            task.then(() => {
-              this.urlImage.forEach(value => {
-                this.listaImagenes[this.contador] = value;
-                this.contador++;
-                //this.firestore.updateCamposDocCollDoc(value, path, id, 'Ofertas', ('IMG' + index));
-              })
-            });
-            await timer(6000);
-            (await task).state;
-          }
+          this.listaArchivos = e.target.files;
         } else {
           alert('La cantidad de imágenes que permite su paquete es de 5');
         }
@@ -133,25 +130,7 @@ export class SubirOfertaComponent implements OnInit {
       case 'EMPRESARIALPLATA':
         //Con este paquete se pueden subir 3 fotos para oferta
         if (e.target.files.length <= 3) {
-          for (let index = 0; index < e.target.files.length; index++) {
-            const id = Math.random().toString(36).substring(2);
-            const file = e.target.files[index];
-            const filePath = `Ofertas/${this.uid}/${id}`;
-            const ref = this.storage.ref(filePath);
-            const task = this.storage.upload(filePath, file);
-            this.uploadPercent = task.percentageChanges();
-            task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
-            //Guardar referencia de las imágenes en un array
-            task.then(() => {
-              this.urlImage.forEach(value => {
-                this.listaImagenes[this.contador] = value;
-                this.contador++;
-                //this.firestore.updateCamposDocCollDoc(value, path, id, 'Ofertas', ('IMG' + index));
-              })
-            });
-            await timer(7000);
-            (await task).state;
-          }
+          this.listaArchivos = e.target.files;
         } else {
           alert('La cantidad de imágenes que permite su paquete es de 3');
         }
@@ -159,25 +138,7 @@ export class SubirOfertaComponent implements OnInit {
       case 'INDEPENDIENTEORO':
         //Con este paquete se pueden subir 4 fotos para oferta
         if (e.target.files.length <= 4) {
-          for (let index = 0; index < e.target.files.length; index++) {
-            const id = Math.random().toString(36).substring(2);
-            const file = e.target.files[index];
-            const filePath = `Ofertas/${this.uid}/${id}`;
-            const ref = this.storage.ref(filePath);
-            const task = this.storage.upload(filePath, file);
-            this.uploadPercent = task.percentageChanges();
-            task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
-            //Guardar referencia de las imágenes en un array
-            task.then(() => {
-              this.urlImage.forEach(value => {
-                this.listaImagenes[this.contador] = value;
-                this.contador++;
-                //this.firestore.updateCamposDocCollDoc(value, path, id, 'Ofertas', ('IMG' + index));
-              })
-            });
-            await timer(7000);
-            (await task).state;
-          }
+          this.listaArchivos = e.target.files;
         } else {
           alert('La cantidad de imágenes que permite su paquete es de 4');
         }
@@ -185,25 +146,7 @@ export class SubirOfertaComponent implements OnInit {
       case 'INDEPENDIENTEPLATA':
         //Con este paquete se pueden subir 2 fotos para oferta
         if (e.target.files.length <= 2) {
-          for (let index = 0; index < e.target.files.length; index++) {
-            const id = Math.random().toString(36).substring(2);
-            const file = e.target.files[index];
-            const filePath = `Ofertas/${this.uid}/${id}`;
-            const ref = this.storage.ref(filePath);
-            const task = this.storage.upload(filePath, file);
-            this.uploadPercent = task.percentageChanges();
-            task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
-            //Guardar referencia de las imágenes en un array
-            task.then(() => {
-              this.urlImage.forEach(value => {
-                this.listaImagenes[this.contador] = value;
-                this.contador++;
-                //this.firestore.updateCamposDocCollDoc(value, path, id, 'Ofertas', ('IMG' + index));
-              })
-            });
-            await timer(7000);
-            (await task).state;
-          }
+          this.listaArchivos = e.target.files;
         } else {
           alert('La cantidad de imágenes que permite su paquete es de 2');
         }
@@ -226,25 +169,6 @@ export class SubirOfertaComponent implements OnInit {
         this.tipoPlan = res.tipoPlan;
       }
     });
-
-    // this.firestore.getDocCol<Oferta>(path, this.uid, 'Ofertas').subscribe(res => {
-    //   this.oferta = res;
-    //   for (let index = 0; index < this.oferta.length; index++) {
-    //     const fecha = this.oferta[index].fechaInicio.day.toString() + '/' + this.oferta[index].fechaInicio.month.toString() + '/' + this.oferta[index].fechaInicio.year.toString();
-    //     //console.log(fecha);
-    //     //console.log(this.oferta[index].fechaInicio.month.toLocaleString() + ', ' + this.mes);
-    //     if (this.oferta[index].fechaInicio.month.toLocaleString() === (this.date.getMonth() + 1).toString() && this.oferta[index].fechaInicio.year.toLocaleString() === this.date.getFullYear().toString()) {
-    //       //console.log(true);
-    //       if (this.date.getDate() >= this.oferta[index].fechaInicio.day && this.date.getDate() <= this.oferta[index].fechaFin.day) {
-    //         this.oferta[index].estado = 'Activo';
-    //         this.firestore.updateCamposDocCollDoc2('Activo', path, this.uid, 'Ofertas', this.oferta[index].id, 'estado');
-    //       } else {
-    //         this.oferta[index].estado = 'Inactivo';
-    //         this.firestore.updateCamposDocCollDoc2('Inactivo', path, this.uid, 'Ofertas', this.oferta[index].id, 'estado');
-    //       }
-    //     }
-    //   }
-    // });
   }
 
   //Validaciones

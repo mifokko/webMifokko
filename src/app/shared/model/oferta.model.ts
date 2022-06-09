@@ -23,5 +23,7 @@ export interface Ofertas {
     domicilio: string,
     precio: string,
     direccion: string,
-    celular: string
+    celular: string,
+    imagenes: [];
+    numImages: number
 }

@@ -1,3 +1,5 @@
+import { AngularFireStorageReference } from "@angular/fire/compat/storage";
+
 export interface Empresa {
     nombre: string,
     ciudad: string,

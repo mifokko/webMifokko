@@ -3,12 +3,14 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { deleteObject, getStorage, ref } from 'firebase/storage';
 import { Gallery, GalleryItem, ImageItem, ThumbnailsPosition, ThumbnailsView } from 'ng-gallery';
 import { Lightbox } from 'ng-gallery/lightbox';
 import { finalize, Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Comentario } from '../../model/comentario.model';
 import { Empresa } from '../../model/empresa.model';
+import { GaleriaImage } from '../../model/galeria.model';
 import { Independiente } from '../../model/independiente.model';
 import { Perfil } from '../../model/perfil.model';
 import { Redes } from '../../model/redes.model';
@@ -29,6 +31,7 @@ export class PerfilIndependienteComponent implements OnInit {
   @ViewChild('imagenesGaleria') inputImagenesGaleria!: ElementRef;
   @ViewChild('archivoPortafolio') inputarchivoPortafolio: ElementRef | undefined;
 
+  //Esta estructura se usa cuando se va a guardar las redes sociales
   redes = {
     youtube: '',
     instagram: '',
@@ -36,6 +39,7 @@ export class PerfilIndependienteComponent implements OnInit {
     facebook: ''
   }
 
+  //Esta estructura se usa para conocer y validar que campos de redes sociales no se han llenado
   networks = {
     youtube: '',
     instagram: '',
@@ -43,67 +47,78 @@ export class PerfilIndependienteComponent implements OnInit {
     facebook: ''
   }
 
-  campo!: string;
-  telefono!: boolean;
+  //Estructura para almacenar los comentarios
+  comentarios = {
+    nombre: '',
+    comentario: ''
+  }
+  coment = 0;
+  campo!: string; //Nombre del campo para actualizar
+  tipoPlan!: string; //Tipo de paquete de subscripción del usuario
   //imagen!: string;
   expresionRegular = /\s*;\s*/;
-  imagen: string[] = [];
-  imagenes: string[] = [];
+  imagen: string[] = []; //Se usa para almacenar las referencias que se pueden usar para mostrar las imagenes en pantalla 
+  imagenes: GaleriaImage[] = []; //Se usa para separar las referencias de las imagenes de la galeria
   galeria!: boolean;
   video!: boolean;
+  refUrl = ''; //Se usa para almacenar la Url de la imagen mientras se termina el proceso 
+  listaArchivos: any[] = []; //Se usa para almacenar la lisa de archivos a almacenar, se emplea con el fin de verificar la cantidad de imagenes que puede subir segun el plan que paga
 
-  servicios!: string[] | undefined;
+  servicios!: string[] | undefined; //Se usa para separar y almacenar los servicios 
 
   urlGalery!: Observable<string>;
-  file: any;
-  filePath: any;
+  file: any; //Referencia del archivo a subir 
+  filePath: any; //Direccion donde se almacenara la imagen
   sigte: boolean = true;
-  index = 0;
+  index = 0; //Se usa como contador para guardar en orden las imagenes 
 
   mostrar: boolean = false;
   red: 'save' | 'mostrar' | 'vacio' | undefined;
   net: 'save' | undefined;
-  youtubeSafe!: SafeUrl;
-  facebookSafe!: SafeUrl;
-  instagramSafe!: SafeUrl;
+  youtubeSafe!: SafeUrl; //Variable que contiene el link de youtube del usuario a mostrar
+  facebookSafe!: SafeUrl; //Variable que contiene el link de fecebook del usuario a mostrar
+  instagramSafe!: SafeUrl; //Variable que contiene el link de instagram del usuario a mostrar
 
-  fotoP: boolean = false;
-  fotoPor: boolean = false;
-  perfilSafe!: SafeUrl | undefined;
-  portadaSafe!: SafeUrl | undefined;
-  uploadPercent!: Observable<number | undefined>;
-  uploadPercentP!: Observable<number | undefined>;
-  urlImage!: Observable<string>;
-  urlPortada!: Observable<string>;
+  fotoP: boolean = false; //Nos dice si hay o no en la base de datos imagen de perfil de la empresa
+  fotoPor: boolean = false; //Nos dice si hay o no en la base de datos imagen de portada de la empresa
+  perfilSafe!: SafeUrl | undefined; //Variable que contiene el link de la imagen de perfil para mostrar 
+  portadaSafe!: SafeUrl | undefined; //Variable que contiene el link de la imagen de portada para mostrar
+  uploadPercent!: Observable<number | undefined>; //Muestra el porcentaje de subida de las imagenes 
+  uploadPercentP!: Observable<number | undefined>; //Muestra el porcentaje de subida de la imagen de portada 
+  urlImage!: Observable<string>; // Almacena la direccion URL donde se almacenado la imagen de pefil
+  urlPortada!: Observable<string>; //ALmacena la deireccion URL deonde se almacena la imagen de portada  
 
   uploadPercentPortafolio!: Observable<number | undefined>;
   urlPortafolio!: Observable<string>;
   portafolio!: boolean;
 
   rol: 'empresa' | 'independiente' | 'general' | undefined;
+  gallerys!: boolean; // Con esta nos damos cuenta si el usuario en su galeria ya ha cumplido con la capacidad de fotos que puede subir 
+  network!: Redes; // Objeto donde se almacenan la referencia de las redes sociales del usuario, para mostrar 
+  independiente: Independiente | undefined; // Objeto que contiene la informacion del usuario para mostrar
 
-  network!: Redes;
-  empresa: Empresa | undefined;
-  independiente: Independiente | undefined;
-
+  // Este grupo se usa en la galeria, 
   items!: GalleryItem[];
   imageData = galeryImages;
   paso!: boolean;
 
-  id = '';
-  path = '';
-  plan = '';
-  numFotos!: number;
+  id = ''; // Numero con el cual esta guardada la informacion del usuario en la base de datos
+  path = ''; // Se usa como referencia de la carpeta en donde esta almacenada la informacion del Usuario, para saber que tipo de Coleccion es.
+  plan = ''; // Muestra el tipo de paquete al que esta subscrito el usuario
+  numFotos!: number; // Se almacena el número de imagenes almacenadas 
+  filepathPortafolio!: string; // Se usa para guardar la referencia que se usara al momento de eliminar el portafolio
 
-  chat: Comentario[] = [];
+  telefono!: boolean; // Se usa para saber si han dado click en el icono del telefono y muestra el número 
+  chat: Comentario[] = []; //Lista donde se almacenan los comentarios que se han hecho a la empresa
+  userToken!: string; //Guarda el token del usuario loggeado
+  login!: boolean; // Muestra se se inicio sesion o no 
+  editarInfo: boolean = false; //Se encarga de habiliatar y deshabilitar las areas de edición del perfil
 
-  comentarios = {
-    nombre: '',
-    comentario: ''
-  }
-  coment = 0;
+  checksImagenes: string[] = []; // Se almacena la referencia de la imagen que se desea eliminar 
+  idsImagenes: string[] = []; // Almacena el identificador de la imagen a eliminar 
+
   fotoPI: 'APROBADO' | 'NO APROBADO' | undefined;
-  login!: boolean;
+
 
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
     activatedRoute.params.subscribe(prm => {
@@ -121,7 +136,7 @@ export class PerfilIndependienteComponent implements OnInit {
         this.login = true;
         if (res.uid != this.id) {
           this.rol = 'general';
-        }else{
+        } else {
           this.rol = 'independiente';
         }
         console.log(this.rol);
@@ -207,66 +222,116 @@ export class PerfilIndependienteComponent implements OnInit {
 
   //Guardar imagenes en storage y firebase
   async onUploadGaleria(e: any) {
-    console.log('paso', galeryImages.length, this.numFotos);
-    console.log(e.target.files.length);
-    for (let index = 0; index < e.target.files.length; index++) {
+    //console.log('paso', galeryImages.length, this.numFotos);
+    //console.log(e.target.files.length);
+    //Verificando la cantidad de imagenes que se desean subir 
+    switch (this.tipoPlan) {
+      case 'INDEPENDIENTEORO':
+        //Con este paquete se pueden subir 5 fotos para oferta
+        if (e.target.files.length <= 7 || galeryImages.length <= 7) {
+          this.listaArchivos = e.target.files;
+        } else {
+          alert('La cantidad de imágenes que permite su paquete es de 7');
+        }
+        break;
+      case 'INDEPENDIENTEPLATA':
+        //Con este paquete se pueden subir 3 fotos para oferta
+        if (e.target.files.length <= 4 || galeryImages.length <= 4) {
+          this.listaArchivos = e.target.files;
+        } else {
+          alert('La cantidad de imágenes que permite su paquete es de 4');
+        }
+        break;
+      default:
+        alert('No se especifico su plan');
+        break;
+    }
+
+    const metadata = {
+      contentType: 'image/jpeg'
+    };
+
+    //Funcion para el almacenamiento de las imagenes en el Storage de la base de datos
+    for (let index = 0; index < this.listaArchivos.length; index++) {
       const id = Math.random().toString(36).substring(2);
-      this.file = e.target.files[this.index];
-      if (this.rol == 'independiente') {
-        this.path = 'Independiente';
-        this.filePath = `Galeria/${this.independiente?.nombre}/_${id}`;
-        console.log('paso ' + this.path);
-      }
-
+      this.file = this.listaArchivos[index]; //Archivo a almacenar
+      this.path = 'Independiente'; //Carpeta principal donde se va a almacenar
+      this.filePath = `Galeria/${this.independiente?.nombre}/${this.listaArchivos[index].name}_${id}`; //Dirección de almacenamiento
+      //console.log('paso ' + this.path);
       const ref = this.storage.ref(this.filePath);
-      const task = this.storage.upload(this.filePath, this.file);
-      this.uploadPercent = task.percentageChanges();
-      task.snapshotChanges().pipe(finalize(() => this.urlGalery = ref.getDownloadURL())).subscribe();
+      const task = this.storage.upload(this.filePath, this.file, metadata); //Funcion de almacenamiento//
+      this.uploadPercent = task.percentageChanges(); //Variable que muestra el porcentaje de carga de las imagenes 
+      task.snapshotChanges().pipe(finalize(() => this.urlGalery = ref.getDownloadURL())).subscribe(); //Obtiene la URL de referencia de la imagen almacenada
       console.log('paso');
-
+      //En esta seccion se guardan las URL de referencia de las imagenes en la carpeta de Galeria en la Base de Datos 
+      await timer(4000);
       task.then(() =>
         this.urlGalery.forEach(async valor => {
-          if (galeryImages.length == 0) {
-            if (this.index == 0) {
-              this.index++;
-              this.firestore.createColInDoc({ [this.index.toString()]: valor }, this.path, this.id, 'Galeria', this.id);
-            } else {
-              this.index++;
-              await this.firestore.updateCamposDocCollDoc(valor, this.path, this.id, 'Galeria', (this.index.toString()));
-              await this.firestore.updateCamposDoc(index, this.path, this.id, 'NumFotos');
-              //index++;
-            }
-          } else if (galeryImages.length > 0) {
-            this.index = galeryImages.length;
-            this.index++;
-            await this.firestore.updateCamposDocCollDoc(valor, this.path, this.id, 'Galeria', (this.index.toString()));
-            await this.firestore.updateCamposDoc(index, this.path, this.id, 'NumFotos');
-
-            //index++;
-          }
+          console.log(valor);
+          this.refUrl = valor;
         })
       )
-      await timer(7000);
+      await timer(3000);
+      this.imagen[index] = this.refUrl;
+      this.refUrl = '';
+      console.log(this.refUrl, this.imagen[index]);
       (await task).state;
     }
     this.index = this.index;
-    console.log(this.index);
-    //$('#btn-enviar').val('');
-    //$('#imagenesGaleria').load('perfil.html');
+    console.log(this.index, this.imagen);
+    if (galeryImages.length < 7) {
+      for (let index = 0; index < this.imagen.length; index++) {
+        const codigo = Math.random().toString(36).substring(2);
+        this.firestore.createColInDoc({ 'IMG': this.imagen[index] }, 'Independiente', this.id, 'Galeria', this.index.toString());
+        this.firestore.updateCamposDocCollDoc2(this.index.toString(), 'Independiente', this.id, 'Galeria', this.index.toString(), 'uid');
+        this.index++;
+      }
+    } else if (galeryImages.length >= 7) {
+      alert('No se pueden subir más imágenes');
+    }
+
+    this.imagen = [];
+  }
+
+  //Funcion para eliminar las imagenes selecionadas
+  eliminarImagenes() {
+    for (let index = 0; index < this.checksImagenes.length; index++) {
+      const storagea = getStorage();
+      const desertRef = ref(storagea, this.checksImagenes[index]);
+      deleteObject(desertRef).then(() => {
+        this.firestore.deleteCamposColDoc(this.path, this.id, 'Galeria', this.idsImagenes[index]);
+      }).catch((error) => {
+        Swal.fire('Error Eliminando archivo', 'Intentelo de nuevo', 'error');
+      });
+    }
+    Swal.fire('Imágenes eliminadas', 'Regresar al perfil', 'success');
+    console.log(this.checksImagenes);
+  }
+
+  //Funcion que almacena en un array la referencia de las imagenes que se van a eliminar
+  agregar(data: string, e: any, index: string) { // Agregamos el elemento
+    const input = e as HTMLInputElement;
+    if (input.checked) {
+      this.checksImagenes.push(data);
+      this.idsImagenes.push(index);
+    } else {
+      this.checksImagenes = this.checksImagenes.filter(s => s !== data);
+      this.idsImagenes = this.idsImagenes.filter(s => s !== index);
+    }
+    console.log(this.checksImagenes);
   }
 
   //Suibir archivo portafolio
   onPortafolio(e: any) {
     let path = 'Independiente';
-
-    if (path == 'Independiente') {
-      const id = Math.random().toString(36).substring(2);
-      const file = e.target.files[0];
-      const filePath = `Portafolio/${this.independiente?.nombre}/${id}`;
-      const ref = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, file);
-      this.uploadPercentPortafolio = task.percentageChanges();
-      task.snapshotChanges().pipe(finalize(() => this.urlPortafolio = ref.getDownloadURL())).subscribe();
+    const id = Math.random().toString(36).substring(2);
+    const file = e.target.files[0];
+    const filePath = `Portafolio/${this.independiente?.nombre}/${id}_${e.target.files[0].name}`;
+    const ref = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, file);
+    this.uploadPercentPortafolio = task.percentageChanges();
+    task.snapshotChanges().pipe(finalize(() => this.urlPortafolio = ref.getDownloadURL())).subscribe();
+    task.then(() => {
       try {
         this.urlPortafolio.forEach(value => {
           this.firestore.updateCamposDoc(value, path, this.id, 'portafolio');
@@ -278,8 +343,22 @@ export class PerfilIndependienteComponent implements OnInit {
           'Error cargando archivo',
           'error'
         );
+        console.log(error);
       }
-    }
+    });
+
+  }
+
+  //Funcion que se encarga de eliminar los archivos 
+  async eliminarArchivo(portafolio: string) {
+    const storagea = getStorage();
+    const desertRef = ref(storagea, portafolio);
+    deleteObject(desertRef).then(() => {
+      this.firestore.deleteCamposDoc(this.path, this.id, 'portafolio');
+      Swal.fire('Portafolio eliminado', 'Regresar al perfil', 'success');
+    }).catch((error) => {
+      Swal.fire('Error Eliminando archivo', 'Intentelo de nuevo', 'error');
+    });
   }
 
   //Actualizar redes sociales 
@@ -346,16 +425,18 @@ export class PerfilIndependienteComponent implements OnInit {
     const id = uid;
     console.log('paso');
     this.firestore.getDoc<Usuario>(path, id).subscribe(res => {
-      this.path = 'Independiente';
-      console.log('paso');
+      if (res) {
+        this.path = 'Independiente';
+        this.tipoPlan = res.tipoPlan;
+      }
+      //console.log('paso');
+      //Obteniendo datos del independiente
       this.firestore.getDoc<Independiente>('Independiente', id).subscribe(res => {
         this.independiente = res;
 
         //Listar los servicios 
         this.servicios = this.independiente?.servicios.split(',');
-        console.log(this.servicios);
 
-        console.log(this.independiente?.portafolio);
         //Carga de portafolio
         if (this.independiente?.portafolio == undefined) {
           this.portafolio = false;
@@ -363,6 +444,7 @@ export class PerfilIndependienteComponent implements OnInit {
           this.portafolio = true;
         }
 
+        //Comprobar estado de foto de perfil
         if (res?.fotoPerfilInd == 'APROBADO') {
           this.fotoPI = 'APROBADO';
         } else {
@@ -370,6 +452,7 @@ export class PerfilIndependienteComponent implements OnInit {
         }
 
       });
+      //Obteniendo las redes sociales de la BD
       this.firestore.getDocColDoc<Redes>('Independiente', id, 'Redes').subscribe(res => {
         if (res == undefined) {
           //console.log(res)
@@ -417,57 +500,27 @@ export class PerfilIndependienteComponent implements OnInit {
       });
 
       //obtener dirección de almacenamiento imágenes de la galeria y mostrarlas
-      this.firestore.getDocColDoc('Independiente', id, 'Galeria').subscribe(res => {
-
+      this.firestore.getDocCol<GaleriaImage>('Independiente', id, 'Galeria').subscribe(res => {
         if (res == undefined) {
           this.galeria = false;
+          this.gallerys = false;
+          console.log(res);
         } else {
-          this.imagenes = JSON.stringify(res).split(',');
-          for (let index = 0; index < this.imagenes.length; index++) {
-            if (galeryImages.length == 0) {
-              if (index == 0) {
-                this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 1).toString();
-                console.log(this.imagen[index] + 'paso1-1');
-              } else if (index == (this.imagenes.length - 1) && this.imagenes.length > 1) {
-                this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-                console.log(this.imagen[index] + 'paso1-2');
-              } else {
-                this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-                console.log(this.imagen[index] + 'paso1-3');
-              }
-            } else if (galeryImages.length == 1) {
-              if (index == 0) {
-                this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 2).toString();
-                console.log(this.imagen[index] + 'paso2-1');
-              } else if (index == (this.imagenes.length - 1) && this.imagenes.length > 1) {
-                this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 3).toString();
-                console.log(this.imagen[index] + 'paso2-2');
-              } else {
-                this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-                console.log(this.imagen[index] + 'paso2-3');
-              }
-            } else if (galeryImages.length > 1) {
-              if (index == 0) {
-                this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 1).toString();
-                console.log(this.imagen[index] + 'paso3-1');
-              } else if (index == this.imagenes.length - 1 && this.imagenes.length > 1) {
-                this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 2).toString();
-                console.log(this.imagen[index] + 'paso3-2');
-              } else {
-                this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-                console.log(this.imagen[index] + 'paso3-3');
-              }
-            }
-
-
-            galeryImages[index] = {
-              srcUrl: this.imagen[index],
-              previewUrl: this.imagen[index]
-            };
-
+          if (res.length < 10) {
+            this.gallerys = false;
+          } else if (res.length == 10) {
+            this.gallerys = true;
           }
-          console.log(galeryImages.length + ' - ' + this.numFotos);
-          //console.log(data);
+          this.imagenes = res;
+          console.log(res);
+          for (let index = 0; index < this.imagenes.length; index++) {
+            galeryImages[index] = {
+              srcUrl: this.imagenes[index].IMG,
+              previewUrl: this.imagenes[index].IMG,
+              id: this.imagenes[index].uid
+            };
+          }
+          // Guardar cantidad de imagenes almacenadas 
           if (this.index == galeryImages.length) {
             this.firestore.updateCamposDoc(galeryImages.length, this.path, this.id, 'NumFotos');
             this.numFotos = galeryImages.length;
@@ -475,9 +528,25 @@ export class PerfilIndependienteComponent implements OnInit {
             this.firestore.updateCamposDoc(this.index, this.path, this.id, 'NumFotos');
             this.numFotos = this.index;
           }
-          this.imageData = galeryImages;
           this.galeria = true;
         }
+
+        if (this.tipoPlan == 'INDEPENDIENTEORO') {
+          if (galeryImages.length < 7) {
+            this.gallerys = false;
+          }
+        } else if (this.tipoPlan == 'INDEPENDIENTEORO' && galeryImages.length == 10) {
+          this.gallerys = true;
+        }
+
+        if (this.tipoPlan == 'INDEPENDIENTEPLATA') {
+          if (galeryImages.length < 7) {
+            this.gallerys = false;
+          }
+        } else if (this.tipoPlan == 'INDEPENDIENTEPLATA' && galeryImages.length == 7) {
+          this.gallerys = true;
+        }
+
       });
 
       //Mostrar comentarios almacenados 
@@ -508,9 +577,6 @@ export class PerfilIndependienteComponent implements OnInit {
       } catch (e) {
         alert(e);
       }
-
-
-
     } else {
       //Notificacion de error
       Swal.fire(
@@ -521,53 +587,49 @@ export class PerfilIndependienteComponent implements OnInit {
     }
   }
 
-  reset() {
-    console.log(this.inputImagenesGaleria.nativeElement.files);
-    this.inputImagenesGaleria.nativeElement.value = '';
-    console.log(this.inputImagenesGaleria.nativeElement.files)
+  //Funcion que muestra las areas para editar la informacion del perfil
+  editarPerfil() {
+    this.editarInfo = !this.editarInfo;
+    console.log(this.editarInfo);
+  }
+
+  //Funcion que guarada en la base de datos la informacion editada del perfil 
+  async guardarEdicion(descripcion: string, ciudad: string, direccion: string, celular: string, oficio: string, domicilio: string) {
+    try {
+      await this.firestore.updateCamposDoc(descripcion, this.path, this.id, 'descripcion');
+      await this.firestore.updateCamposDoc(oficio, this.path, this.id, 'profesion');
+      await this.firestore.updateCamposDoc(ciudad, this.path, this.id, 'ciudad');
+      await this.firestore.updateCamposDoc(direccion, this.path, this.id, 'direccion');
+      await this.firestore.updateCamposDoc(celular, this.path, this.id, 'celular');
+      await this.firestore.updateCamposDoc(domicilio, this.path, this.id, 'domicilio');
+      Swal.fire('Información actualizada', 'Regresar al perfil', 'success');
+
+    } catch (error) {
+      Swal.fire(
+        'Error',
+        'Revisar información ingresada',
+        'error'
+      );
+    }
+    //console.log(descripcion, ciudad, direccion, horaMInicio, horaMFin, horaTInicio, horaTFin, domicilio, infoAdd);
+  }
+
+  //Funcion que guarda en la base de datos la informacion editada en la seccion de servicios
+  async guardarServicios(servicios: string) {
+    try {
+      await this.firestore.updateCamposDoc(servicios, this.path, this.id, 'servicios');
+      Swal.fire('Servicios actuaizados', 'Regresar al perfil', 'success');
+    } catch (error) {
+      Swal.fire(
+        'Error',
+        'Revisar información ingresada',
+        'error'
+      );
+    }
   }
 
 }
 
-const galeryImages: { previewUrl: string; srcUrl: string; }[] = [];
-
-const data = [
-  {
-    srcUrl: 'https://cdn.pixabay.com/photo/2013/10/02/23/03/mountains-190055_960_720.jpg',
-    previewUrl: 'https://cdn.pixabay.com/photo/2013/10/02/23/03/mountains-190055_960_720.jpg',
-  },
-  {
-    srcUrl: 'https://cdn.pixabay.com/photo/2022/02/25/17/47/valley-7034573_960_720.jpg',
-    previewUrl: 'https://cdn.pixabay.com/photo/2022/02/25/17/47/valley-7034573_960_720.jpg',
-  },
-  {
-    srcUrl: 'https://cdn.pixabay.com/photo/2021/12/28/14/44/sunset-6899490_960_720.jpg',
-    previewUrl: 'https://cdn.pixabay.com/photo/2021/12/28/14/44/sunset-6899490_960_720.jpg',
-  },
-  {
-    srcUrl: 'https://cdn.pixabay.com/photo/2022/03/02/05/07/ocean-7042436_960_720.jpg',
-    previewUrl: 'https://cdn.pixabay.com/photo/2022/03/02/05/07/ocean-7042436_960_720.jpg',
-  },
-  {
-    srcUrl: 'https://cdn.pixabay.com/photo/2022/02/19/14/37/nordkette-7022793_960_720.jpg',
-    previewUrl: 'https://cdn.pixabay.com/photo/2022/02/19/14/37/nordkette-7022793_960_720.jpg',
-  },
-  {
-    srcUrl: 'https://cdn.pixabay.com/photo/2014/11/16/15/15/field-533541_960_720.jpg',
-    previewUrl: 'https://cdn.pixabay.com/photo/2014/11/16/15/15/field-533541_960_720.jpg',
-  },
-  {
-    srcUrl: 'https://cdn.pixabay.com/photo/2015/03/03/05/56/avenue-656969_960_720.jpg',
-    previewUrl: 'https://cdn.pixabay.com/photo/2015/03/03/05/56/avenue-656969_960_720.jpg',
-  },
-  {
-    srcUrl: 'https://cdn.pixabay.com/photo/2022/03/23/21/27/road-7087957_960_720.jpg',
-    previewUrl: 'https://cdn.pixabay.com/photo/2022/03/23/21/27/road-7087957_960_720.jpg',
-  },
-  {
-    srcUrl: 'https://cdn.pixabay.com/photo/2013/11/15/13/57/road-210913_960_720.jpg',
-    previewUrl: 'https://cdn.pixabay.com/photo/2013/11/15/13/57/road-210913_960_720.jpg',
-  }
-];
+const galeryImages: { previewUrl: string; srcUrl: string; id: string }[] = [];
 
 function timer(ms: number) { return new Promise(res => setTimeout(res, ms)); }

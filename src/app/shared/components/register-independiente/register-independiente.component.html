@@ -46,8 +46,9 @@
           <!-- Archivo documento de identidad -->
           <div class="form-group p-1">
             <label for="inputStateTipo">Subir Foto de documento de identidad por ambos lados</label>
-            <input class="form-control" type="file" accept="pdf/*" id="formFileMultiple" (change)="onUpload($event)" formControlName="fotoDoc" [class]="isValidField('fotoDoc')">
-            <input #imageFotoDoc type="hidden" [value]="urlFotoDoc| async" >
+            <input class="form-control" type="file" accept="pdf/*" id="formFileMultiple" (change)="onUpload($event)"
+              formControlName="fotoDoc" [class]="isValidField('fotoDoc')">
+            <input #imageFotoDoc type="hidden" [value]="urlFotoDoc| async">
             <div class="invalid-feedback" *ngIf="independienteForm.get('fotoDoc')?.hasError('required')">
               Por favor cargar documento de identidad.
             </div>
@@ -246,8 +247,8 @@
             </div>
             <!-- Ocupación -->
             <div class="form-group sinpadding">
-              <input type="text" class="form-control" placeholder="Persona a contactar" formControlName="ocupacionReferencia1"
-                [class]="notRequiredHasValue('ocupacionReferencia1')">
+              <input type="text" class="form-control" placeholder="Persona a contactar"
+                formControlName="ocupacionReferencia1" [class]="notRequiredHasValue('ocupacionReferencia1')">
             </div>
           </div>
           <!-- Código de asesor -->

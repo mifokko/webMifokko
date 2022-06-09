@@ -41,12 +41,14 @@ export class PerfilOfertaComponent implements OnInit {
 
   items!: GalleryItem[];
   imageData = galeryImages;
+  imagenes: string[] = [];
+  galeria!: boolean;
 
   id = '';
   idOfert = '';
   rol: 'empresa' | 'independiente' | 'general' | undefined;
   plan = '';
-  path =  '';
+  path = '';
   fecha: string | undefined;
 
   telefono!: boolean;
@@ -58,40 +60,41 @@ export class PerfilOfertaComponent implements OnInit {
   }
   coment = 0;
   chat: Comentario[] = [];
+  numFotos!: string;
 
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
-    activatedRoute.params.subscribe( prm => {
+    activatedRoute.params.subscribe(prm => {
       console.log(prm);
       console.log(`El id es: ${prm['id']}`);
       this.idOfert = JSON.stringify(prm['id']).toString();
-      this.idOfert = this.idOfert.substring(1, this.idOfert.length-1);
+      this.idOfert = this.idOfert.substring(1, this.idOfert.length - 1);
       console.log(this.idOfert);
       this.id = JSON.stringify(prm['uid']).toString();
-      this.id = this.id.substring(1, this.id.length-1);
+      this.id = this.id.substring(1, this.id.length - 1);
 
       if (this.id != '') {
         this.getDatosUser(this.id, this.idOfert);
       }
     });
-    this.authService.stateUser().subscribe( res => {
-      if(res) {
+    this.authService.stateUser().subscribe(res => {
+      if (res) {
         console.log('Esta logeado');
         this.login = true;
         if (res.uid != this.id) {
           this.rol = 'general';
-        }else {
+        } else {
           this.rol = 'empresa';
         }
         this.getDatosUser(res.uid, this.idOfert);
         //console.log(res.uid);
-      }else {
+      } else {
         console.log('No esta logeado');
         this.login = false;
         this.rol = 'general';
       }
     })
 
-   }
+  }
 
   ngOnInit(): void {
     this.items = this.imageData.map(item =>
@@ -112,23 +115,23 @@ export class PerfilOfertaComponent implements OnInit {
     lightboxRef.load(this.items);
   }
 
-  onUploadGaleria(e: any){
+  onUploadGaleria(e: any) {
 
   }
 
   //Guardar comentarios
-  saveComentarios(form: NgForm){
+  saveComentarios(form: NgForm) {
     try {
-      if(this.comentarios.nombre == ''){
+      if (this.comentarios.nombre == '') {
         this.comentarios.nombre = 'Anónimo';
       }
       console.log(this.comentarios);
-      if (this.coment == 0){
+      if (this.coment == 0) {
         this.firestore.createColInDocColl(this.comentarios, 'Empresas', this.id, 'Ofertas', this.idOfert, 'Comentarios', this.coment.toString());
         this.coment = this.coment + 1;
-      }else{
+      } else {
         this.firestore.getDocColDocColl<Comentario>('Empresas', this.id, 'Ofertas', this.idOfert, 'Comentarios').subscribe(res => {
-          this.coment =  res.length+1
+          this.coment = res.length + 1
         })
         this.firestore.createColInDocColl(this.comentarios, 'Empresas', this.id, 'Ofertas', this.idOfert, 'Comentarios', this.coment.toString());
         this.coment = this.coment + 1;
@@ -142,8 +145,8 @@ export class PerfilOfertaComponent implements OnInit {
         'error'
       );
     }
-    
-    
+
+
   }
 
   //Consulta de datos de los usuarios para mostrar en el perfil 
@@ -158,6 +161,7 @@ export class PerfilOfertaComponent implements OnInit {
         this.plan = res.plan;
         //console.log(this.rol);
       }
+      //Obteniendo datos de la oferta si el usuario es empresa
       if (this.rol == 'empresa') {
         this.path = 'Empresas';
         //Obteniendo datos de la empresa
@@ -204,89 +208,43 @@ export class PerfilOfertaComponent implements OnInit {
           }
           // res?.FotoPerfil;
           // console.log(res?.FotoPerfil + ' / ' + res?.FotoPortada);
-          
+
         });
 
         //Obteniendo informacion de oferta 
         this.firestore.getDocColDoc2<Ofertas>('Empresas', id, 'Ofertas', idOfert).subscribe(res => {
           console.log(res);
-          this.oferta = res;
-          this.fecha = this.oferta?.fechaFin.day.toString() + '/' + this.oferta?.fechaFin.month.toString() + '/' + this.oferta?.fechaFin.year.toString();
-          console.log(this.oferta);
+          if (res) {
+            this.oferta = res;
+            this.fecha = this.oferta?.fechaFin.day.toString() + '/' + this.oferta?.fechaFin.month.toString() + '/' + this.oferta?.fechaFin.year.toString();
+            console.log(this.oferta);
+
+            //obtener dirección de almacenamiento imágenes de la galeria y mostrarlas
+            this.imagenes = this.oferta.imagenes
+            //console.log(this.imagenes);
+            if (this.imagenes.length < 5) {
+              this.galeria = false;
+            }else if (this.imagenes.length == 5) {
+              this.galeria = true;
+            }
+            for (let index = 0; index < this.imagenes.length; index++) {
+              galeryImages[index] = {
+                srcUrl: this.imagenes[index],
+                previewUrl: this.imagenes[index]
+              };
+            }
+            //almacenar nùmero de fotos almacenadas
+            this.firestore.updateCamposDocCollDoc2(galeryImages.length, 'Empresas', id, 'Ofertas', idOfert, 'numImages');
+          }
         });
 
         //Mostrar comentarios almacenados 
         this.firestore.getDocColDocColl<Comentario>('Empresas', this.id, 'Ofertas', idOfert, 'Comentarios').subscribe(res => {
           this.chat = res;
-          console.log(this.chat); 
+          console.log(this.chat);
         })
 
-        //obtener dirección de almacenamiento imágenes de la galeria y mostrarlas
-        // this.firestore.getDocColDoc('Empresas', id, 'Galeria').subscribe(res => {
-
-        //   if (res == undefined) {
-        //     this.galeria = false;
-        //   } else {
-        //     this.imagenes = JSON.stringify(res).split(',');
-        //     for (let index = 0; index < this.imagenes.length; index++) {
-        //       if (galeryImages.length == 0) {
-        //         if (index == 0) {
-        //           this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 1).toString();
-        //           console.log(this.imagen[index] + 'paso1-1');
-        //         } else if (index == (this.imagenes.length - 1) && this.imagenes.length > 1) {
-        //           this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-        //           console.log(this.imagen[index] + 'paso1-2');
-        //         } else {
-        //           this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-        //           console.log(this.imagen[index] + 'paso1-3');
-        //         }
-        //       } else if (galeryImages.length == 1) {
-        //         if (index == 0) {
-        //           this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 2).toString();
-        //           console.log(this.imagen[index] + 'paso2-1');
-        //         } else if (index == (this.imagenes.length - 1) && this.imagenes.length > 1) {
-        //           this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 3).toString();
-        //           console.log(this.imagen[index] + 'paso2-2');
-        //         } else {
-        //           this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-        //           console.log(this.imagen[index] + 'paso2-3');
-        //         }
-        //       } else if (galeryImages.length > 1) {
-        //         if (index == 0) {
-        //           this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 1).toString();
-        //           console.log(this.imagen[index] + 'paso3-1');
-        //         } else if (index == this.imagenes.length - 1 && this.imagenes.length > 1) {
-        //           this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 2).toString();
-        //           console.log(this.imagen[index] + 'paso3-2');
-        //         } else {
-        //           this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-        //           console.log(this.imagen[index] + 'paso3-3');
-        //         }
-        //       }
-
-
-        //       galeryImages[index] = {
-        //         srcUrl: this.imagen[index],
-        //         previewUrl: this.imagen[index]
-        //       };
-
-        //     }
-        //     this.reset();
-        //     console.log(galeryImages.length + ' - ' + this.numFotos);
-        //     //console.log(data);
-        //     if (this.index == galeryImages.length) {
-        //       this.firestore.updateCamposDoc(galeryImages.length, this.path, this.id, 'NumFotos');
-        //       this.numFotos = galeryImages.length;
-        //     } else if (this.index > galeryImages.length) {
-        //       this.firestore.updateCamposDoc(this.index, this.path, this.id, 'NumFotos');
-        //       this.numFotos = this.index;
-        //     }
-        //     this.imageData = galeryImages;
-        //     this.galeria = true;
-        //   }
-        // });
-
-
+      //Obteniendo datos de la oferta si el usuario es un independiente
       } else if (this.rol == 'independiente') {
         this.path = 'Independiente';
         console.log('paso ' + idOfert);
@@ -330,81 +288,29 @@ export class PerfilOfertaComponent implements OnInit {
 
         //Obteniendo informacion de oferta 
         this.firestore.getDocColDoc2<Ofertas>('Independiente', id, 'Ofertas', idOfert).subscribe(res => {
-          this.oferta = res;
-          this.fecha = this.oferta?.fechaFin.day.toString() + '/' + this.oferta?.fechaFin.month.toString() + '/' + this.oferta?.fechaFin.year.toString();
-          //console.log(this.oferta);
+          if (res) {
+            this.oferta = res;
+            this.fecha = this.oferta?.fechaFin.day.toString() + '/' + this.oferta?.fechaFin.month.toString() + '/' + this.oferta?.fechaFin.year.toString();
+            //console.log(this.oferta);
+
+            //obtener dirección de almacenamiento imágenes de la galeria y mostrarlas
+            this.imagenes = this.oferta.imagenes
+            console.log(this.imagenes);
+            for (let index = 0; index < this.imagenes.length; index++) {
+              galeryImages[index] = {
+                srcUrl: this.imagenes[index],
+                previewUrl: this.imagenes[index]
+              };
+
+            }
+          }
         })
 
         //Mostrar comentarios almacenados 
         this.firestore.getDocColDocColl<Comentario>('Independiente', this.id, 'Ofertas', idOfert, 'Comentarios').subscribe(res => {
           this.chat = res;
-          console.log(this.chat); 
+          console.log(this.chat);
         })
-
-        //obtener dirección de almacenamiento imágenes de la galeria y mostrarlas
-        // this.firestore.getDocColDoc('Independiente', id, 'Galeria').subscribe(res => {
-
-        //   if (res == undefined) {
-        //     this.galeria = false;
-        //   } else {
-        //     this.imagenes = JSON.stringify(res).split(',');
-        //     for (let index = 0; index < this.imagenes.length; index++) {
-        //       if (galeryImages.length == 0) {
-        //         if (index == 0) {
-        //           this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 1).toString();
-        //           console.log(this.imagen[index] + 'paso1-1');
-        //         } else if (index == (this.imagenes.length - 1) && this.imagenes.length > 1) {
-        //           this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-        //           console.log(this.imagen[index] + 'paso1-2');
-        //         } else {
-        //           this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-        //           console.log(this.imagen[index] + 'paso1-3');
-        //         }
-        //       } else if (galeryImages.length == 1) {
-        //         if (index == 0) {
-        //           this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 2).toString();
-        //           console.log(this.imagen[index] + 'paso2-1');
-        //         } else if (index == (this.imagenes.length - 1) && this.imagenes.length > 1) {
-        //           this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 3).toString();
-        //           console.log(this.imagen[index] + 'paso2-2');
-        //         } else {
-        //           this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-        //           console.log(this.imagen[index] + 'paso2-3');
-        //         }
-        //       } else if (galeryImages.length > 1) {
-        //         if (index == 0) {
-        //           this.imagen[index] = this.imagenes[index].substring(6, this.imagenes[index].length - 1).toString();
-        //           console.log(this.imagen[index] + 'paso3-1');
-        //         } else if (index == this.imagenes.length - 1 && this.imagenes.length > 1) {
-        //           this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 2).toString();
-        //           console.log(this.imagen[index] + 'paso3-2');
-        //         } else {
-        //           this.imagen[index] = this.imagenes[index].substring(5, this.imagenes[index].length - 1).toString();
-        //           console.log(this.imagen[index] + 'paso3-3');
-        //         }
-        //       }
-
-
-        //       galeryImages[index] = {
-        //         srcUrl: this.imagen[index],
-        //         previewUrl: this.imagen[index]
-        //       };
-
-        //     }
-        //     this.reset();
-        //     console.log(galeryImages.length + ' - ' + this.numFotos);
-        //     //console.log(data);
-        //     if (this.index == galeryImages.length) {
-        //       this.firestore.updateCamposDoc(galeryImages.length, this.path, this.id, 'NumFotos');
-        //       this.numFotos = galeryImages.length;
-        //     } else if (this.index > galeryImages.length) {
-        //       this.firestore.updateCamposDoc(this.index, this.path, this.id, 'NumFotos');
-        //       this.numFotos = this.index;
-        //     }
-        //     this.imageData = galeryImages;
-        //     this.galeria = true;
-        //   }
-        // });
 
       }
     });

@@ -1,8 +1,8 @@
 import { SafeUrl } from "@angular/platform-browser";
 
-export interface Galeria {
-    srcUrl: string,
-    previewUrl: string,
+export interface GaleriaImage {
+    IMG: string,
+    uid: string
 }
 
 export interface Image {

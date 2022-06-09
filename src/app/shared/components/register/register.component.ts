@@ -16,17 +16,18 @@ import { empty } from 'rxjs';
   providers: [DataService, AuthService, DataServices]
 })
 export class RegisterComponent implements OnInit {
-  empresaForm!: FormGroup;
-  private isNIT = "^([0-9]{0,15}[0-9]{1})?$";
-  private isCel = "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
-  private isEmail = /\S+@\S+\.\S+/;
-  fecha = new Date;
+  empresaForm!: FormGroup; // Variable que almacena la informacion de la empresa a guardar 
+  private isNIT = "^([0-9]{0,15}[0-9]{1})?$"; // Validar estructura del NIT
+  private isCel = "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}"; //Validar estructura del celular
+  private isEmail = /\S+@\S+\.\S+/; // Validar estructura de correo
+  fecha = new Date; // Variable para conocer la fecha actual 
 
   //Datos de plan, # de pagos y precio del plan
   passedData!: string;
   precioPlan!: number;
   pagos!: string;
 
+  //Estructura que se usara para el inicio de sesion del usuario
   usuario: Usuario = {
     correo: '',
     password: '',
@@ -41,13 +42,20 @@ export class RegisterComponent implements OnInit {
     estadoPago: false
   }
   
-  fieldTextType: boolean = false;
+  fieldTextType: boolean = false; //Ver contraseña
 
   ciudades: Ciudades[] = [];
   municipios: string[] = [];
   departamentos: string[] = [];
   departamento: string[] = [];
   seleccion!: string;
+
+ //Referencias de pago 
+  referenciaWompi = '';
+  referenciaMercadoPago = '';
+
+  //Precio del plan a pagar 
+  precio!: number;
 
   constructor(public modal: NgbActiveModal, private fb: FormBuilder, private dataSvc: DataService, private afs: AuthService, private data: DataServices) {
     data.getCollection<Ciudades>('Ciudades').subscribe(res => {
@@ -65,6 +73,10 @@ export class RegisterComponent implements OnInit {
       console.log(this.departamento);
     })
     //console.log(this.municipios);
+    this.referenciaWompi = this.referenciaPago();
+    this.referenciaMercadoPago = this.referenciaPagoM();
+    this.precio = this.precioPlan + 1000;
+    console.log(this.precioPlan);
   }
 
   ngOnInit(): void {
@@ -187,9 +199,19 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  //Se obtiene la referencia de pago
+  //Se obtiene la referencia de pago Wompi
   referenciaPago() {
     let result = 'WP';
+    const numeros = '0123456789';
+    for (let i = 0; i < 6; i++) {
+      result += numeros.charAt(Math.floor(Math.random() * numeros.length));
+    }
+    console.log('Referencia de pago -> ', result)
+    return result;
+  }
+
+  referenciaPagoM(){
+    let result = 'MP';
     const numeros = '0123456789';
     for (let i = 0; i < 6; i++) {
       result += numeros.charAt(Math.floor(Math.random() * numeros.length));
