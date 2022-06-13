@@ -3,6 +3,8 @@ import { SafeUrl } from "@angular/platform-browser"
 export interface Busqueda {
     nombre: string,
     actividadPrincipal: string,
+    descripcion: string,
+    servicios: string,
     ciudad: string,
     rol: string,
     id: string,
@@ -12,6 +14,8 @@ export interface Busqueda {
 export interface BusquedaI {
     nombre: string,
     profesion: string,
+    descripcion: string,
+    servicios: string,
     ciudad: string,
     rol: string,
     id: string,
@@ -23,7 +27,9 @@ export interface BusquedaO {
     ciudad: string,
     rol: 'Oferta',
     alcance: string,
-    fotoPerfil: SafeUrl | undefined;
+    fotoPerfil: SafeUrl | undefined,
+    descripcion: string,
+    informacionAdicional: string,
     path: string,
     id: string, 
     uid: string,

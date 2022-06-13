@@ -42,6 +42,7 @@ import { PerfilIndependienteComponent } from './shared/components/perfil-indepen
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { EstadisticasOfertaComponent } from './shared/components/estadisticas-oferta/estadisticas-oferta.component';
 import { FooterModule } from './shared/components/footer/footer.module';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { FooterModule } from './shared/components/footer/footer.module';
     YouTubePlayerModule,
     Ng2GoogleChartsModule,
     FooterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]

@@ -10,7 +10,7 @@ import { VerOfertasComponent } from './shared/components/ver-ofertas/ver-ofertas
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule) },
-  { path: 'buscar/:seleccion/:palabra', loadChildren: () => import('./pages/buscar-todo/buscar-todo.module').then(m => m.BuscarTodoModule) },
+  { path: 'buscar/:ciudad/:seleccion/:palabra', loadChildren: () => import('./pages/buscar-todo/buscar-todo.module').then(m => m.BuscarTodoModule) },
   { path: 'verOfertas', component: VerOfertasComponent},
   { path: 'estadisticas/:id', loadChildren: () => import('./pages/estadisticas/estadisticas.module').then(m => m.EstadisticasModule) },
   { path: 'perfil/:id', component: PerfilComponent},

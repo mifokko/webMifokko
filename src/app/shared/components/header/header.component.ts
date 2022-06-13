@@ -103,4 +103,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  ventanaSecundaria(URL: string | URL | undefined) {
+    window.open(URL, "ventana1", "width=120,height=300,scrollbars=NO")
+  }
 }

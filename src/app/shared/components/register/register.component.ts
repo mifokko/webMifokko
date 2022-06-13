@@ -7,7 +7,6 @@ import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
 import { Ciudades } from '../../model/ciudades.model';
-import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -41,7 +40,7 @@ export class RegisterComponent implements OnInit {
     fechaFin: '',
     estadoPago: false
   }
-  
+
   fieldTextType: boolean = false; //Ver contraseña
 
   ciudades: Ciudades[] = [];
@@ -50,12 +49,21 @@ export class RegisterComponent implements OnInit {
   departamento: string[] = [];
   seleccion!: string;
 
- //Referencias de pago 
+  //Referencias de pago 
   referenciaWompi = '';
   referenciaMercadoPago = '';
 
   //Precio del plan a pagar 
   precio!: number;
+
+  //Datos pago con mercadopago
+  datos = {
+    title: 'Empresa',
+    description: `${this.referenciaMercadoPago}`,
+    quantity: 1,
+    currency_id: "COP",
+    unit_price: this.precioPlan
+  }
 
   constructor(public modal: NgbActiveModal, private fb: FormBuilder, private dataSvc: DataService, private afs: AuthService, private data: DataServices) {
     data.getCollection<Ciudades>('Ciudades').subscribe(res => {
@@ -84,12 +92,12 @@ export class RegisterComponent implements OnInit {
   }
 
   //Función que carga los municipios en una lista, según el departamento que se ha seleccionado 
-  uploadMunicipios(){
+  uploadMunicipios() {
     console.log(this.seleccion);
     for (let index = 0; index < this.ciudades.length; index++) {
       if (this.seleccion === this.ciudades[index].departamento) {
         this.municipios[index] = this.ciudades[index].municipio
-      }else {
+      } else {
         console.log('paso');
       }
     }
@@ -210,7 +218,7 @@ export class RegisterComponent implements OnInit {
     return result;
   }
 
-  referenciaPagoM(){
+  referenciaPagoM() {
     let result = 'MP';
     const numeros = '0123456789';
     for (let i = 0; i < 6; i++) {
@@ -224,6 +232,5 @@ export class RegisterComponent implements OnInit {
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
   }
-
 
 }

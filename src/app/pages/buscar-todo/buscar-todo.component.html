@@ -1,25 +1,37 @@
 <section class="bg-blanco">
   <img src="./assets/FondoBlanco.jpg" class="img-fluid" id="Responsive image"
     style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;">
-
+  <!-- Palabra con la cual se esta haciendo la busqueda  -->
   <div class="m-3">
     <h3 style="position: absolute; z-index: -100; margin-left: 3%;">Resultado de: {{palabra}}</h3>
   </div>
   <div class="container-fluid mb-2">
-    <div class="form-group row col-xs-3 col-sm-4 col-md-4 my-2 float-end mb-4">
-      <div class="input-group rounded">
-        <input type="search" class="form-control form-control rounded-pill icon_placeholder" placeholder="Search"
-          aria-label="Search" aria-describedby="search-addon" />
+    <!-- input de busqueda -->
+    <form action="">
+      <div class="form-group row col-xs-3 col-sm-4 col-md-4 my-2 float-end mb-4">
+        <div class="input-group rounded">
+          <input type="search" class="form-control form-control rounded-pill icon_placeholder" placeholder="Search"
+            aria-label="Search" aria-describedby="search-addon" [(ngModel)]="palabra"
+            (keypress)="getBuscar(seleccion, palabra.toLowerCase())" name="palabra" />
+        </div>
       </div>
-    </div>
+    </form>
   </div>
   <br>
 
   <!-- Busqueda empresas -->
   <section #empresas *ngIf="seleccion === 'empresa'">
     <div class="container mt-5">
+      <!-- Spinner -->
+      <div class="d-flex justify-content-center">
+        <div *ngIf="resultados === false" class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <!-- respuesta de busqueda por empresa - Estructura -->
       <div class="row">
-        <div class="row col-lg-4 col-md-4 col-sx p-2" *ngFor="let buscar of busquedaE">
+        <div class="row col-lg-4 col-md-4 col-sx p-2"
+          *ngFor="let buscar of resultadosE | paginate: { itemsPerPage: 3, currentPage: page }">
           <div class="row ">
             <div class="my-2 img1">
               <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
@@ -43,8 +55,16 @@
   <!-- Busqueda independientes -->
   <section #independiente *ngIf="seleccion === 'independiente'">
     <div class="container mt-5">
+      <!-- Spinner -->
+      <div *ngIf="resultados === false" class="d-flex justify-content-center">
+        <div class="spinner-border text-warning" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <!-- respuesta de busqueda por independiente - Estructura -->
       <div class="row">
-        <div class="row col-lg-4 col-md-4 col-sx p-2" *ngFor="let buscar of busquedaI">
+        <div class="row col-lg-4 col-md-4 col-sx p-2"
+          *ngFor="let buscar of resultadosI | paginate: { itemsPerPage: 3, currentPage: page }">
           <div class="row ">
             <div class="my-2 img2">
               <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
@@ -69,8 +89,16 @@
   <!-- Busqueda ofertas -->
   <section #ofertas *ngIf="seleccion === 'ofertas'">
     <div class="container mt-5">
+      <!-- Spinner -->
+      <div *ngIf="resultados === false" class="d-flex justify-content-center">
+        <div class="spinner-border text-danger" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <!-- respuesta de busqueda por ofertas - Estructura -->
       <div class="row">
-        <div class="row col-lg-4 col-md-4 col-sx p-2" *ngFor="let buscar of busquedaO">
+        <div class="row col-lg-4 col-md-4 col-sx p-2"
+          *ngFor="let buscar of resultadosO | paginate: { itemsPerPage: 3, currentPage: page }">
           <div class="row ">
             <div class="my-2 img3">
               <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
@@ -96,11 +124,18 @@
   <!-- Busqueda por empresa, independiente y ofertas -->
   <section #todos *ngIf="seleccion === 'todos'">
     <div class="container mt-5">
+      <!-- Spinner -->
+    <div *ngIf="resultados === false" class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
       <div class="row">
         <!-- Empresa -->
         <div class="row col-lg-4 col-md-4 col-sx p-2">
           <ul class="list-group list-group-flush">
-            <li class="list-group" *ngFor="let buscar of busquedaE">
+            <li class="list-group"
+              *ngFor="let buscar of resultadosE | paginate: { itemsPerPage: 3, currentPage: page }">
               <div class="row ">
                 <div class="my-2 img1">
                   <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
@@ -123,7 +158,8 @@
         <!-- Independiente -->
         <div class="row col-lg-4 col-md-4 col-sx p-2">
           <ul class="list-group list-group-flush">
-            <li class="list-group" *ngFor="let buscar of busquedaI">
+            <li class="list-group"
+              *ngFor="let buscar of resultadosI | paginate: { itemsPerPage: 3, currentPage: page }">
               <div class="row ">
                 <div class="my-2 img2">
                   <img [src]="buscar.fotoPerfil" class="rounded-circle img2" alt="" loading="lazy"
@@ -146,7 +182,8 @@
         <!-- Ofertas -->
         <div class="row col-lg-4 col-md-4 col-sx p-2">
           <ul class="list-group list-group-flush">
-            <li class="list-group" *ngFor="let buscar of busquedaO">
+            <li class="list-group"
+              *ngFor="let buscar of resultadosO | paginate: { itemsPerPage: 3, currentPage: page }">
               <div class="row">
                 <div class="my-2 img3">
                   <img [src]="buscar.fotoPerfil" class="rounded-circle img3" alt="" loading="lazy"
@@ -171,5 +208,7 @@
     </div>
   </section>
 
+  <pagination-controls class="center" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente">
+  </pagination-controls>
 
 </section>

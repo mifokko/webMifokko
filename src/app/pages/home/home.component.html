@@ -1,77 +1,83 @@
 <section class="bg-primary" id="buscador">
-    <!--Buscador principal-->
+  <!--Buscador principal-->
   <div class="container">
-      <form class="row justify-content-center aling-items-center">
-        <div class="form-group row col-xs-9 col-sm-9 col-md-9 mt-5">
-          <h2 class="text-center">QUE BUSCAS?</h2>
+    <form class="row justify-content-center aling-items-center">
+      <div class="form-group row col-xs-9 col-sm-9 col-md-9 mt-5">
+        <h2 class="text-center">QUE BUSCAS?</h2>
+        <div class="input-group rounded">
+          <input type="search" class="form-control form-control-lg rounded-pill icon_placeholder" placeholder="Search"
+            aria-label="Search" aria-describedby="search-addon" [(ngModel)]="palabra" name="palabra" />
+        </div>
+      </div>
+
+      <!--Opciones para buscar-->
+      <div class="row justify-content-center aling-items-center">
+        <div class="col-sm-6 center">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tipoBusqueda" [(ngModel)]="seleccion"
+              value="independiente" style="color: goldenrod;">
+            <label class="form-check-label tamaño">
+              INDEPENDIENTE
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tipoBusqueda" [(ngModel)]="seleccion" value="empresa">
+            <label class="form-check-label tamaño" for="gridRadios2">
+              EMPRESAS
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tipoBusqueda" [(ngModel)]="seleccion" value="ofertas">
+            <label class="form-check-label tamaño" for="gridRadios3">
+              OFERTAS
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tipoBusqueda" [(ngModel)]="seleccion" value="todos">
+            <label class="form-check-label tamaño" for="gridRadios4">
+              TODOS
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!--Seleccionar ciudad-->
+      <div class="form-group row center my-2 mb-5">
+        <div class="col-xs-3 col-sm-6 col-md-2 p-1">
+          <label class="center">ELIGE TU CIUDAD</label>
           <div class="input-group rounded">
-              <input type="search" class="form-control form-control-lg rounded-pill icon_placeholder" placeholder="Search" aria-label="Search" aria-describedby="search-addon" [(ngModel)]="palabra" name="palabra"/>
+            <select id="inputState" class="form-control rounded-pill" [(ngModel)]="ciudad" name="municipios">
+              <option>Seleccionar...</option>
+              <option *ngFor="let mun of municipios">{{mun}}</option>
+            </select>
           </div>
         </div>
 
-        <!--Opciones para buscar-->
-          <div class="row justify-content-center aling-items-center">
-            <div class="col-sm-6 center">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="tipoBusqueda" [(ngModel)]="seleccion" value="independiente" style="color: goldenrod;">
-                <label class="form-check-label tamaño">
-                  INDEPENDIENTE
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="tipoBusqueda" [(ngModel)]="seleccion" value="empresa">
-                <label class="form-check-label tamaño" for="gridRadios2">
-                  EMPRESAS
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="tipoBusqueda" [(ngModel)]="seleccion" value="ofertas">
-                <label class="form-check-label tamaño" for="gridRadios3">
-                  OFERTAS
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="tipoBusqueda" [(ngModel)]="seleccion" value="todos">
-                <label class="form-check-label tamaño" for="gridRadios4">
-                  TODOS
-                </label>
-              </div>
-            </div>
-          </div>
-
-        <!--Seleccionar ciudad-->  
-        <div class="form-group row center my-2 mb-5">
-          <div class="col-xs-3 col-sm-6 col-md-2 p-1">
-            <label class="center">ELIGE TU CIUDAD</label>
-            <div class="input-group rounded">
-              <select id="inputState" class="form-control rounded-pill">
-                <option>Seleccionar...</option>
-                <option *ngFor="let mun of municipios">{{mun}}</option>
-              </select>
-            </div>
-          </div>
-
-          <!--Boton de buscador-->
-          <div class="center mb-2">
-            <button type="button" class="btn btn-primary btn-block rounded-pill col-xs-6 col-sm-6 col-md-2" (click)="verPaginaBuscar(seleccion, palabra)">Buscar</button>
-          </div>
-
-          <!--Boton de Actualizar subscripción-->
-          <div class="center mb-2" *ngIf="subscripcion === false">
-            <button type="button" class="btn btn-primary btn-block rounded-pill col-xs-6 col-sm-6 col-md-2" (click)="actualizarSubs()">Actualizar Subscripcion</button>
-          </div>
+        <!--Boton de buscador-->
+        <div class="center mb-2">
+          <button type="button" class="btn btn-primary btn-block rounded-pill col-xs-6 col-sm-6 col-md-2"
+            (click)="verPaginaBuscar(seleccion, palabra, ciudad)">Buscar</button>
         </div>
-      </form>
-      <br>
+
+        <!--Boton de Actualizar subscripción-->
+        <div class="center mb-2" *ngIf="subscripcion === false">
+          <button type="button" class="btn btn-primary btn-block rounded-pill col-xs-6 col-sm-6 col-md-2"
+            (click)="actualizarSubs()">Actualizar Subscripcion</button>
+        </div>
+      </div>
+    </form>
+    <br>
   </div>
 
   <!--Seccion de información-->
   <div class="container" id="informacion" *ngIf="login === false || rol === 'general'">
     <div class="row center">
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3" >
-        <div id="padre" >
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3">
+        <div id="padre">
           <a type="button" (click)="inView(empresa)">
-            <img class="img-fluid rounded" src="https://assets.entrepreneur.com/content/3x2/2000/1634353069-Depositphotos-199444784-L.jpg?auto=webp&quality=95&crop=2:1&width=400" style="filter: brightness(70%);">
+            <img class="img-fluid rounded"
+              src="https://assets.entrepreneur.com/content/3x2/2000/1634353069-Depositphotos-199444784-L.jpg?auto=webp&quality=95&crop=2:1&width=400"
+              style="filter: brightness(70%);">
             <h2 class="center2">EMPRESA</h2>
           </a>
         </div>
@@ -79,7 +85,9 @@
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3">
         <div id="padre">
           <a type="button" (click)="inView(independiente)">
-            <img class="img-fluid rounded" src="https://corporativo.compensar.com/afiliaciones/PublishingImages/Carrusel-simulador-aportes-Independiente.jpg" style="filter: brightness(70%);">
+            <img class="img-fluid rounded"
+              src="https://corporativo.compensar.com/afiliaciones/PublishingImages/Carrusel-simulador-aportes-Independiente.jpg"
+              style="filter: brightness(70%);">
             <h2 class="center2">INDEPENDIENTE</h2>
           </a>
         </div>
@@ -87,7 +95,9 @@
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3">
         <div id="padre">
           <a type="button" (click)="inView(oferta)">
-            <img class="img-fluid rounded" src="https://marvel-b1-cdn.bc0a.com/f00000000216283/www.fortinet.com/content/dam/fortinet/images/promos/tile-general-user-400x200.jpg" style="filter: brightness(70%);">
+            <img class="img-fluid rounded"
+              src="https://marvel-b1-cdn.bc0a.com/f00000000216283/www.fortinet.com/content/dam/fortinet/images/promos/tile-general-user-400x200.jpg"
+              style="filter: brightness(70%);">
             <h2 class="center2">OFERTA</h2>
           </a>
         </div>
@@ -100,22 +110,23 @@
 <section class="bg-blanco" #empresa>
   <!--<img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 100%; left: 0; z-index: -100;" height="100%" width="100%">
   -->
-    <div class="container" *ngIf="login === false || rol === 'general'">
+  <div class="container" *ngIf="login === false || rol === 'general'">
     <div class="row">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style=" margin-bottom: 5%;">
         <h2 class="m-3 text-center">EMPRESA</h2>
-        <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;" src="https://cdn.pixabay.com/photo/2017/10/27/10/27/architecture-2893844_960_720.jpg">
+        <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;"
+          src="https://cdn.pixabay.com/photo/2017/10/27/10/27/architecture-2893844_960_720.jpg">
       </div>
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 5%;">
         <p>Lorem ipsum dolor sit amet. Eum ipsa dignissimos ut fuga error nam ipsum quasi.
           Ut culpa error qui ducimus reprehenderit et quaerat voluptatem eos soluta esse.
           Eos itaque ipsam sed omnis esse et modi magnam ut dolorum dolor nam voluptatibus atque. </p>
-        <p>Eos atque laboriosam aut quam praesentium est voluptas  a earum quas ut iusto sunt non unde 
+        <p>Eos atque laboriosam aut quam praesentium est voluptas a earum quas ut iusto sunt non unde
           galisum quo earum maiores. Est excepturi reiciendis eum eligendi rerum et quia perferendis. </p>
-        <p>Qui dicta quos in quam quas et omnis ducimus a laudantium maxime qui tempora cupiditate. 
-          Ut galisum tempora rem omnis autem ea aliquam nulla in eligendi vitae qui repudiandae quaerat 
-          ea voluptas nihil in voluptas quisquam. Et ducimus odit cum reprehenderit quas ut aspernatur 
-          maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea 
+        <p>Qui dicta quos in quam quas et omnis ducimus a laudantium maxime qui tempora cupiditate.
+          Ut galisum tempora rem omnis autem ea aliquam nulla in eligendi vitae qui repudiandae quaerat
+          ea voluptas nihil in voluptas quisquam. Et ducimus odit cum reprehenderit quas ut aspernatur
+          maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea
           consequatur consequatur qui nesciunt praesentium. </p>
       </div>
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
@@ -123,10 +134,12 @@
         <h1>OFERTAS</h1>
         <h1>OFERTAS</h1>
         <br><br><br><br><br><br><br><br><br>
-        <a class="btn btn-primary rounded-pill btn-block btn-lg"(click)="openPlanEmpresa()" role="button">
+        <a class="btn btn-primary rounded-pill btn-block btn-lg" (click)="openPlanEmpresa()" role="button">
           ÚNETE
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
-            <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+            class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+            <path
+              d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
           </svg>
         </a>
       </div>
@@ -138,22 +151,23 @@
 <section class="bg-primary" #independiente>
   <!--<img src="./assets/FondoAmarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 200%; left: 0; z-index: -100;" height="100%" width="100%">
   -->
-    <div class="container" *ngIf="login === false || rol === 'general'">
+  <div class="container" *ngIf="login === false || rol === 'general'">
     <div class="row">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style="margin-top: 1%; margin-bottom: 5%;">
         <h2 class="m-3 text-center">INDEPENDIENTE</h2>
-        <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;" src="https://cdn.pixabay.com/photo/2012/11/26/07/45/man-67335_960_720.jpg">
+        <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;"
+          src="https://cdn.pixabay.com/photo/2012/11/26/07/45/man-67335_960_720.jpg">
       </div>
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 5%;">
         <p>Lorem ipsum dolor sit amet. Eum ipsa dignissimos ut fuga error nam ipsum quasi.
           Ut culpa error qui ducimus reprehenderit et quaerat voluptatem eos soluta esse.
           Eos itaque ipsam sed omnis esse et modi magnam ut dolorum dolor nam voluptatibus atque. </p>
-        <p>Eos atque laboriosam aut quam praesentium est voluptas  a earum quas ut iusto sunt non unde 
+        <p>Eos atque laboriosam aut quam praesentium est voluptas a earum quas ut iusto sunt non unde
           galisum quo earum maiores. Est excepturi reiciendis eum eligendi rerum et quia perferendis. </p>
-        <p>Qui dicta quos in quam quas et omnis ducimus a laudantium maxime qui tempora cupiditate. 
-          Ut galisum tempora rem omnis autem ea aliquam nulla in eligendi vitae qui repudiandae quaerat 
-          ea voluptas nihil in voluptas quisquam. Et ducimus odit cum reprehenderit quas ut aspernatur 
-          maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea 
+        <p>Qui dicta quos in quam quas et omnis ducimus a laudantium maxime qui tempora cupiditate.
+          Ut galisum tempora rem omnis autem ea aliquam nulla in eligendi vitae qui repudiandae quaerat
+          ea voluptas nihil in voluptas quisquam. Et ducimus odit cum reprehenderit quas ut aspernatur
+          maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea
           consequatur consequatur qui nesciunt praesentium. </p>
       </div>
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
@@ -161,11 +175,13 @@
         <h1>OFERTAS</h1>
         <h1>OFERTAS</h1>
         <br><br><br><br><br><br><br><br><br>
-        <a class="btn btn-warning rounded-pill btn-block btn-lg"(click)="openPlanIndependiente()" role="button">
+        <a class="btn btn-warning rounded-pill btn-block btn-lg" (click)="openPlanIndependiente()" role="button">
           ÚNETE
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-bounding-box" viewBox="0 0 16 16">
-            <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
-            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+            class="bi bi-person-bounding-box" viewBox="0 0 16 16">
+            <path
+              d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z" />
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
           </svg>
         </a>
       </div>
@@ -174,25 +190,26 @@
 </section>
 
 <!--Seccion de información de oferta-->
-<section class="bg-blanco" #oferta >
+<section class="bg-blanco" #oferta>
   <!--<img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 300%; left: 0; z-index: -100;" height="100%" width="100%">
   -->
-    <div class="container" *ngIf="login === false || rol === 'general'">
+  <div class="container" *ngIf="login === false || rol === 'general'">
     <div class="row">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style="margin-top: 5%; margin-bottom: 5%;">
         <h2 class="m-3 text-center">OFERTAS</h2>
-        <img class="img-fluid rounded center" style="width: 90%; height: 90%; position: relative;" src="https://cdn.pixabay.com/photo/2017/11/13/21/56/black-friday-2946943_960_720.jpg">
+        <img class="img-fluid rounded center" style="width: 90%; height: 90%; position: relative;"
+          src="https://cdn.pixabay.com/photo/2017/11/13/21/56/black-friday-2946943_960_720.jpg">
       </div>
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
         <p>Lorem ipsum dolor sit amet. Eum ipsa dignissimos ut fuga error nam ipsum quasi.
           Ut culpa error qui ducimus reprehenderit et quaerat voluptatem eos soluta esse.
           Eos itaque ipsam sed omnis esse et modi magnam ut dolorum dolor nam voluptatibus atque. </p>
-        <p>Eos atque laboriosam aut quam praesentium est voluptas  a earum quas ut iusto sunt non unde 
+        <p>Eos atque laboriosam aut quam praesentium est voluptas a earum quas ut iusto sunt non unde
           galisum quo earum maiores. Est excepturi reiciendis eum eligendi rerum et quia perferendis. </p>
-        <p>Qui dicta quos in quam quas et omnis ducimus a laudantium maxime qui tempora cupiditate. 
-          Ut galisum tempora rem omnis autem ea aliquam nulla in eligendi vitae qui repudiandae quaerat 
-          ea voluptas nihil in voluptas quisquam. Et ducimus odit cum reprehenderit quas ut aspernatur 
-          maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea 
+        <p>Qui dicta quos in quam quas et omnis ducimus a laudantium maxime qui tempora cupiditate.
+          Ut galisum tempora rem omnis autem ea aliquam nulla in eligendi vitae qui repudiandae quaerat
+          ea voluptas nihil in voluptas quisquam. Et ducimus odit cum reprehenderit quas ut aspernatur
+          maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea
           consequatur consequatur qui nesciunt praesentium. </p>
       </div>
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
@@ -202,22 +219,28 @@
         <br><br><br><br>
         <a class="btn btn-primary rounded-pill btn-block btn-lg mb-2" (click)="openPlanEmpresa()" role="button">
           ÚNETE EMPRESA
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
-            <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+            class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+            <path
+              d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
           </svg>
         </a>
-        <a class="btn btn-warning rounded-pill btn-block btn-lg mb-2"(click)="openPlanIndependiente()" role="button">
+        <a class="btn btn-warning rounded-pill btn-block btn-lg mb-2" (click)="openPlanIndependiente()" role="button">
           ÚNETE INDEPENDIENTE
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-bounding-box" viewBox="0 0 16 16">
-            <path d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z"/>
-            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+            class="bi bi-person-bounding-box" viewBox="0 0 16 16">
+            <path
+              d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z" />
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
           </svg>
         </a>
-        <a class="btn btn-secondary rounded-pill btn-block btn-lg mb-2"(click)="openRegisterUsuario()" role="button">
+        <a class="btn btn-secondary rounded-pill btn-block btn-lg mb-2" (click)="openRegisterUsuario()" role="button">
           ÚNETE USUARIO
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle"
+            viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+            <path fill-rule="evenodd"
+              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
           </svg>
         </a>
       </div>

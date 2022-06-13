@@ -1,3 +1,4 @@
+<!-- Registro de Empresa -->
 <div class="modal-header">
   <h5 class="modal-title">Registro Empresa</h5>
   <button type="button" class="btn-close" ria-label="Close" (click)="modal.close()"></button>
@@ -8,6 +9,7 @@
       <div class="col-lg-16">
         <form novalidate class="billing-form float-start" (ngSubmit)="OnSave()" [formGroup]="empresaForm">
           <div class="row g-3 p-1">
+            <!-- Nombre Empresa -->
             <div class="form-group col-md-6">
               <input type="text" class="form-control" placeholder="Nombre" formControlName="nombre"
                 [class]="isValidField('nombre')">
@@ -15,6 +17,7 @@
                 Por favor ingrese el nombre.
               </div>
             </div>
+            <!-- Nit -->
             <div class="form-group col-md-6">
               <input type="tel" class="form-control" placeholder="NIT" formControlName="nit"
                 [class]="isValidField('nit')">
@@ -27,6 +30,7 @@
             </div>
           </div>
           <div class="row g-3 p-1">
+            <!-- Departamento -->
             <div class="form-group col-md-6">
               <label for="">Departamento</label>
               <select id="departamento" class="form-control" formControlName="departamento"
@@ -38,6 +42,7 @@
                 Seleccione un departamento.
               </div>
             </div>
+            <!-- Municipios -->
             <div class="form-group col-md-6">
               <label for="">Ciudad</label>
               <select id="inputState2" class="form-control" formControlName="ciudad" [class]="isValidField('ciudad')">
@@ -49,6 +54,7 @@
               </div>
             </div>
           </div>
+          <!-- Direccion de empresa -->
           <div class="form-group p-1">
             <input type="text" class="form-control" placeholder="Dirección" formControlName="direccion"
               [class]="isValidField('direccion')">
@@ -56,11 +62,13 @@
               Por favor ingrese dirección.
             </div>
           </div>
+          <!-- Telefono Empresa -->
           <div class="row g-3 p-1">
             <div class="form-group col-md-6">
               <input type="tel" class="form-control" placeholder="Telefono" formControlName="telefono"
                 [class]="notRequiredHasValue('telefono')">
             </div>
+            <!-- Número celular  -->
             <div class="form-group col-md-6">
               <input type="tel" class="form-control" placeholder="Celular" formControlName="celular"
                 [class]="isValidField('celular')">
@@ -72,6 +80,7 @@
               </div>
             </div>
           </div>
+          <!-- Correo electronicc -->
           <div class="form-group p-1">
             <input type="email" class="form-control" placeholder="Correo" formControlName="correo"
               [class]="isValidField('correo')" [(ngModel)]="usuario.correo">
@@ -82,6 +91,7 @@
               Email invalido.
             </div>
           </div>
+          <!-- Contraseña -->
           <div class="form-group input-group p-1">
             <input [type]="fieldTextType ? 'text' : 'password'" class="form-control"
               placeholder="Crear Contraseña - 9 Caracteres" formControlName="contraseña"
@@ -110,6 +120,7 @@
               Contraseña de minimo 8 caracteres.
             </div>
           </div>
+          <!-- Actividad Principal -->
           <div class="form-group p-1">
             <input type="text" class="form-control" placeholder="Actividad principal"
               formControlName="actividadPrincipal" [class]="isValidField('actividadPrincipal')">
@@ -117,6 +128,7 @@
               Por favor ingrese su Actividad Principal.
             </div>
           </div>
+          <!-- Descripcion de la Empresa -->
           <div class="form-group p-1">
             <textarea rows="3" class="form-control" placeholder="Descripción" formControlName="descripcion"
               [class]="isValidField('descripcion')"></textarea>
@@ -132,22 +144,30 @@
             </div>
           </div>
           <div class="row g-3 p-1">
+            <!-- Horarios de atencion de la empresa -->
             <div class="form-group col-md-2">
               <label for="" class="col-sm-2 col-form-label">Horario:</label>
             </div>
+            <!-- Horas de inicio -->
             <div class="form-group col-md-4">
+              <!-- Hora mañana -->
               <input type="time" class="form-control" name="inicio" min="00:00" max="11:59" value="08:00"
                 formControlName="horaMañanaInicio" [class]="notRequiredHasValue('horaMañanaInicio')">
+              <!-- Hora Tarde -->
               <input type="time" class="form-control my-2" name="inicio" min="12:00" max="18:00" value="14:00"
                 formControlName="horaTardeInicio" [class]="notRequiredHasValue('horaTardeInicio')">
             </div>
+            <!-- Horas de Fin de jornada -->
             <div class="form-group col-md-4">
+              <!-- Hora mañana  -->
               <input type="time" class="form-control" name="fin" min="00:00" max="11:59" value="12:00"
                 formControlName="horaMañanaFin" [class]="notRequiredHasValue('horaMañanaFin')">
+              <!-- Hora Tarde -->
               <input type="time" class="form-control my-2" name="fin" min="12:00" max="18:00" value="18:00"
                 formControlName="horaTardeFin" [class]="notRequiredHasValue('horaTardeFin')">
             </div>
           </div>
+          <!-- Servicio a domicilio -->
           <div class="row g-3 p-1">
             <div class="form-group col-md-2">
               <label for="" class="col-sm-2 col-form-label">Servicio a Domicilio:</label>
@@ -164,6 +184,7 @@
               </div>
             </div>
           </div>
+          <!-- Servicios -->
           <div class="form-group p-1">
             <input type="text" class="form-control" placeholder="Servicios separados por ','"
               formControlName="servicios" [class]="isValidField('servicios')">
@@ -171,13 +192,17 @@
               Por favor ingrese sus servicios.
             </div>
           </div>
+          <!-- Informacion adicional -->
           <div class="form-group p-1">
             <textarea rows="3" class="form-control" placeholder="Informacion adicional"
               formControlName="informacionAdicional" [class]="notRequiredHasValue('informacionAdicional')"></textarea>
           </div>
+          <!-- Referencias comerciales -->
           <label class="p-1" for="">Referencias Comerciales</label>
           <div class="row g-2 p-1">
+            <!-- Referencia 1 -->
             <label for="">Referencia 1:</label>
+            <!-- Nombre Referencia -->
             <div class="form-group col-md-6">
               <input type="text" class="form-control" placeholder="Nombre" formControlName="nombreReferencia1"
                 [class]="isValidField('nombreReferencia1')">
@@ -185,6 +210,7 @@
                 Por favor ingrese un nombre.
               </div>
             </div>
+            <!-- Número de celular -->
             <div class="form-group col-md-6">
               <input type="tel" class="form-control" placeholder="Celular" formControlName="celularReferencia1"
                 [class]="isValidField('celularReferencia1')">
@@ -195,6 +221,7 @@
                 # Celular invalido.
               </div>
             </div>
+            <!-- Ocupacion -->
             <div class="form-group sinpadding">
               <input type="text" class="form-control" placeholder="Ocupación" formControlName="ocupacionReferencia1"
                 [class]="isValidField('ocupacionReferencia1')">
@@ -203,8 +230,10 @@
               </div>
             </div>
           </div>
+          <!-- Referencia 2 -->
           <div class="row g-2 p-1">
             <label for="">Referencia 2:</label>
+            <!-- Nombre de referencia  -->
             <div class="form-group col-md-6">
               <input type="text" class="form-control" placeholder="Nombre" formControlName="nombreReferencia2"
                 [class]="isValidField('nombreReferencia2')">
@@ -212,6 +241,7 @@
                 Por favor ingrese un nombre.
               </div>
             </div>
+            <!-- Celular de referencia -->
             <div class="form-group col-md-6">
               <input type="tel" class="form-control" placeholder="Celular" formControlName="celularReferencia2"
                 [class]="isValidField('celularReferencia2')">
@@ -222,6 +252,7 @@
                 # Celular invalido.
               </div>
             </div>
+            <!-- Ocupacion de referencia -->
             <div class="form-group sinpadding">
               <input type="text" class="form-control" placeholder="Ocupación" formControlName="ocupacionReferencia2"
                 [class]="isValidField('ocupacionReferencia2')">
@@ -230,10 +261,12 @@
               </div>
             </div>
           </div>
+          <!-- Código de asesor -->
           <div class="form-group col-md-5 p-1">
             <input type="number" class="form-control" placeholder="Código asesor" formControlName="codigoAsesor"
               [class]="notRequiredHasValue('codigoAsesor')">
           </div>
+          <!-- Terminos y condiciones -->
           <div class="form-group p-1">
             <div class="form-check form-switch">
               <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
@@ -247,6 +280,7 @@
             </div>
           </div>
           <div class="modal-footer">
+            <!-- Pago con Wompi -->
             <form action="https://checkout.wompi.co/p/" method="GET" target="_blank">
               <input type="hidden" name="public-key" value="pub_test_pxMGkJMTgaNDNQFwQu6Dq1FoB6u2VN9a" />
               <input type="hidden" name="currency" value="COP" />
@@ -254,6 +288,7 @@
               <input type="hidden" name="reference" value="{{referenciaWompi}}" />
               <button class="btn btn-primary rounded waynox" type="submit"> Paga con <strong>Wompi</strong></button>
             </form>
+            <!-- Botón de guardar informacion -->
             <button type="submit" class="btn btn-primary rounded-pill">Enviar</button>
           </div>
         </form>
@@ -261,5 +296,5 @@
     </div>
   </div>
 </div>
-
+<!-- SDK Wompi -->
 <script type="text/javascript" src="https://checkout.wompi.co/widget.js"></script>

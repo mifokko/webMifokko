@@ -8,9 +8,12 @@ import { RegisterUsuarioGeneralComponent } from 'src/app/shared/components/regis
 import { RegisterComponent } from 'src/app/shared/components/register/register.component';
 import { Empresa } from 'src/app/shared/model/empresa.model';
 import { Independiente } from 'src/app/shared/model/independiente.model';
+import { Ofertas } from 'src/app/shared/model/oferta.model';
+import { TablaBusqueda } from 'src/app/shared/model/tablaBusqueda.model';
 import { Usuario } from 'src/app/shared/model/user.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { DataServices } from 'src/app/shared/services/data.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -18,23 +21,41 @@ import { DataServices } from 'src/app/shared/services/data.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  seleccion = '';
-  login = false;
-  lista: string[] = ['INDEPENDIENTES', 'EMPRESAS', 'OFERTAS', 'TODOS'];
-  rol: 'empresa' | 'independiente' | 'general' | undefined;
+  seleccion = ''; // Almacena el tipo de usuario que se esta buscando 
+  palabra = ''; // Es la encargada de almacenar las palabras que se desean buscar 
+  ciudad = ''; // Es la encargada de almacenar la ciudad en donde se desea buscar el servicio 
+  login = false; // Informa si se ha iniciado o no sesion 
+  rol: 'empresa' | 'independiente' | 'general' | undefined; // Almacena el tipo de rol del usuario
+  // Estas dos listas se usan para filtrar y listar las ciudades en las que se han registrado usuarios
   ciudades: string[] = [];
   municipios: string[] = [];
-  subscripcion!: boolean;
-  plan!: string;
-  id = '';
-  fechaFin: string[] = []
-  usuarios!: Usuario;
+
+  subscripcion!: boolean; // Muestra el estado de la subscripcion 
+  plan!: string; // Acuerdo de pagos 
+  tipoPlan!: string; //Tipo de paquete que adquirio el usuario
+  id = ''; // Identificador del usuario 
+  fechaFin: string[] = [] //Lista donde se deivide la el objeto fecha
+  usuarios!: Usuario; // Se almacena la informacion del usuario 
   alerta: boolean = false;
-  palabra = '';
+  
+  empresa: Empresa[] = [];
+  independiente: Independiente[] = [];
+  ofertas: Ofertas[] = []
+
+  //Crear tabla de los servicios y oficios de los usuarios, para facilitar la busqueda
+  tablaBusqueda = {
+    servicios: '',
+    idUser: '',
+    path: ''
+  }
 
   //Ver perfil independiente
-  verPaginaBuscar(seleccion: string, palabra: string){
-    this.router.navigate(['/buscar', seleccion, palabra]);
+  verPaginaBuscar(seleccion: string, palabra: string, ciudad: string) {
+    if (seleccion.length == 0) {
+      Swal.fire('Debe seleccionar un filtro', 'Volver a intentar', 'error');
+    }else{
+      this.router.navigate(['/buscar', ciudad, seleccion, palabra]);
+    }
     //console.log(seleccion + '/ ' + palabra);
   }
 
@@ -69,62 +90,64 @@ export class HomeComponent implements OnInit {
 
       //console.log(this.municipios);
     });
-    
+
   }
 
   ngOnInit(): void {
     console.log('Home');
   }
 
+  //Se usa para el scroll automatico
   inView(ele: any) {
     ele.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'start' });
   }
-
+  //Abrir modal de planes de empresa
   openPlanEmpresa() {
     const modalRef = this.modalService.open(PlanEmpresaComponent);
   }
-
+  //Abrir planes de independiente
   openPlanIndependiente() {
     const modalRef1 = this.modalService.open(PlanIndependienteComponent);
   }
-
+  //Abrir modal de registro de usuario general 
   openRegisterUsuario() {
     const modalRef2 = this.modalService.open(RegisterUsuarioGeneralComponent);
-  }
-
-  Capturar(seleccion: string) {
-    //console.log('Seleccion: ' + seleccion);
   }
 
   //Estado de subscripción 
   actualizarSubs() {
     const fecha = new Date();
     let fechaFin = '';
-    if (this.plan == 'mensualE' || this.plan == 'anualE') {
+    //Se verfica cual es el plan de pago del usuario y que tipo de paquete adquirio
+    if ((this.plan == '3MENSUALES' && (this.tipoPlan == 'EMPRESARIALORO' || this.tipoPlan == 'EMPRESARIALPLATA')) || (this.plan == 'ANUAL' && (this.tipoPlan == 'EMPRESARIALORO' || this.tipoPlan == 'EMPRESARIALPLATA'))) {
       this.firestore.updateCamposDoc('empresa', 'Usuarios', this.id, 'perfil');
-      if (this.plan == 'mensualE') {
+      //Si acordo pagar mensual 
+      if (this.plan == '3MENSUALES') {
         this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
         fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 2) + '/' + fecha.getFullYear());
         this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
         this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
         this.firestore.updateCamposDoc(true, 'Empresas', this.id, 'estadoPago');
       } else {
+        //Si acordo pagar anual 
         this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
         fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 1) + '/' + (fecha.getFullYear() + 1));
         this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
         this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
         this.firestore.updateCamposDoc(true, 'Empresas', this.id, 'estadoPago');
       }
-
-    } else if (this.plan == 'mensualI' || this.plan == 'anualI') {
+      //Se verfica cual es el plan de pago del usuario y que tipo de paquete adquirio
+    } else if ((this.plan == '3MENSUALES' && (this.tipoPlan == 'INDEPENDIENTEORO' || this.tipoPlan == 'INDEPENDIENTEPLATA')) || (this.plan == 'ANUAL' && (this.tipoPlan == 'INDEPENDIENTEORO' || this.tipoPlan == 'INDEPENDIENTEPLATA'))) {
       this.firestore.updateCamposDoc('independiente', 'Usuarios', this.id, 'perfil');
-      if (this.plan == 'mensualI') {
+      //Si acordo pagar mensual
+      if (this.plan == '3MENSUALES') {
         this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
         fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 2) + '/' + fecha.getFullYear());
         this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
         this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
         this.firestore.updateCamposDoc(true, 'Independiente', this.id, 'estadoPago');
       } else {
+        //Si acordo pagar anual 
         this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
         fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 1) + '/' + (fecha.getFullYear() + 1));
         this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
@@ -138,6 +161,7 @@ export class HomeComponent implements OnInit {
   getDatosUser(uid: string) {
     const path = 'Usuarios';
     const id = uid;
+    //Obtener datos de inicio de sesion del usuario
     this.firestore.getDoc<Usuario>(path, id).subscribe(res => {
       if (res) {
         this.usuarios = res;
@@ -163,12 +187,60 @@ export class HomeComponent implements OnInit {
           this.rol = res.perfil;
         }
 
+        //Se verifica si el usuario tiene su subscripcion al dia 
         if (res.plan != 'general' && res.perfil == 'general') {
           this.subscripcion = false;
           this.plan = res.plan;
         } else {
           this.subscripcion = true;
         }
+
+        this.firestore.getCollection<TablaBusqueda>('Busqueda').subscribe(res => {
+          if (res === undefined) {
+            //Guardar lista de servicios y profesiones para las busquedas
+            this.firestore.getCollection<Empresa>('Empresas').subscribe(res => {
+              if (res) {
+                this.empresa = res;
+                for (let index = 0; index < this.empresa.length; index++) {
+                  const services = this.empresa[index].servicios.split(', ');
+                  for (let i = 0; i < services.length; i++) {
+                    const uid = Math.random().toString(9).substring(2);
+                    const ser = services[i].toString();
+                    this.tablaBusqueda.servicios = services[i];
+                    this.tablaBusqueda.idUser = this.empresa[index].id;
+                    this.tablaBusqueda.path = 'Empresas';
+                    this.firestore.createDoc(this.tablaBusqueda, 'Busqueda', uid);
+                  }
+                }
+
+                this.firestore.getCollection<Independiente>('Independiente').subscribe(res => {
+                  if (res) {
+                    this.independiente = res;
+                    for (let j = 0; j < this.independiente.length; j++) {
+                      const uid = Math.random().toString(9).substring(2);
+                      this.tablaBusqueda.servicios = this.independiente[j].profesion;
+                      this.tablaBusqueda.idUser = this.independiente[j].id;
+                      this.tablaBusqueda.path = 'Independiente';
+                      this.firestore.createDoc(this.tablaBusqueda, 'Busqueda', uid);
+
+                      const service = this.independiente[j].servicios.split(',');
+                      for (let k = 0; k < service.length; k++) {
+                        const uid = Math.random().toString(9).substring(2);
+                        this.tablaBusqueda.servicios = service[k];
+                        this.tablaBusqueda.idUser = this.independiente[j].id;
+                        this.tablaBusqueda.path = 'Independiente';
+                        this.firestore.createDoc(this.tablaBusqueda, 'Busqueda', uid);
+                      }
+                    }
+                  }
+                })
+              }
+            })
+          } else {
+            console.log('Lista de busqueda completa');
+          }
+        })
+
       }
     })
   }
