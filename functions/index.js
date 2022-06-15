@@ -1,5 +1,5 @@
 const functions = require("firebase-functions");
-const mercadopagoCtrl = require("mercadopago")
+const mercadopagoCtrl = require("mercadopago");
 exports.checkout = functions.https.onCall((preference, context) => {
   return mercadopagoCtrl.makecheckout(preference).then((response) => {
     // Este es el checkout generado o link al que nos vamos a posicionar para pagar

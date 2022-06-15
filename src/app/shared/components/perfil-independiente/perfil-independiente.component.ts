@@ -3,6 +3,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { Loader } from '@googlemaps/js-api-loader';
 import { deleteObject, getStorage, ref } from 'firebase/storage';
 import { Gallery, GalleryItem, ImageItem, ThumbnailsPosition, ThumbnailsView } from 'ng-gallery';
 import { Lightbox } from 'ng-gallery/lightbox';
@@ -117,7 +118,8 @@ export class PerfilIndependienteComponent implements OnInit {
   checksImagenes: string[] = []; // Se almacena la referencia de la imagen que se desea eliminar 
   idsImagenes: string[] = []; // Almacena el identificador de la imagen a eliminar 
 
-  fotoPI: 'APROBADO' | 'NO APROBADO' | undefined;
+  fotoPI: 'APROBADO' | 'NO APROBADO' | undefined; //Varieable que indica si se a apobado o no la foto de perfil
+  map!: google.maps.Map; // Variable que inicializa el maps
 
 
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
@@ -151,6 +153,30 @@ export class PerfilIndependienteComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //Seccion de carga de ubicacion en maps
+    let loader = new Loader({
+      apiKey: 'AIzaSyDPAmj7xDHAcVZMobEbs3Prn2iu1q8vXjw',
+    });
+
+    loader.load().then(() => {
+      const center: google.maps.LatLngLiteral = {lat:4.175033, lng:-76.162959};
+      const location = {
+        lat: 4.175033,
+        lng: -76.162959,
+      };
+
+      this.map = new google.maps.Map(document.getElementById('maps') as HTMLElement, {
+        center: center,
+        zoom: 15
+      })
+      
+      const marker = new google.maps.Marker({
+        position: location,
+        map: this.map
+      })
+
+    });
+    
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     document.body.appendChild(tag);

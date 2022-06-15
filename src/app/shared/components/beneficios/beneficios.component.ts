@@ -11,6 +11,7 @@ export class BeneficiosComponent implements OnInit {
   constructor(public modal: NgbActiveModal) { }
 
   ngOnInit(): void {
+    console.log('Beneficios');
   }
 
 }

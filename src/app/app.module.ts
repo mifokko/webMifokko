@@ -44,6 +44,7 @@ import { EstadisticasOfertaComponent } from './shared/components/estadisticas-of
 import { FooterModule } from './shared/components/footer/footer.module';
 import {NgxPaginationModule} from 'ngx-pagination';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,7 +90,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
     Ng2GoogleChartsModule,
     FooterModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]

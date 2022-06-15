@@ -11,6 +11,7 @@ export class InformacionComponent implements OnInit {
   constructor(public modal: NgbActiveModal) { }
 
   ngOnInit(): void {
+    console.log('Informacion');
   }
 
 }

@@ -83,8 +83,6 @@ export class RegisterComponent implements OnInit {
     //console.log(this.municipios);
     this.referenciaWompi = this.referenciaPago();
     this.referenciaMercadoPago = this.referenciaPagoM();
-    this.precio = this.precioPlan + 1000;
-    console.log(this.precioPlan);
   }
 
   ngOnInit(): void {

@@ -16,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Comentario } from '../../model/comentario.model';
 import { deleteObject, getStorage, ref } from 'firebase/storage';
+import { Loader } from '@googlemaps/js-api-loader';
 
 
 @Component({
@@ -117,6 +118,11 @@ export class PerfilComponent implements OnInit {
   checksImagenes: string[] = []; // Se almacena la referencia de la imagen que se desea eliminar 
   idsImagenes: string[] = []; // Almacena el identificador de la imagen a eliminar 
 
+  map!: google.maps.Map; // Variable que inicializa el maps
+  geocoder!: google.maps.Geocoder;
+  latitud!: number;
+  longitud!: number;
+
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
     activatedRoute.params.subscribe(prm => {
       //console.log(`El id es: ${prm['id']}`);
@@ -150,6 +156,30 @@ export class PerfilComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //Seccion de carga de ubicacion en maps
+    // let loader = new Loader({
+    //   apiKey: 'AIzaSyDPAmj7xDHAcVZMobEbs3Prn2iu1q8vXjw',
+    // });
+
+    // loader.load().then(() => {
+    //   const center: google.maps.LatLngLiteral = {lat:4.175033, lng:-76.162959};
+    //   const location = {
+    //     lat: 4.175033,
+    //     lng: -76.162959,
+    //   };
+
+    //   this.map = new google.maps.Map(document.getElementById('maps') as HTMLElement, {
+    //     center: center,
+    //     zoom: 15,
+    //     styles: styles
+    //   })
+      
+    //   const marker = new google.maps.Marker({
+    //     position: location,
+    //     map: this.map
+    //   })
+    // });
+
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     document.body.appendChild(tag);
@@ -171,6 +201,26 @@ export class PerfilComponent implements OnInit {
 
     lightboxRef.load(this.items);
   }
+
+  // //Cargar Maps
+  // geocodeAddress(geocoder: any, resultsMap: any) {
+  //   var address = document.getElementById('address');
+
+  //   geocoder.geocode({'address': address}, (results: any, status: any) => {
+  //     if (status === 'OK') {
+  //       resultsMap.setCenter(results[0].geometry.location);
+  //       var marker = new google.maps.Marker({
+  //         map: resultsMap,
+  //         position: results[0].geometry.location
+  //       });            
+  //       this.latitud = results[0].geometry.location.lat();
+  //       this.longitud = results[0].geometry.location.lng();
+
+  //     } else {
+  //       alert('La localización no fue satisfactoria por la siguiente razón: ' + status);
+  //     }
+  //   });
+  // }
 
   //Cargar Imagen de Perfil
   onUpload(e: any) {

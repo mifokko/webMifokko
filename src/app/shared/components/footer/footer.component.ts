@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
@@ -33,14 +34,20 @@ export class FooterComponent implements OnInit {
   login!: boolean; // Variable que determina si se ha iniciado sesion o no 
   idUser = ''; // Variable que almacena el valor del identificador del usuario
   rol = ''; // Variable en la cual se guarad la el rol o el tipo de usuario que ha iniciado sesion o que esta interactuando con la pagina
+//Formulario de contacto
+  contacto = {
+    nombre: '',
+    email: '',
+    mensaje: ''
+  }
 
-  constructor(private modalService: NgbModal, private authService: AuthService, private firestore: DataServices, private router: Router) {
+  constructor(private modalService: NgbModal, private fb: FormBuilder, private authService: AuthService, private firestore: DataServices, private router: Router) {
     this.authService.stateUser().subscribe(res => {
       if (res) {
         console.log('Esta logeado');
         this.login = true;
         this.idUser = res.uid;
-        this.getDatosUser(res.uid);
+        
         //console.log(res.uid);
       } else {
         console.log('No esta logeado');
@@ -50,6 +57,7 @@ export class FooterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('Footer');
     
   }
 
@@ -73,4 +81,11 @@ export class FooterComponent implements OnInit {
     });
   }
 
+  //Guardar informacion de formulario de contacto 
+  onSaveContacto(){
+    const id = Math.random().toString(36).substring(2);
+    this.firestore.createDoc(this.contacto, 'Contacto', id);
+    Swal.fire('Correo enviado', 'Regrese a la pagina', 'success');
+    
+  }
 }

@@ -16,7 +16,7 @@ import { DataService1 } from '../../services/dataRegIndependiente.services';
   styleUrls: ['./register-independiente.component.scss'],
   providers: [DataService1, DataServices, AuthService]
 })
-export class RegisterIndependienteComponent implements OnInit, OnChanges {
+export class RegisterIndependienteComponent implements OnInit {
   independienteForm!: FormGroup;
   private isCel = "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
   private isDoc = "\[0-9]{8,10}";
@@ -53,6 +53,10 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
   departamentos: string[] = [];
   departamento: string[] = [];
 
+  //Referencias de pago 
+  referenciaWompi = '';
+  referenciaMercadoPago = '';
+
   constructor(private fb: FormBuilder, private dataSvc: DataService1, config: NgbDatepickerConfig, public modal: NgbActiveModal, private data: DataServices, private storage: AngularFireStorage, private afs: AuthService) {
     data.getCollection<Ciudades>('Ciudades').subscribe(res => {
       //console.log(res);
@@ -63,15 +67,14 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
       this.departamento = this.departamentos.filter((valor, indice) => {
         return this.departamentos.indexOf(valor) === indice;
       });
-
       this.departamento = this.departamento.sort();
     })
     console.log(this.departamento);
     config.minDate = { year: 1900, month: 1, day: 1 };
     config.maxDate = { year: 2022, month: 12, day: 31 };
-  }
-
-  ngOnChanges(): void {
+    //Referencias de pago
+    this.referenciaWompi = this.referenciaPago();
+    this.referenciaMercadoPago = this.referenciaPagoM();
   }
 
   ngOnInit(): void {
@@ -213,6 +216,18 @@ export class RegisterIndependienteComponent implements OnInit, OnChanges {
     console.log('Referencia de pago -> ', result)
     return result;
   }
+
+  //Se obtiene la referencia de pago
+  referenciaPagoM() {
+    let result = 'MP';
+    const numeros = '0123456789';
+    for (let i = 0; i < 6; i++) {
+      result += numeros.charAt(Math.floor(Math.random() * numeros.length));
+    }
+    console.log('Referencia de pago -> ', result)
+    return result;
+  }
+
   //Ver contraseña
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;

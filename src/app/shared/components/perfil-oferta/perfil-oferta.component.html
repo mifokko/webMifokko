@@ -104,7 +104,7 @@
         <!--Galeria-->
         <div class="tab-pane fade mt-3" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
             <!-- Subir Imagenes de la galeria -->
-            <form *ngIf="rol === 'empresa' && login === true && galeria == false">
+            <form *ngIf="rol === 'empresa' && login === true && galeria === false">
                 <div class="input-group center col-lg-4 col-sx-6 col-md-4" id="div_file" style="margin-left: 60px;">
                     <p id="textos" style="color: white; text-align: center;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
@@ -185,7 +185,7 @@
                         <p>{{chats.nombre}}: {{chats.comentario}}</p>
                     </div>
                 </div>
-                <div class="container" *ngIf="rol === 'general' || login == false">
+                <div class="container" *ngIf="rol === 'general' || login === false">
                     <form #comentariosForm="ngForm" (ngSubmit)="saveComentarios(comentariosForm)">
                         <div class="col-md-6 col-sx-12 col-lg-6 b-3">
                             <label for="exampleFormControlInput1" class="form-label">Nombre Usuario</label>

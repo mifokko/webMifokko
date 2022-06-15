@@ -10,6 +10,7 @@ export class TerminosComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('TyC');
   }
 
 }

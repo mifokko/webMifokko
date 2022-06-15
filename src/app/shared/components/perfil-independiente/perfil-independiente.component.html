@@ -5,7 +5,7 @@
   <!--Header perfil-->
   <section>
     <!--Imagen de portada por defecto independiente -->
-    <div class="img" *ngIf="fotoPor == false">
+    <div class="img" *ngIf="fotoPor === false">
       <!-- Editar Perfil -->
       <button class="btn btn-primary rounded-pill editarBtn" (click)="editarPerfil()"
         *ngIf="rol === 'independiente'">Editar</button>
@@ -323,7 +323,7 @@
     <!--Galeria-->
     <div class="tab-pane fade mt-3" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
       <!-- Subir Imagenes de la galeria -->
-      <form *ngIf="rol === 'independiente' && login === true  && gallerys == false">
+      <form *ngIf="rol === 'independiente' && login === true  && gallerys === false">
         <div class="input-group center col-lg-4 col-sx-6 col-md-4" id="div_file" style="margin-left: 60px;">
           <p id="textos" style="color: white; text-align: center;">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
@@ -499,6 +499,7 @@
       </div>
       <div class="container tamA mt-4">
         <h5 class="mt-2">COMO LLEGAR</h5>
+        <div class="full" id="maps"></div>
       </div>
     </div>
 
