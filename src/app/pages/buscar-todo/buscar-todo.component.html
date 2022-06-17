@@ -21,7 +21,7 @@
 
   <!-- Busqueda empresas -->
   <section #empresas *ngIf="seleccion === 'empresa'">
-    <div class="container mt-5">
+    <div class="container mt-5 p-1">
       <!-- Spinner -->
       <div class="d-flex justify-content-center">
         <div *ngIf="resultados === false" class="spinner-border text-primary" role="status">
@@ -31,7 +31,7 @@
       <!-- respuesta de busqueda por empresa - Estructura -->
       <div class="row">
         <div class="row col-lg-4 col-md-4 col-sx p-2"
-          *ngFor="let buscar of resultadosE | paginate: { itemsPerPage: 3, currentPage: page }">
+          *ngFor="let buscar of resultadosE | paginate: { itemsPerPage: 9, currentPage: page }">
           <div class="row ">
             <div class="my-2 img1">
               <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
@@ -64,7 +64,7 @@
       <!-- respuesta de busqueda por independiente - Estructura -->
       <div class="row">
         <div class="row col-lg-4 col-md-4 col-sx p-2"
-          *ngFor="let buscar of resultadosI | paginate: { itemsPerPage: 3, currentPage: page }">
+          *ngFor="let buscar of resultadosI | paginate: { itemsPerPage: 9, currentPage: page }">
           <div class="row ">
             <div class="my-2 img2">
               <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"
@@ -98,7 +98,7 @@
       <!-- respuesta de busqueda por ofertas - Estructura -->
       <div class="row">
         <div class="row col-lg-4 col-md-4 col-sx p-2"
-          *ngFor="let buscar of resultadosO | paginate: { itemsPerPage: 3, currentPage: page }">
+          *ngFor="let buscar of resultadosO | paginate: { itemsPerPage: 9, currentPage: page }">
           <div class="row ">
             <div class="my-2 img3">
               <img [src]="buscar.fotoPerfil" class="rounded-circle img1" alt="" loading="lazy"

@@ -526,10 +526,12 @@
       <div class="container tamA mt-4">
         <h5 class="">COMO LLEGAR</h5>
         <!-- Google Maps -->
-        <google-map width="100%" height="400px" [zoom]="zoom" [center]="center" class="m-1">
-          <map-marker [position]="center">
-          </map-marker>
-        </google-map>
+        <div *ngIf="ubicacion === true">
+          <google-map  width="100%" height="400px" [zoom]="zoom" [center]="center" class="m-1">
+            <map-marker [position]="center">
+            </map-marker>
+          </google-map>
+        </div>
       </div>
     </div>
 

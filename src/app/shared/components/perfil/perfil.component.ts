@@ -122,6 +122,7 @@ export class PerfilComponent implements OnInit {
   map!: google.maps.Map; // Variable que inicializa el maps
   zoom!: number; //Zoom del maps
   center!: google.maps.LatLngLiteral; // Lat y Lng del mapa 
+  ubicacion: boolean = false; //Variable para mostrar spinner
 
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
     activatedRoute.params.subscribe(prm => {
@@ -159,13 +160,6 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit(): void {
 
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.center = {
-        lat: 4.570868,
-        lng: -74.297333,
-      }
-    })
-
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     document.body.appendChild(tag);
@@ -186,17 +180,6 @@ export class PerfilComponent implements OnInit {
     });
 
     lightboxRef.load(this.items);
-  }
-
-  // //Cargar Maps
-  ubicacion(lat: string, lng: string) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.center = {
-        lat: parseFloat(lat),
-        lng: parseFloat(lng),
-      }
-    })
-    console.log(this.center);
   }
 
   //Cargar Imagen de Perfil
@@ -480,18 +463,25 @@ export class PerfilComponent implements OnInit {
         }
 
         if (this.empresa) {
+          this.ubicacion = false;
           const geocoder = new google.maps.Geocoder();
           const ciudad = this.empresa.ciudad;
           const departamento = this.empresa.departamento;
           const inputAddress = this.empresa.direccion + ' ' + ciudad + ' ' + departamento;
           console.log(inputAddress);
           geocoder.geocode({ 'address': inputAddress }, (results, status) => {
-            
+            console.log(this.ubicacion);
             if (status === google.maps.GeocoderStatus.OK) {
               console.log(results);
               if (results) {
-                this.ubicacion(results[0].geometry.location.lat().toString(), results[0].geometry.location.lng().toString());
+                navigator.geolocation.getCurrentPosition((position) => {
+                  this.center = {
+                    lat: results[0].geometry.location.lat(),
+                    lng: results[0].geometry.location.lng(),
+                  }
+                })
               }
+              this.ubicacion = true;
             } else {
               alert('La localización no fue satisfactoria por la siguiente razón: ' + status);
             }
@@ -499,6 +489,7 @@ export class PerfilComponent implements OnInit {
             //console.log(vMarket);
           });
           //console.log(vMarket);
+          
         }
       });
 
