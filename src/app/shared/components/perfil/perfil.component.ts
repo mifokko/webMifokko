@@ -17,6 +17,7 @@ import { NgForm } from '@angular/forms';
 import { Comentario } from '../../model/comentario.model';
 import { deleteObject, getStorage, ref } from 'firebase/storage';
 import { Loader } from '@googlemaps/js-api-loader';
+import $ from "jquery";
 
 
 @Component({
@@ -119,9 +120,8 @@ export class PerfilComponent implements OnInit {
   idsImagenes: string[] = []; // Almacena el identificador de la imagen a eliminar 
 
   map!: google.maps.Map; // Variable que inicializa el maps
-  geocoder!: google.maps.Geocoder;
-  latitud!: number;
-  longitud!: number;
+  zoom!: number; //Zoom del maps
+  center!: google.maps.LatLngLiteral; // Lat y Lng del mapa 
 
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
     activatedRoute.params.subscribe(prm => {
@@ -152,33 +152,19 @@ export class PerfilComponent implements OnInit {
         this.rol = 'general';
         //console.log(this.rol);
       }
-    })
+    });
+
+    this.zoom = 18;
   }
 
   ngOnInit(): void {
-    //Seccion de carga de ubicacion en maps
-    // let loader = new Loader({
-    //   apiKey: 'AIzaSyDPAmj7xDHAcVZMobEbs3Prn2iu1q8vXjw',
-    // });
 
-    // loader.load().then(() => {
-    //   const center: google.maps.LatLngLiteral = {lat:4.175033, lng:-76.162959};
-    //   const location = {
-    //     lat: 4.175033,
-    //     lng: -76.162959,
-    //   };
-
-    //   this.map = new google.maps.Map(document.getElementById('maps') as HTMLElement, {
-    //     center: center,
-    //     zoom: 15,
-    //     styles: styles
-    //   })
-      
-    //   const marker = new google.maps.Marker({
-    //     position: location,
-    //     map: this.map
-    //   })
-    // });
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lat: 4.570868,
+        lng: -74.297333,
+      }
+    })
 
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
@@ -203,24 +189,15 @@ export class PerfilComponent implements OnInit {
   }
 
   // //Cargar Maps
-  // geocodeAddress(geocoder: any, resultsMap: any) {
-  //   var address = document.getElementById('address');
-
-  //   geocoder.geocode({'address': address}, (results: any, status: any) => {
-  //     if (status === 'OK') {
-  //       resultsMap.setCenter(results[0].geometry.location);
-  //       var marker = new google.maps.Marker({
-  //         map: resultsMap,
-  //         position: results[0].geometry.location
-  //       });            
-  //       this.latitud = results[0].geometry.location.lat();
-  //       this.longitud = results[0].geometry.location.lng();
-
-  //     } else {
-  //       alert('La localización no fue satisfactoria por la siguiente razón: ' + status);
-  //     }
-  //   });
-  // }
+  ubicacion(lat: string, lng: string) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lat: parseFloat(lat),
+        lng: parseFloat(lng),
+      }
+    })
+    console.log(this.center);
+  }
 
   //Cargar Imagen de Perfil
   onUpload(e: any) {
@@ -346,7 +323,7 @@ export class PerfilComponent implements OnInit {
   }
 
   //Funcion para eliminar las imagenes selecionadas
-  eliminarImagenes(){
+  eliminarImagenes() {
     for (let index = 0; index < this.checksImagenes.length; index++) {
       const storagea = getStorage();
       const desertRef = ref(storagea, this.checksImagenes[index]);
@@ -365,7 +342,7 @@ export class PerfilComponent implements OnInit {
     if (input.checked) {
       this.checksImagenes.push(data);
       this.idsImagenes.push(index);
-    }else{
+    } else {
       this.checksImagenes = this.checksImagenes.filter(s => s !== data);
       this.idsImagenes = this.idsImagenes.filter(s => s !== index);
     }
@@ -400,17 +377,17 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-    //Funcion que se encarga de eliminar los archivos 
-    async eliminarArchivo(portafolio: string){
-      const storagea = getStorage();
-      const desertRef = ref(storagea, portafolio);
-      deleteObject(desertRef).then(() => {
-        this.firestore.deleteCamposDoc(this.path, this.id, 'portafolio');
-        Swal.fire('Portafolio eliminado', 'Regresar al perfil', 'success');
-      }).catch((error) => {
-        Swal.fire('Error Eliminando archivo', 'Intentelo de nuevo', 'error');
-      });
-    }
+  //Funcion que se encarga de eliminar los archivos 
+  async eliminarArchivo(portafolio: string) {
+    const storagea = getStorage();
+    const desertRef = ref(storagea, portafolio);
+    deleteObject(desertRef).then(() => {
+      this.firestore.deleteCamposDoc(this.path, this.id, 'portafolio');
+      Swal.fire('Portafolio eliminado', 'Regresar al perfil', 'success');
+    }).catch((error) => {
+      Swal.fire('Error Eliminando archivo', 'Intentelo de nuevo', 'error');
+    });
+  }
 
   //Actualizar redes sociales 
   actualizarRedesS() {
@@ -500,6 +477,28 @@ export class PerfilComponent implements OnInit {
         } else {
           this.video = true;
           //console.log(this.video);
+        }
+
+        if (this.empresa) {
+          const geocoder = new google.maps.Geocoder();
+          const ciudad = this.empresa.ciudad;
+          const departamento = this.empresa.departamento;
+          const inputAddress = this.empresa.direccion + ' ' + ciudad + ' ' + departamento;
+          console.log(inputAddress);
+          geocoder.geocode({ 'address': inputAddress }, (results, status) => {
+            
+            if (status === google.maps.GeocoderStatus.OK) {
+              console.log(results);
+              if (results) {
+                this.ubicacion(results[0].geometry.location.lat().toString(), results[0].geometry.location.lng().toString());
+              }
+            } else {
+              alert('La localización no fue satisfactoria por la siguiente razón: ' + status);
+            }
+            
+            //console.log(vMarket);
+          });
+          //console.log(vMarket);
         }
       });
 

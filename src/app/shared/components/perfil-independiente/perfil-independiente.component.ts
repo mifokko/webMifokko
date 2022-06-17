@@ -120,6 +120,8 @@ export class PerfilIndependienteComponent implements OnInit {
 
   fotoPI: 'APROBADO' | 'NO APROBADO' | undefined; //Varieable que indica si se a apobado o no la foto de perfil
   map!: google.maps.Map; // Variable que inicializa el maps
+  zoom!: number; //Zoom del maps
+  center!: google.maps.LatLngLiteral; // Lat y Lng del mapa 
 
 
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
@@ -150,33 +152,18 @@ export class PerfilIndependienteComponent implements OnInit {
         console.log(this.rol);
       }
     })
+
+    this.zoom = 18;
   }
 
   ngOnInit(): void {
-    //Seccion de carga de ubicacion en maps
-    let loader = new Loader({
-      apiKey: 'AIzaSyDPAmj7xDHAcVZMobEbs3Prn2iu1q8vXjw',
-    });
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lat: 4.570868,
+        lng: -74.297333,
+      }
+    })
 
-    loader.load().then(() => {
-      const center: google.maps.LatLngLiteral = {lat:4.175033, lng:-76.162959};
-      const location = {
-        lat: 4.175033,
-        lng: -76.162959,
-      };
-
-      this.map = new google.maps.Map(document.getElementById('maps') as HTMLElement, {
-        center: center,
-        zoom: 15
-      })
-      
-      const marker = new google.maps.Marker({
-        position: location,
-        map: this.map
-      })
-
-    });
-    
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     document.body.appendChild(tag);
@@ -197,6 +184,17 @@ export class PerfilIndependienteComponent implements OnInit {
     });
 
     lightboxRef.load(this.items);
+  }
+
+  //Cargar Maps
+  ubicacion(lat: string, lng: string) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lat: parseFloat(lat),
+        lng: parseFloat(lng),
+      }
+    })
+    console.log(this.center);
   }
 
   //Cargar Imagen de Perfil
@@ -475,6 +473,31 @@ export class PerfilIndependienteComponent implements OnInit {
           this.fotoPI = 'APROBADO';
         } else {
           this.fotoPI = 'NO APROBADO';
+        }
+
+        //Cargar direcciones en maps
+        if (this.independiente) {
+          if (!this.independiente.direccion.length) {
+            const geocoder = new google.maps.Geocoder();
+            const ciudad = this.independiente.ciudad;
+            const departamento = this.independiente.departamento;
+            const inputAddress = this.independiente.direccion + ' ' + ciudad + ' ' + departamento;
+            console.log(inputAddress);
+            geocoder.geocode({ 'address': inputAddress }, (results, status) => {
+
+              if (status === google.maps.GeocoderStatus.OK) {
+                console.log(results);
+                if (results) {
+                  this.ubicacion(results[0].geometry.location.lat().toString(), results[0].geometry.location.lng().toString());
+                }
+              } else {
+                alert('La localización no fue satisfactoria por la siguiente razón: ' + status);
+              }
+
+              //console.log(vMarket);
+            });
+            //console.log(vMarket);
+          }
         }
 
       });

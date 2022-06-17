@@ -20,4 +20,5 @@ export interface Empresa {
     portafolio: string,
     youtubeVideo: string,
     celular: string,
+    departamento: string
 }

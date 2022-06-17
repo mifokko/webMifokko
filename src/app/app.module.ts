@@ -42,7 +42,9 @@ import { PerfilIndependienteComponent } from './shared/components/perfil-indepen
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { EstadisticasOfertaComponent } from './shared/components/estadisticas-oferta/estadisticas-oferta.component';
 import { FooterModule } from './shared/components/footer/footer.module';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { SubscripcionModule } from './shared/components/subscripcion/subscripcion.module';
 
 
 @NgModule({
@@ -62,7 +64,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
     FooterComponent,
     PerfilOfertaComponent,
     PerfilIndependienteComponent,
-    EstadisticasOfertaComponent
+    EstadisticasOfertaComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,6 +93,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
     FooterModule,
     ReactiveFormsModule,
     NgxPaginationModule,
+    GoogleMapsModule,
+    //SubscripcionModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent]

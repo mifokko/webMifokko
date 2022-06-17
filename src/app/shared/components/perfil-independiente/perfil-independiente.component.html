@@ -499,7 +499,11 @@
       </div>
       <div class="container tamA mt-4">
         <h5 class="mt-2">COMO LLEGAR</h5>
-        <div class="full" id="maps"></div>
+        <!-- Google Maps -->
+        <google-map width="100%" height="400px" [zoom]="zoom" [center]="center" class="m-1" *ngIf="independiente.direccion.length > 0">
+          <map-marker [position]="center">
+          </map-marker>
+        </google-map>
       </div>
     </div>
 

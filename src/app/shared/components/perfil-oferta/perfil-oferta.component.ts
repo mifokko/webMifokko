@@ -62,6 +62,8 @@ export class PerfilOfertaComponent implements OnInit {
   chat: Comentario[] = [];
   numFotos!: string;
 
+  editarInfo: boolean = false; //Se encarga de habiliatar y deshabilitar las areas de edición del perfil
+
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
     activatedRoute.params.subscribe(prm => {
       console.log(prm);
@@ -93,7 +95,6 @@ export class PerfilOfertaComponent implements OnInit {
         this.rol = 'general';
       }
     })
-
   }
 
   ngOnInit(): void {
@@ -145,8 +146,12 @@ export class PerfilOfertaComponent implements OnInit {
         'error'
       );
     }
+  }
 
-
+  //Editar Oferta
+  editarPerfil() {
+    this.editarInfo = !this.editarInfo;
+    console.log(this.editarInfo);
   }
 
   //Consulta de datos de los usuarios para mostrar en el perfil 

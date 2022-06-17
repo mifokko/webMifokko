@@ -13,8 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    NgbModule,
-    FormsModule
+    NgbModule
   ]
 })
 export class RegisterIndependienteModule { }

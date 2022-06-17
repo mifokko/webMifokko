@@ -6,6 +6,7 @@ import { PlanIndependienteComponent } from 'src/app/shared/components/plan-indep
 import { RegisterIndependienteComponent } from 'src/app/shared/components/register-independiente/register-independiente.component';
 import { RegisterUsuarioGeneralComponent } from 'src/app/shared/components/register-usuario-general/register-usuario-general.component';
 import { RegisterComponent } from 'src/app/shared/components/register/register.component';
+import { SubscripcionComponent } from 'src/app/shared/components/subscripcion/subscripcion.component';
 import { Empresa } from 'src/app/shared/model/empresa.model';
 import { Independiente } from 'src/app/shared/model/independiente.model';
 import { Ofertas } from 'src/app/shared/model/oferta.model';
@@ -113,6 +114,12 @@ export class HomeComponent implements OnInit {
   openRegisterUsuario() {
     const modalRef2 = this.modalService.open(RegisterUsuarioGeneralComponent);
   }
+  //Abrir modal de actualizacion de subscripcion 
+  openActualizarSub(){
+    const modalRef = this.modalService.open(SubscripcionComponent);
+    modalRef.componentInstance.pago = this.usuarios.pago;
+    modalRef.componentInstance.referencia = this.usuarios.referencia;
+  }
 
   //Estado de subscripción 
   actualizarSubs() {
@@ -167,8 +174,8 @@ export class HomeComponent implements OnInit {
         this.usuarios = res;
         const fecha = new Date();
         this.fechaFin = this.usuarios.fechaFin.split('/');
-        //console.log(this.fechaFin);
-        if (fecha.getDate() > parseInt(this.fechaFin[0])) {
+        console.log(this.fechaFin);
+        if (fecha.getDate() >= parseInt(this.fechaFin[0])) {
           if ((fecha.getMonth() + 1) >= parseInt(this.fechaFin[1])) {
             if (fecha.getFullYear() >= parseInt(this.fechaFin[2]) && this.usuarios.estadoPago == true) {
               if (this.alerta == false) {

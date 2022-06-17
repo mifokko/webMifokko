@@ -17,40 +17,41 @@ import { DataService1 } from '../../services/dataRegIndependiente.services';
   providers: [DataService1, DataServices, AuthService]
 })
 export class RegisterIndependienteComponent implements OnInit {
-  independienteForm!: FormGroup;
-  private isCel = "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}";
-  private isDoc = "\[0-9]{8,10}";
-  private isEmail = /\S+@\S+\.\S+/;
-  fecha = new Date();
+  independienteForm!: FormGroup; //Estructura de los datos del independiente
+  private isCel = "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}"; //Estructura del número celular 
+  private isDoc = "\[0-9]{8,10}"; // Estructura documento de identificación
+  private isEmail = /\S+@\S+\.\S+/; //Estructura de verificacion de Email
+  fecha = new Date(); //Obtener fecha actual 
 
-  @ViewChild('imageFotoDoc') inputImageFotoDoc: ElementRef | undefined;
-  urlFotoDoc!: Observable<string>;
-  uploadPercent!: Observable<number | undefined>;
+  @ViewChild('imageFotoDoc') inputImageFotoDoc: ElementRef | undefined; //Input donde se subira el documento .pdf del documento de identificacion 
+  urlFotoDoc!: Observable<string>; // Variable que almacena la referencia de donde esta almacenado el .pdf
+  uploadPercent!: Observable<number | undefined>; // Variable que muestra el porcentaje de subida del documento 
 
-  //Datos de plan, # de pagos y precio del plan
+  //Datos de plan, # de pagos, tipo de paquete y precio del plan
   passedData!: string;
   precioPlan!: number;
   pagos!: string;
 
+  //Estructura de informacion de usuario
   usuario: Usuario = {
-    correo: '',
-    password: '',
-    uid: '',
-    perfil: 'independiente',
-    referencia: '',
-    plan: this.pagos,
-    tipoPlan: this.passedData,
-    pago: this.precioPlan,
-    fechaInicio: '',
-    fechaFin: '',
-    estadoPago: false
+    correo: '', //Correo
+    password: '', // Este campo se mantendra vacio
+    uid: '', // Identificacion generada por AuthService
+    perfil: 'independiente', //Rol del usuario 
+    referencia: '', // Referencia de pago 
+    plan: this.pagos, // Si es ANUAL o 3MENSUALES
+    tipoPlan: this.passedData, //Si es INDEPENDIENTEORO o INDEPENDIENTEPLATA
+    pago: this.precioPlan, // Precio que debe pagar el usuario por la subscripción 
+    fechaInicio: '', //Fecha de inicio de subscripción 
+    fechaFin: '', //Fecha final de subscripción 
+    estadoPago: false //Estado del pago- Si se ha pagado o no la subscripción 
   }
-  seleccion = '';
-  fieldTextType: boolean = false;
+  seleccion = ''; //Muestra el departamento seleccionado, para obtener los municipios de ese departamento  
+  fieldTextType: boolean = false; // Función para mostrar la contraseña 
 
-  ciudades: Ciudades[] = [];
-  municipios: string[] = [];
-  departamentos: string[] = [];
+  ciudades: Ciudades[] = []; //Lista de la tabla CIUDADES de la base de datos 
+  municipios: string[] = []; //Lista de los municipios de un determinado departamento 
+  departamentos: string[] = []; //Lista de los departamentos de Colombia 
   departamento: string[] = [];
 
   //Referencias de pago 
@@ -70,6 +71,7 @@ export class RegisterIndependienteComponent implements OnInit {
       this.departamento = this.departamento.sort();
     })
     console.log(this.departamento);
+    //Configuracion del input Date
     config.minDate = { year: 1900, month: 1, day: 1 };
     config.maxDate = { year: 2022, month: 12, day: 31 };
     //Referencias de pago
@@ -150,12 +152,12 @@ export class RegisterIndependienteComponent implements OnInit {
       if (this.usuario.plan == '3MENSUALES') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
         this.usuario.fechaFin = (this.fecha.getDate() + '/' + (this.fecha.getMonth() + 2) + '/' + this.fecha.getFullYear());
-        console.log(this.usuario.fechaInicio, '-', this.usuario.fechaFin);
+        //console.log(this.usuario.fechaInicio, '-', this.usuario.fechaFin);
       } else if (this.usuario.plan == 'ANUAL') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
         this.fecha.setDate(this.fecha.getFullYear() + 1);
         this.usuario.fechaFin = this.fecha.toLocaleDateString();
-        console.log(this.usuario.fechaFin);
+        //console.log(this.usuario.fechaFin);
       }
       //Se guarda la información de Usuario de la empresa y se guarda la información de la empresa
       await this.data.createDoc(this.usuario, 'Usuarios', id);

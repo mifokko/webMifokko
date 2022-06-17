@@ -8,7 +8,7 @@
     <div class="img" *ngIf="fotoPor === false">
       <!-- Editar Perfil -->
       <button class="btn btn-primary rounded-pill editarBtn" (click)="editarPerfil()"
-      *ngIf="rol === 'empresa'">Editar</button>
+        *ngIf="rol === 'empresa'">Editar</button>
       <!-- Botón de agregar Foto de portada -->
       <div class="img2" style="position: absolute; right: 0; margin-bottom: -30%; right: 25%;"
         *ngIf="rol === 'empresa'">
@@ -386,8 +386,8 @@
         <form name="imagenesForm">
           <div class="row galeria">
             <div *ngFor="let img of imageData; index as i" class="col-md-4 col-lg-4 col-sx-12">
-              <input class="form-check-input" name="checkImagenes" type="checkbox" (change)="agregar(img.srcUrl,$event.target, img.id)"
-                value="{{img.srcUrl}}">
+              <input class="form-check-input" name="checkImagenes" type="checkbox"
+                (change)="agregar(img.srcUrl,$event.target, img.id)" value="{{img.srcUrl}}">
               <img class="img-fluid" [src]="img.srcUrl">
             </div>
           </div>
@@ -449,7 +449,8 @@
             <div class="row g-3 p-1">
 
               <!--Youtube-->
-              <div class="form-group col-md-6" *ngIf="mostrar === true && networks.youtube === '' || editarInfo === true">
+              <div class="form-group col-md-6"
+                *ngIf="mostrar === true && networks.youtube === '' || editarInfo === true">
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
@@ -463,7 +464,8 @@
                 </div>
               </div>
               <!--Facebook-->
-              <div class="form-group col-md-6" *ngIf="mostrar === true && networks.facebook === '' || editarInfo === true">
+              <div class="form-group col-md-6"
+                *ngIf="mostrar === true && networks.facebook === '' || editarInfo === true">
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
@@ -479,7 +481,8 @@
             </div>
             <div class="row g-3 p-1">
               <!--Instagram-->
-              <div class="form-group col-md-6" *ngIf="mostrar === true && networks.instagram === '' || editarInfo === true">
+              <div class="form-group col-md-6"
+                *ngIf="mostrar === true && networks.instagram === '' || editarInfo === true">
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
@@ -493,7 +496,8 @@
                 </div>
               </div>
               <!--Whatsapp-->
-              <div class="form-group col-md-6" *ngIf="mostrar === true && networks.whatsapp === '' || editarInfo === true">
+              <div class="form-group col-md-6"
+                *ngIf="mostrar === true && networks.whatsapp === '' || editarInfo === true">
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
@@ -511,19 +515,21 @@
               *ngIf="mostrar === true && net === undefined" (tapClick)="redesSocialesR()">
               Guardar
             </button>
-            <button type="submit" class="btn btn-secondary rounded-pill m-1" *ngIf="mostrar === true && net === 'save' || editarInfo === true"
-              (tapClick)="actualizarRedesS()">
+            <button type="submit" class="btn btn-secondary rounded-pill m-1"
+              *ngIf="mostrar === true && net === 'save' || editarInfo === true" (tapClick)="actualizarRedesS()">
               Actualizar
             </button>
           </form>
         </div>
       </div>
+      <!-- Como llegar -->
       <div class="container tamA mt-4">
-        <h5 class="mt-2">COMO LLEGAR</h5>
-        <!-- <input type="text" class="form-control" id="address">
-        <button type="submit" class="btn btn-secondary" (click)="geocodeAddress(geocoder, map)">Buscar</button>
-        <input type="text" class="form-control" id="lat" [value]="latitud">
-        <input type="text" class="form-control" id="lon" [value]="longitud"> -->
+        <h5 class="">COMO LLEGAR</h5>
+        <!-- Google Maps -->
+        <google-map width="100%" height="400px" [zoom]="zoom" [center]="center" class="m-1">
+          <map-marker [position]="center">
+          </map-marker>
+        </google-map>
       </div>
     </div>
 
@@ -558,4 +564,3 @@
 
   </section>
 </section>
-
