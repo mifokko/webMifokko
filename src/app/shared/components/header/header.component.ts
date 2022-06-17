@@ -85,7 +85,7 @@ export class HeaderComponent implements OnInit {
     this.authService.cerrarSesion().then(res => {
       console.log("Sesión cerrado: ", res);
     });
-    this.router.navigate(['/home']);
+    //this.router.navigate(['/home']);
   }
 
   refresh(): void {

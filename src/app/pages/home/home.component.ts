@@ -123,10 +123,11 @@ export class HomeComponent implements OnInit {
 
   //Estado de subscripción 
   actualizarSubs() {
+    console.log('Entro',this.plan, this.tipoPlan);
     const fecha = new Date();
     let fechaFin = '';
     //Se verfica cual es el plan de pago del usuario y que tipo de paquete adquirio
-    if ((this.plan == '3MENSUALES' && (this.tipoPlan == 'EMPRESARIALORO' || this.tipoPlan == 'EMPRESARIALPLATA')) || (this.plan == 'ANUAL' && (this.tipoPlan == 'EMPRESARIALORO' || this.tipoPlan == 'EMPRESARIALPLATA'))) {
+    if (this.tipoPlan == 'EMPRESARIALORO' || this.tipoPlan == 'EMPRESARIALPLATA') {
       this.firestore.updateCamposDoc('empresa', 'Usuarios', this.id, 'perfil');
       //Si acordo pagar mensual 
       if (this.plan == '3MENSUALES') {
@@ -135,7 +136,7 @@ export class HomeComponent implements OnInit {
         this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
         this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
         this.firestore.updateCamposDoc(true, 'Empresas', this.id, 'estadoPago');
-      } else {
+      } else if(this.plan == 'ANUAL') {
         //Si acordo pagar anual 
         this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
         fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 1) + '/' + (fecha.getFullYear() + 1));
@@ -144,7 +145,7 @@ export class HomeComponent implements OnInit {
         this.firestore.updateCamposDoc(true, 'Empresas', this.id, 'estadoPago');
       }
       //Se verfica cual es el plan de pago del usuario y que tipo de paquete adquirio
-    } else if ((this.plan == '3MENSUALES' && (this.tipoPlan == 'INDEPENDIENTEORO' || this.tipoPlan == 'INDEPENDIENTEPLATA')) || (this.plan == 'ANUAL' && (this.tipoPlan == 'INDEPENDIENTEORO' || this.tipoPlan == 'INDEPENDIENTEPLATA'))) {
+    } else if (this.tipoPlan == 'INDEPENDIENTEORO' || this.tipoPlan == 'INDEPENDIENTEPLATA') {
       this.firestore.updateCamposDoc('independiente', 'Usuarios', this.id, 'perfil');
       //Si acordo pagar mensual
       if (this.plan == '3MENSUALES') {
@@ -153,7 +154,7 @@ export class HomeComponent implements OnInit {
         this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
         this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
         this.firestore.updateCamposDoc(true, 'Independiente', this.id, 'estadoPago');
-      } else {
+      } else if (this.plan == 'ANUAL') {
         //Si acordo pagar anual 
         this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
         fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 1) + '/' + (fecha.getFullYear() + 1));
@@ -172,32 +173,60 @@ export class HomeComponent implements OnInit {
     this.firestore.getDoc<Usuario>(path, id).subscribe(res => {
       if (res) {
         this.usuarios = res;
-        const fecha = new Date();
-        this.fechaFin = this.usuarios.fechaFin.split('/');
+        const fecha = new Date(); //fecha actual 
+        this.fechaFin = this.usuarios.fechaFin.split('/'); // Fecha de corte de subscripcion 
         console.log(this.fechaFin);
-        if (fecha.getDate() >= parseInt(this.fechaFin[0])) {
-          if ((fecha.getMonth() + 1) >= parseInt(this.fechaFin[1])) {
-            if (fecha.getFullYear() >= parseInt(this.fechaFin[2]) && this.usuarios.estadoPago == true) {
-              if (this.alerta == false) {
-                alert('Tu subscripción esta vencida');
-                this.usuarios.perfil = 'general';
-                this.usuarios.estadoPago = false;
-                this.firestore.updateCamposDoc(this.usuarios.perfil, 'Usuarios', id, 'perfil');
-                this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
-                this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
-                this.alerta = true;
+        if (this.plan == '3MENSUALES') {
+          //Si la fecha del día de hoy es mayor o igual que el día del corte de subscripcion
+          if (fecha.getDate() >= parseInt(this.fechaFin[0])) {
+            // Si el mes actual es mayor o igual al mes de corte 
+            if ((fecha.getMonth() + 1) >= parseInt(this.fechaFin[1])) {
+              //Si el año actual es igual al año de corte y el estado de pago del usuario es true
+              if (fecha.getFullYear() == parseInt(this.fechaFin[2]) && this.usuarios.estadoPago == true) {
+                if (this.alerta == false) {
+                  alert('Tu subscripción esta vencida');
+                  this.usuarios.perfil = 'general';
+                  this.usuarios.estadoPago = false;
+                  this.firestore.updateCamposDoc(this.usuarios.perfil, 'Usuarios', id, 'perfil');
+                  this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
+                  this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
+                  this.alerta = true;
+                }
               }
             }
+            this.rol = res.perfil;
+          } else {
+            this.rol = res.perfil;
           }
-          this.rol = res.perfil;
-        } else {
-          this.rol = res.perfil;
+        } else if (this.plan == 'ANUAL') {
+          if (fecha.getDate() >= parseInt(this.fechaFin[0])) {
+            // Si el mes actual es mayor o igual al mes de corte 
+            if ((fecha.getMonth() + 1) >= parseInt(this.fechaFin[1])) {
+              //Si el año actual es igual al año de corte y el estado de pago del usuario es true
+              if (fecha.getFullYear() >= parseInt(this.fechaFin[2]) && this.usuarios.estadoPago == true) {
+                if (this.alerta == false) {
+                  alert('Tu subscripción esta vencida');
+                  this.usuarios.perfil = 'general';
+                  this.usuarios.estadoPago = false;
+                  this.firestore.updateCamposDoc(this.usuarios.perfil, 'Usuarios', id, 'perfil');
+                  this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
+                  this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
+                  this.alerta = true;
+                }
+              }
+            }
+            this.rol = res.perfil;
+          } else {
+            this.rol = res.perfil;
+          }
         }
+       
 
         //Se verifica si el usuario tiene su subscripcion al dia 
         if (res.plan != 'general' && res.perfil == 'general') {
           this.subscripcion = false;
           this.plan = res.plan;
+          this.tipoPlan = res.tipoPlan;
         } else {
           this.subscripcion = true;
         }
