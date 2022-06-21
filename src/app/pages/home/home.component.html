@@ -64,7 +64,8 @@
           <button type="button" class="btn btn-primary btn-block rounded-pill col-xs-6 col-sm-6 col-md-2" (click)="openActualizarSub()">Actualizar Subscripcion</button>
         </div> -->
         <div class="center mb-2" *ngIf="subscripcion === false">
-          <button type="button" class="btn btn-primary btn-block rounded-pill col-xs-6 col-sm-6 col-md-2" (click)="actualizarSubs()">Actualizar Subscripcion</button>
+          <button type="button" class="btn btn-primary btn-block rounded-pill col-xs-6 col-sm-6 col-md-2"
+            (click)="actualizarSubs()">Actualizar Subscripcion</button>
         </div>
       </div>
     </form>
@@ -77,30 +78,21 @@
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3">
         <div id="padre">
           <a type="button" (click)="inView(empresa)">
-            <img class="img-fluid rounded"
-              src="https://assets.entrepreneur.com/content/3x2/2000/1634353069-Depositphotos-199444784-L.jpg?auto=webp&quality=95&crop=2:1&width=400"
-              style="filter: brightness(70%);">
-            <h2 class="center2">EMPRESA</h2>
+            <img class="img-fluid rounded" src="assets/principal_empresa.jpg" alt="">
           </a>
         </div>
       </div>
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3">
         <div id="padre">
           <a type="button" (click)="inView(independiente)">
-            <img class="img-fluid rounded"
-              src="https://corporativo.compensar.com/afiliaciones/PublishingImages/Carrusel-simulador-aportes-Independiente.jpg"
-              style="filter: brightness(70%);">
-            <h2 class="center2">INDEPENDIENTE</h2>
+            <img class="img-fluid rounded" src="assets/principal_independiente.jpg">
           </a>
         </div>
       </div>
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3">
         <div id="padre">
           <a type="button" (click)="inView(oferta)">
-            <img class="img-fluid rounded"
-              src="https://marvel-b1-cdn.bc0a.com/f00000000216283/www.fortinet.com/content/dam/fortinet/images/promos/tile-general-user-400x200.jpg"
-              style="filter: brightness(70%);">
-            <h2 class="center2">OFERTA</h2>
+            <img class="img-fluid rounded" src="assets/principal_oferta.jpg">
           </a>
         </div>
       </div>
@@ -114,12 +106,16 @@
   -->
   <div class="container" *ngIf="login === false || rol === 'general'">
     <div class="row">
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style=" margin-bottom: 5%;">
-        <h2 class="m-3 text-center">EMPRESA</h2>
-        <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;"
-          src="https://cdn.pixabay.com/photo/2017/10/27/10/27/architecture-2893844_960_720.jpg">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4">
+        <div class="center">
+          <h2 class="m-3 text-center">EMPRESA</h2>
+        </div>
+        <div class="center" style=" margin-bottom: 5%;">
+          <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;"
+            src="assets/web_empresa.png">
+        </div>
       </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 5%;">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
         <p>Lorem ipsum dolor sit amet. Eum ipsa dignissimos ut fuga error nam ipsum quasi.
           Ut culpa error qui ducimus reprehenderit et quaerat voluptatem eos soluta esse.
           Eos itaque ipsam sed omnis esse et modi magnam ut dolorum dolor nam voluptatibus atque. </p>
@@ -131,18 +127,10 @@
           maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea
           consequatur consequatur qui nesciunt praesentium. </p>
       </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
-        <h1>OFERTAS</h1>
-        <h1>OFERTAS</h1>
-        <h1>OFERTAS</h1>
-        <br><br><br><br><br><br><br><br><br>
-        <a class="btn btn-primary rounded-pill btn-block btn-lg" (click)="openPlanEmpresa()" role="button">
-          ÚNETE
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-            class="bi bi-bar-chart-line" viewBox="0 0 16 16">
-            <path
-              d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
-          </svg>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
+        <img src="assets/disenoWebEmp.png" style="width: 100%; margin-bottom: 70%;">
+        <a class="center" (click)="openPlanEmpresa()" role="button">
+          <img class="img-fluid" src="assets/botones-emp.png" style="width: 80%;">
         </a>
       </div>
     </div>
@@ -151,16 +139,18 @@
 
 <!--Seccion de información de independiente-->
 <section class="bg-primary" #independiente>
-  <!--<img src="./assets/FondoAmarillo.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 200%; left: 0; z-index: -100;" height="100%" width="100%">
-  -->
   <div class="container" *ngIf="login === false || rol === 'general'">
     <div class="row">
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style="margin-top: 1%; margin-bottom: 5%;">
-        <h2 class="m-3 text-center">INDEPENDIENTE</h2>
-        <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;"
-          src="https://cdn.pixabay.com/photo/2012/11/26/07/45/man-67335_960_720.jpg">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4">
+        <div class="center">
+          <h2 class="m-3 text-center">INDEPENDIENTE</h2>
+        </div>
+        <div class="center" style=" margin-bottom: 5%;">
+          <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;"
+          src="assets/web_independientes.png">
+        </div>
       </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 5%;">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
         <p>Lorem ipsum dolor sit amet. Eum ipsa dignissimos ut fuga error nam ipsum quasi.
           Ut culpa error qui ducimus reprehenderit et quaerat voluptatem eos soluta esse.
           Eos itaque ipsam sed omnis esse et modi magnam ut dolorum dolor nam voluptatibus atque. </p>
@@ -172,19 +162,10 @@
           maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea
           consequatur consequatur qui nesciunt praesentium. </p>
       </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
-        <h1>OFERTAS</h1>
-        <h1>OFERTAS</h1>
-        <h1>OFERTAS</h1>
-        <br><br><br><br><br><br><br><br><br>
-        <a class="btn btn-warning rounded-pill btn-block btn-lg" (click)="openPlanIndependiente()" role="button">
-          ÚNETE
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-            class="bi bi-person-bounding-box" viewBox="0 0 16 16">
-            <path
-              d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z" />
-            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-          </svg>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
+        <img src="assets/diseñoWebIndp.png" style="width: 100%; margin-bottom: 75%;">
+        <a class="center" (click)="openPlanIndependiente()" role="button">
+          <img class="img-fluid" src="assets/botones-indp.png" style="width: 90%;">
         </a>
       </div>
     </div>
@@ -193,16 +174,18 @@
 
 <!--Seccion de información de oferta-->
 <section class="bg-blanco" #oferta>
-  <!--<img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 300%; left: 0; z-index: -100;" height="100%" width="100%">
-  -->
   <div class="container" *ngIf="login === false || rol === 'general'">
     <div class="row">
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4" style="margin-top: 5%; margin-bottom: 5%;">
-        <h2 class="m-3 text-center">OFERTAS</h2>
-        <img class="img-fluid rounded center" style="width: 90%; height: 90%; position: relative;"
-          src="https://cdn.pixabay.com/photo/2017/11/13/21/56/black-friday-2946943_960_720.jpg">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4">
+        <div class="center">
+          <h2 class="m-3 text-center">OFERTAS</h2>
+        </div>
+        <div class="center" style=" margin-bottom: 5%;">
+          <img class="img-fluid rounded center" style="width: 90%; height: 90%; position: relative;"
+          src="assets/web_ofertas.png">
+        </div>
       </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
         <p>Lorem ipsum dolor sit amet. Eum ipsa dignissimos ut fuga error nam ipsum quasi.
           Ut culpa error qui ducimus reprehenderit et quaerat voluptatem eos soluta esse.
           Eos itaque ipsam sed omnis esse et modi magnam ut dolorum dolor nam voluptatibus atque. </p>
@@ -214,36 +197,16 @@
           maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea
           consequatur consequatur qui nesciunt praesentium. </p>
       </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
-        <h1>OFERTAS</h1>
-        <h1>OFERTAS</h1>
-        <h1>OFERTAS</h1>
-        <br><br><br><br>
-        <a class="btn btn-primary rounded-pill btn-block btn-lg mb-2" (click)="openPlanEmpresa()" role="button">
-          ÚNETE EMPRESA
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-            class="bi bi-bar-chart-line" viewBox="0 0 16 16">
-            <path
-              d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
-          </svg>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
+        <img src="assets/disenoWebOfer.png" style="width: 100%; margin-bottom: 40%;">
+        <a class="m-2" (click)="openPlanEmpresa()" role="button">
+          <img class="img-fluid" src="assets/botones-emp.png" style="width: 80%; margin-bottom: 5px;">
         </a>
-        <a class="btn btn-warning rounded-pill btn-block btn-lg mb-2" (click)="openPlanIndependiente()" role="button">
-          ÚNETE INDEPENDIENTE
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-            class="bi bi-person-bounding-box" viewBox="0 0 16 16">
-            <path
-              d="M1.5 1a.5.5 0 0 0-.5.5v3a.5.5 0 0 1-1 0v-3A1.5 1.5 0 0 1 1.5 0h3a.5.5 0 0 1 0 1h-3zM11 .5a.5.5 0 0 1 .5-.5h3A1.5 1.5 0 0 1 16 1.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 1-.5-.5zM.5 11a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 1 0 1h-3A1.5 1.5 0 0 1 0 14.5v-3a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v3a1.5 1.5 0 0 1-1.5 1.5h-3a.5.5 0 0 1 0-1h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 1 .5-.5z" />
-            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-          </svg>
+        <a class="m-2" (click)="openPlanIndependiente()" role="button">
+          <img class="img-fluid" src="assets/botones-indp.png" style="width: 90%; margin-bottom: 5px;">
         </a>
-        <a class="btn btn-secondary rounded-pill btn-block btn-lg mb-2" (click)="openRegisterUsuario()" role="button">
-          ÚNETE USUARIO
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle"
-            viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-            <path fill-rule="evenodd"
-              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-          </svg>
+        <a class="m-2" (click)="openRegisterUsuario()" role="button">
+          <img class="img-fluid" src="assets/botones-usuario.png" style="width: 70%; margin-bottom: 5px;">
         </a>
       </div>
     </div>

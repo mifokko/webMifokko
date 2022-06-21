@@ -61,23 +61,23 @@ export class HeaderComponent implements OnInit {
   };
 
   openUnete(){
-    this.modalService.open(UneteComponent, this.options);
+    this.modalService.open(UneteComponent, {size: 'sm', centered: true, backdrop: 'static'});
   }
 
   openOferta() {
-    this.modalService.open(SubirOfertaComponent, {centered: true});
+    this.modalService.open(SubirOfertaComponent, {centered: true, backdrop: 'static'});
   }
 
   openBeneficios() {
-    this.modalService.open(BeneficiosComponent, {size: 'md', centered: true});
+    this.modalService.open(BeneficiosComponent, {size: 'md', centered: true, backdrop: 'static'});
   }
 
   openInformacion() {
-    this.modalService.open(InformacionComponent,{size: 'md', centered: true});
+    this.modalService.open(InformacionComponent,{size: 'md', centered: true, backdrop: 'static'});
   }
 
   openLogin( ){
-    this.modalService.open(LoginComponent, this.options);
+    this.modalService.open(LoginComponent, {size: 'sm', centered: true, backdrop: 'static'});
   }
 
   Salir(){

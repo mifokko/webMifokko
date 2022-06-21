@@ -3,9 +3,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../services/auth.service';
 import { PlanEmpresaComponent } from '../plan-empresa/plan-empresa.component';
 import { PlanIndependienteComponent } from '../plan-independiente/plan-independiente.component';
-import { RegisterIndependienteComponent } from '../register-independiente/register-independiente.component';
 import { RegisterUsuarioGeneralComponent } from '../register-usuario-general/register-usuario-general.component';
-import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-unete',
@@ -22,14 +20,14 @@ export class UneteComponent implements OnInit {
   }
 
   openEmpresa(){
-    this.modalService.open(PlanEmpresaComponent);
+    this.modalService.open(PlanEmpresaComponent, {backdrop: 'static'});
   }
 
   openIndependiente(){
-    this.modalService.open(PlanIndependienteComponent);
+    this.modalService.open(PlanIndependienteComponent, {backdrop: 'static'});
   }
 
   openGeneral(){
-    this.modalService.open(RegisterUsuarioGeneralComponent);
+    this.modalService.open(RegisterUsuarioGeneralComponent, {backdrop: 'static'});
   }
 }
