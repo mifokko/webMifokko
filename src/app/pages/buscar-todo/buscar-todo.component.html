@@ -1,27 +1,30 @@
-<section class="bg-blanco">
+<section [ngStyle]="{'background-image': 'url(assets/FondoBlanco.jpg)'}" style="background-size: cover; background-position: center;">
   <img src="./assets/FondoBlanco.jpg" class="img-fluid" id="Responsive image"
     style="position: absolute; right: 0; top: 0; left: 0; z-index: -100;">
   <!-- Palabra con la cual se esta haciendo la busqueda  -->
-  <div class="m-3">
-    <h3 style="position: absolute; z-index: -100; margin-left: 3%;">Resultado de: {{palabra}}</h3>
-  </div>
-  <div class="container-fluid mb-2">
-    <!-- input de busqueda -->
-    <form action="">
-      <div class="form-group row col-xs-3 col-sm-4 col-md-4 my-2 float-end mb-4">
-        <div class="input-group rounded">
-          <input type="search" class="form-control form-control rounded-pill icon_placeholder" placeholder="Search"
-            aria-label="Search" aria-describedby="search-addon" [(ngModel)]="palabra"
-            (keypress)="getBuscar(seleccion, palabra.toLowerCase())" name="palabra" />
+  <div class="row">
+    <div class="m-3">
+      <h4 style="position: absolute; z-index: -100; margin-left: 3%;">Estas buscando en: {{opcionBusqueda}}</h4>
+    </div>
+    <div class="container-fluid mt-2">
+      <!-- input de busqueda -->
+      <form action="">
+        <div class="form-group row col-xs-3 col-sm-4 col-md-4 my-2 float-end">
+          <div class="input-group rounded">
+            <input type="search" class="form-control form-control rounded-pill icon_placeholder" placeholder="Search"
+              aria-label="Search" aria-describedby="search-addon" [(ngModel)]="palabra"
+              (keypress)="getBuscar(seleccion, palabra.toLowerCase())" name="palabra" />
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
+  
   <br>
 
   <!-- Busqueda empresas -->
-  <section #empresas *ngIf="seleccion === 'empresa'">
-    <div class="container mt-5 p-1">
+  <section [ngStyle]="{'background-image': 'url(assets/FondoBlanco.jpg)'}" style="background-size: cover; background-position: center;" #empresas *ngIf="seleccion === 'empresa'">
+    <div class="container mt-2 p-1">
       <!-- Spinner -->
       <div class="d-flex justify-content-center">
         <div *ngIf="resultados === false" class="spinner-border text-primary" role="status">
@@ -53,8 +56,8 @@
   </section>
 
   <!-- Busqueda independientes -->
-  <section #independiente *ngIf="seleccion === 'independiente'">
-    <div class="container mt-5">
+  <section [ngStyle]="{'background-image': 'url(assets/FondoBlanco.jpg)'}" style="background-size: cover; background-position: center;" #independiente *ngIf="seleccion === 'independiente'">
+    <div class="container mt-2">
       <!-- Spinner -->
       <div *ngIf="resultados === false" class="d-flex justify-content-center">
         <div class="spinner-border text-warning" role="status">
@@ -87,8 +90,8 @@
   </section>
 
   <!-- Busqueda ofertas -->
-  <section #ofertas *ngIf="seleccion === 'ofertas'">
-    <div class="container mt-5">
+  <section [ngStyle]="{'background-image': 'url(assets/FondoBlanco.jpg)'}" style="background-size: cover; background-position: center;" #ofertas *ngIf="seleccion === 'ofertas'">
+    <div class="container mt-2">
       <!-- Spinner -->
       <div *ngIf="resultados === false" class="d-flex justify-content-center">
         <div class="spinner-border text-danger" role="status">
@@ -122,7 +125,7 @@
   </section>
 
   <!-- Busqueda por empresa, independiente y ofertas -->
-  <section #todos *ngIf="seleccion === 'todos'">
+  <section [ngStyle]="{'background-image': 'url(assets/FondoBlanco.jpg)'}" style="background-size: cover; background-position: center;" #todos *ngIf="seleccion === 'todos'">
     <div class="container mt-5">
       <!-- Spinner -->
     <div *ngIf="resultados === false" class="d-flex justify-content-center">

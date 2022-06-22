@@ -12,35 +12,9 @@
     justify-content: center;
 }
 
-.center2 {
-  left: 50%;
-  top: 55%;
-  position: absolute;    /* posición absolute con respecto al padre */
-  bottom: 0;             /* posicionada en la esquina inferior derecha */
-  right: 1rem;
-  font-size: 33px;
-  color: #fff;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-}
-
 .icon_placeholder {
   padding: 0.25rem 0.6rem;
   text-align: center;  
-}
-
-.bg-primary {
-  background-image: url(https://github.com/mifokko/webMifokko/blob/master/src/assets/FondoAmarillo.jpg?raw=true);
-  background-size: cover;
-  background-position: center;
-}
-
-.bg-blanco {
-  background-image: url(https://github.com/mifokko/webMifokko/blob/master/src/assets/FondoBlanco.jpg?raw=true);
-  background-size: cover;
-  background-position: center;
 }
 
 .imageTam{
@@ -49,4 +23,23 @@
   width: 25%;
   height: 25%;
   position: relative;
+}
+
+.contenido p{
+  text-align: justify;
+  font-family: 'Open Sans';
+  src: url(/src/app/fonts/OpenSans-VariableFont_wdth\,wght.ttf) format('truetype');
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+}
+
+.titulo {
+  font-family: 'Geometos';
+  color: #444242;
+}
+
+@font-face {
+  font-family: 'Geometos';
+  src: url(/src/app/fonts/Geometos.ttf) format('truetype');  
 }

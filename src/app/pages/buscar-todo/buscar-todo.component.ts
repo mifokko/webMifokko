@@ -56,6 +56,9 @@ export class BuscarTodoComponent implements OnInit {
     this.router.navigate(['/perfilOfertas', uid, id]);
   }
 
+  //Dar formato a seleccion
+  opcionBusqueda = '';
+
   constructor(private authService: AuthService, private firestore: DataServices, private activatedRouter: ActivatedRoute, private router: Router) {
     activatedRouter.params.subscribe(prm => {
       //console.log(`La seleccion es: ${prm['seleccion']}`);
@@ -79,6 +82,8 @@ export class BuscarTodoComponent implements OnInit {
         this.login = false;
       }
     });
+
+    this.opcionBusqueda = this.seleccion.charAt(0).toUpperCase() + this.seleccion.slice(1);
    
   }
 

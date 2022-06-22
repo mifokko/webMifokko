@@ -1,12 +1,15 @@
-<section class="bg-primary" id="buscador">
+<section [ngStyle]="{'background-image': 'url(assets/FondoAmarillo.jpg)'}"
+  style="background-size: cover; background-position: center;" id="buscador">
+  <!-- <img src="assets/FondoAmarillo.jpg" class="img-fluid" style="position: absolute; z-index: -100; height: 100%; object-fit: cover;"> -->
   <!--Buscador principal-->
   <div class="container">
     <form class="row justify-content-center aling-items-center">
       <div class="form-group row col-xs-9 col-sm-9 col-md-9 mt-5">
-        <h2 class="text-center">QUE BUSCAS?</h2>
+        <h2 class="text-center titulo">QUE BUSCAS?</h2>
         <div class="input-group rounded">
-          <input type="search" class="form-control form-control-lg rounded-pill icon_placeholder" placeholder="Search"
-            aria-label="Search" aria-describedby="search-addon" [(ngModel)]="palabra" name="palabra" />
+          <input type="search" class="form-control form-control-lg rounded-pill icon_placeholder"
+            placeholder="Ejemplo: Electricista" aria-label="Search" aria-describedby="search-addon"
+            [(ngModel)]="palabra" name="palabra" />
         </div>
       </div>
 
@@ -101,31 +104,35 @@
 </section>
 
 <!--Seccion de información de empresa-->
-<section class="bg-blanco" #empresa>
+<section [ngStyle]="{'background-image': 'url(assets/FondoBlanco.jpg)'}"
+  style="background-size: cover; background-position: center;" #empresa>
   <!--<img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 100%; left: 0; z-index: -100;" height="100%" width="100%">
   -->
   <div class="container" *ngIf="login === false || rol === 'general'">
     <div class="row">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4">
         <div class="center">
-          <h2 class="m-3 text-center">EMPRESA</h2>
+          <h2 class="m-3 text-center titulo">EMPRESA</h2>
         </div>
         <div class="center" style=" margin-bottom: 5%;">
           <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;"
             src="assets/web_empresa.png">
         </div>
       </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
-        <p>Lorem ipsum dolor sit amet. Eum ipsa dignissimos ut fuga error nam ipsum quasi.
-          Ut culpa error qui ducimus reprehenderit et quaerat voluptatem eos soluta esse.
-          Eos itaque ipsam sed omnis esse et modi magnam ut dolorum dolor nam voluptatibus atque. </p>
-        <p>Eos atque laboriosam aut quam praesentium est voluptas a earum quas ut iusto sunt non unde
-          galisum quo earum maiores. Est excepturi reiciendis eum eligendi rerum et quia perferendis. </p>
-        <p>Qui dicta quos in quam quas et omnis ducimus a laudantium maxime qui tempora cupiditate.
-          Ut galisum tempora rem omnis autem ea aliquam nulla in eligendi vitae qui repudiandae quaerat
-          ea voluptas nihil in voluptas quisquam. Et ducimus odit cum reprehenderit quas ut aspernatur
-          maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea
-          consequatur consequatur qui nesciunt praesentium. </p>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 contenido" style="margin-top: 2%;">
+        <p>Como emprendedor o empresario quieres que tu empresa la conozcan más personas, que tus ventas aumenten y ser
+          generador de nuevos empleos. </p>
+        <p>Con MI FOKKO puedes lograrlo; a través del tráfico de usuarios que visitan nuestra plataforma en búsqueda de
+          opciones y soluciones, por ejemplo, venta entre: <br>
+          <strong> Usuario – empresa, independiente – empresa, empresa – empresa.</strong>
+        </p>
+        <p>Uno de los tipos de consumo seria este: “Un usuario tuvo un daño en su red de gas domiciliario, este usuario
+          contacta a través de nuestra aplicación a un trabajador independiente, que tiene esta profesión, en donde el
+          prestador del servicio en la necesidad de reparar el daño, comprara los accesorios en una de las empresas
+          especializadas que se encuentra dentro de la comunidad.</p>
+        <p>Estas estrategias de vinculo comercial te ayudaran a crear un tráfico 100% real de aumento de consumo en tus
+          productos y servicios.
+        </p>
       </div>
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
         <img src="assets/disenoWebEmp.png" style="width: 100%; margin-bottom: 70%;">
@@ -138,29 +145,29 @@
 </section>
 
 <!--Seccion de información de independiente-->
-<section class="bg-primary" #independiente>
+<section [ngStyle]="{'background-image': 'url(assets/FondoAmarillo.jpg)'}"
+  style="background-size: cover; background-position: center;" #independiente>
   <div class="container" *ngIf="login === false || rol === 'general'">
     <div class="row">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4">
         <div class="center">
-          <h2 class="m-3 text-center">INDEPENDIENTE</h2>
+          <h2 class="m-3 text-center titulo">INDEPENDIENTE</h2>
         </div>
         <div class="center" style=" margin-bottom: 5%;">
           <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;"
-          src="assets/web_independientes.png">
+            src="assets/web_independientes.png">
         </div>
       </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
-        <p>Lorem ipsum dolor sit amet. Eum ipsa dignissimos ut fuga error nam ipsum quasi.
-          Ut culpa error qui ducimus reprehenderit et quaerat voluptatem eos soluta esse.
-          Eos itaque ipsam sed omnis esse et modi magnam ut dolorum dolor nam voluptatibus atque. </p>
-        <p>Eos atque laboriosam aut quam praesentium est voluptas a earum quas ut iusto sunt non unde
-          galisum quo earum maiores. Est excepturi reiciendis eum eligendi rerum et quia perferendis. </p>
-        <p>Qui dicta quos in quam quas et omnis ducimus a laudantium maxime qui tempora cupiditate.
-          Ut galisum tempora rem omnis autem ea aliquam nulla in eligendi vitae qui repudiandae quaerat
-          ea voluptas nihil in voluptas quisquam. Et ducimus odit cum reprehenderit quas ut aspernatur
-          maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea
-          consequatur consequatur qui nesciunt praesentium. </p>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 contenido" style="margin-top: 2%;">
+        <p>Uno de las mayores dificultades que presentan las personas que trabajan como independientes, es su poco
+          reconocimiento laboral en su círculo social, (barrio, ciudad o región), teniendo así muy pocas posibilidades
+          de ofrecer sus servicios. Un ejemplo muy claro es cuando normalmente escuchamos en la calle “usted no conoce
+          una persona que arregle, repare o haga…” y que su respuesta sea “no sé” o “no conozco”.</p>
+        <p>A través de nuestra aplicación, MI FOKKO ya podrás encontrar quien arreglé, repare y haga la labor que
+          estuviste buscando, encontrando soluciones, opciones y oportunidades.</p>
+        <p>Esto hace que como independiente, te conozcan más personas y te recomienden por tu servicio y labor, lo que
+          representara para ti una mejor rentabilidad económica y un mejor posicionamiento en el mercado.
+        </p>
       </div>
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
         <img src="assets/diseñoWebIndp.png" style="width: 100%; margin-bottom: 75%;">
@@ -173,29 +180,28 @@
 </section>
 
 <!--Seccion de información de oferta-->
-<section class="bg-blanco" #oferta>
+<section [ngStyle]="{'background-image': 'url(assets/FondoBlanco.jpg)'}"
+  style="background-size: cover; background-position: center;" #oferta>
   <div class="container" *ngIf="login === false || rol === 'general'">
     <div class="row">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4">
         <div class="center">
-          <h2 class="m-3 text-center">OFERTAS</h2>
+          <h2 class="m-3 text-center titulo">OFERTAS</h2>
         </div>
         <div class="center" style=" margin-bottom: 5%;">
           <img class="img-fluid rounded center" style="width: 90%; height: 90%; position: relative;"
-          src="assets/web_ofertas.png">
+            src="assets/web_ofertas.png">
         </div>
       </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
-        <p>Lorem ipsum dolor sit amet. Eum ipsa dignissimos ut fuga error nam ipsum quasi.
-          Ut culpa error qui ducimus reprehenderit et quaerat voluptatem eos soluta esse.
-          Eos itaque ipsam sed omnis esse et modi magnam ut dolorum dolor nam voluptatibus atque. </p>
-        <p>Eos atque laboriosam aut quam praesentium est voluptas a earum quas ut iusto sunt non unde
-          galisum quo earum maiores. Est excepturi reiciendis eum eligendi rerum et quia perferendis. </p>
-        <p>Qui dicta quos in quam quas et omnis ducimus a laudantium maxime qui tempora cupiditate.
-          Ut galisum tempora rem omnis autem ea aliquam nulla in eligendi vitae qui repudiandae quaerat
-          ea voluptas nihil in voluptas quisquam. Et ducimus odit cum reprehenderit quas ut aspernatur
-          maiores qui internos fuga eos doloremque debitis. Qui illo veniam eos pariatur laborum ea
-          consequatur consequatur qui nesciunt praesentium. </p>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 contenido" style="margin-top: 2%;">
+        <p>¿Quieres comer algo, pero quieres algo Bueno y a buen precio? ¿Estás en otra ciudad de viaje y quieres los
+          mejores descuentos para ahorrar dinero? ¿Te ha pasado que tienes una emergencia con la tubería de tu hogar y
+          nunca encuentras esa persona que te solucione de inmediato y que además lo haga aun buen precio que se ajuste
+          a tu bolsillo, ya q no tenías este daño previsto en tus gastos? </p>
+        <p> En MI FOKKO puedes entrar al módulo de ofertas, allí encontraras todas las ofertas de nuestra comunidad de
+          independientes y de empresas; descuentos de personas que ofrecen un servicio como pegar un botón, cuidar de
+          tus perros, hasta grandes descuentos en restaurantes, tiendas para animales, spa de belleza, tiendas de ropa y
+          muchos más. </p>
       </div>
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
         <img src="assets/disenoWebOfer.png" style="width: 100%; margin-bottom: 40%;">
