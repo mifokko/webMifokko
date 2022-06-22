@@ -8,7 +8,7 @@ import { VerOfertasComponent } from './shared/components/ver-ofertas/ver-ofertas
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '', pathMatch: 'full'},
+  { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule) },
   { path: 'buscar/:ciudad/:seleccion/:palabra', loadChildren: () => import('./pages/buscar-todo/buscar-todo.module').then(m => m.BuscarTodoModule) },
   { path: 'verOfertas', component: VerOfertasComponent},
