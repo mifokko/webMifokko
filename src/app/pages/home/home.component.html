@@ -80,18 +80,20 @@
     <div class="row center">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3">
         <div id="padre">
-          <a type="button" (click)="inView(empresa)">
-            <img class="img-fluid rounded" src="assets/principal_empresa.jpg" alt="">
-          </a>
-        </div>
-      </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3">
-        <div id="padre">
           <a type="button" (click)="inView(independiente)">
             <img class="img-fluid rounded" src="assets/principal_independiente.jpg">
           </a>
         </div>
       </div>
+      
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3">
+        <div id="padre">
+          <a type="button" (click)="inView(empresa)">
+            <img class="img-fluid rounded" src="assets/principal_empresa.jpg" alt="">
+          </a>
+        </div>
+      </div>
+      
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 mb-3">
         <div id="padre">
           <a type="button" (click)="inView(oferta)">
@@ -103,8 +105,43 @@
   </div>
 </section>
 
-<!--Seccion de información de empresa-->
+<!--Seccion de información de independiente-->
 <section [ngStyle]="{'background-image': 'url(assets/FondoBlanco.jpg)'}"
+  style="background-size: cover; background-position: center;" #independiente>
+  <div class="container" *ngIf="login === false || rol === 'general'">
+    <div class="row">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4">
+        <div class="center">
+          <h2 class="m-3 text-center titulo">INDEPENDIENTE</h2>
+        </div>
+        <div class="center" style=" margin-bottom: 5%;">
+          <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;"
+            src="assets/web_independientes.png">
+        </div>
+      </div>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 contenido" style="margin-top: 2%;">
+        <p>Uno de las mayores dificultades que presentan las personas que trabajan como independientes, es su poco
+          reconocimiento laboral en su círculo social, (barrio, ciudad o región), teniendo así muy pocas posibilidades
+          de ofrecer sus servicios. Un ejemplo muy claro es cuando normalmente escuchamos en la calle “usted no conoce
+          una persona que arregle, repare o haga…” y que su respuesta sea “no sé” o “no conozco”.</p>
+        <p>A través de nuestra aplicación, MI FOKKO ya podrás encontrar quien arreglé, repare y haga la labor que
+          estuviste buscando, encontrando soluciones, opciones y oportunidades.</p>
+        <p>Esto hace que como independiente, te conozcan más personas y te recomienden por tu servicio y labor, lo que
+          representara para ti una mejor rentabilidad económica y un mejor posicionamiento en el mercado.
+        </p>
+      </div>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
+        <img src="assets/diseñoWebIndp.png" class="center" style="width: 100%;">
+        <a class="center" (click)="openPlanIndependiente()" role="button">
+          <img class="img-fluid" src="assets/botones-indp.png" style="width: 90%;">
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Seccion de información de empresa-->
+<section [ngStyle]="{'background-image': 'url(assets/FondoAmarillo.jpg)'}"
   style="background-size: cover; background-position: center;" #empresa>
   <!--<img src="./assets/FondoBlanco.jpg" class="img-responsive" alt="Responsive image" style="position: absolute; right: 0; top: 100%; left: 0; z-index: -100;" height="100%" width="100%">
   -->
@@ -134,50 +171,17 @@
           productos y servicios.
         </p>
       </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
-        <img src="assets/disenoWebEmp.png" style="width: 100%; margin-bottom: 70%;">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 10%;">
+        <img src="assets/disenoWebEmp.png" style="width: 100%;">
         <a class="center" (click)="openPlanEmpresa()" role="button">
-          <img class="img-fluid" src="assets/botones-emp.png" style="width: 80%;">
+          <img class="img-fluid" src="assets/botones-emp.png" style="width: 70%;">
         </a>
       </div>
     </div>
   </div>
 </section>
 
-<!--Seccion de información de independiente-->
-<section [ngStyle]="{'background-image': 'url(assets/FondoAmarillo.jpg)'}"
-  style="background-size: cover; background-position: center;" #independiente>
-  <div class="container" *ngIf="login === false || rol === 'general'">
-    <div class="row">
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4">
-        <div class="center">
-          <h2 class="m-3 text-center titulo">INDEPENDIENTE</h2>
-        </div>
-        <div class="center" style=" margin-bottom: 5%;">
-          <img class="img-fluid rounded" style="width: 90%; height: 90%; position: relative;"
-            src="assets/web_independientes.png">
-        </div>
-      </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2 contenido" style="margin-top: 2%;">
-        <p>Uno de las mayores dificultades que presentan las personas que trabajan como independientes, es su poco
-          reconocimiento laboral en su círculo social, (barrio, ciudad o región), teniendo así muy pocas posibilidades
-          de ofrecer sus servicios. Un ejemplo muy claro es cuando normalmente escuchamos en la calle “usted no conoce
-          una persona que arregle, repare o haga…” y que su respuesta sea “no sé” o “no conozco”.</p>
-        <p>A través de nuestra aplicación, MI FOKKO ya podrás encontrar quien arreglé, repare y haga la labor que
-          estuviste buscando, encontrando soluciones, opciones y oportunidades.</p>
-        <p>Esto hace que como independiente, te conozcan más personas y te recomienden por tu servicio y labor, lo que
-          representara para ti una mejor rentabilidad económica y un mejor posicionamiento en el mercado.
-        </p>
-      </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
-        <img src="assets/diseñoWebIndp.png" style="width: 100%; margin-bottom: 75%;">
-        <a class="center" (click)="openPlanIndependiente()" role="button">
-          <img class="img-fluid" src="assets/botones-indp.png" style="width: 90%;">
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <!--Seccion de información de oferta-->
 <section [ngStyle]="{'background-image': 'url(assets/FondoBlanco.jpg)'}"
@@ -203,13 +207,13 @@
           tus perros, hasta grandes descuentos en restaurantes, tiendas para animales, spa de belleza, tiendas de ropa y
           muchos más. </p>
       </div>
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 2%;">
-        <img src="assets/disenoWebOfer.png" style="width: 100%; margin-bottom: 40%;">
-        <a class="m-2" (click)="openPlanEmpresa()" role="button">
-          <img class="img-fluid" src="assets/botones-emp.png" style="width: 80%; margin-bottom: 5px;">
-        </a>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" style="margin-top: 5%;">
+        <img src="assets/disenoWebOfer.png" style="width: 100%;">
         <a class="m-2" (click)="openPlanIndependiente()" role="button">
           <img class="img-fluid" src="assets/botones-indp.png" style="width: 90%; margin-bottom: 5px;">
+        </a>
+        <a class="m-2" (click)="openPlanEmpresa()" role="button">
+          <img class="img-fluid" src="assets/botones-emp.png" style="width: 70%; margin-bottom: 5px;">
         </a>
         <a class="m-2" (click)="openRegisterUsuario()" role="button">
           <img class="img-fluid" src="assets/botones-usuario.png" style="width: 70%; margin-bottom: 5px;">
