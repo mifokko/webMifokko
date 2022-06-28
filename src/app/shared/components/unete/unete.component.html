@@ -1,22 +1,24 @@
 <!-- Modal Unete -->
 <div class="modal-body">
     <button type="button" class="btn-close" ria-label="Close" (click)="modal.close()"></button>
-    <h4 class="center">Únete como</h4>
+    <h4 class="center titulo">Únete como</h4>
     <div class="row center mt-3">
+        <!-- Unete como independiente -->
+        <a type="button" class="center" (click)="openIndependiente()" (click)="modal.close()">
+            <img src="assets/botones-72.png" style="width: 40%">
+        </a>
+        <p class="text-center contenido">INDEPENDIENTE</p>
+
         <!-- Unete como empresa -->
         <a type="button" class="center" (click)="openEmpresa()" (click)="modal.close()">
             <img src="assets/botones-71.png" style="width: 40%">
         </a>
-        <p class="text-center">EMPRESA</p>
-        <!-- Unete como independiente -->
+        <p class="text-center contenido">EMPRESA</p>
+        <!-- UnetF como usuario general -->
         <a type="button" class="center" (click)="openGeneral()" (click)="modal.close()">
-            <img src="assets/botones-72.png" style="width: 40%">
-        </a>
-        <p class="text-center">USUARIO</p>
-        <!-- Unete como usuario general -->
-        <a type="button" class="center" (click)="openIndependiente()" (click)="modal.close()">
             <img src="assets/botones-70.png" style="width: 40%">
         </a>
-        <p class="text-center">INDEPENDIENTE</p>
+        <p class="text-center contenido">USUARIO</p>
     </div>
 </div>
+

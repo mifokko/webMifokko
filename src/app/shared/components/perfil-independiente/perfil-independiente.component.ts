@@ -252,18 +252,18 @@ export class PerfilIndependienteComponent implements OnInit {
     switch (this.tipoPlan) {
       case 'INDEPENDIENTEORO':
         //Con este paquete se pueden subir 5 fotos para oferta
-        if (e.target.files.length <= 7 || galeryImages.length <= 7) {
+        if (e.target.files.length <= 7 && galeryImages.length < 7 && (e.target.files.length + galeryImages.length) <= 7) {
           this.listaArchivos = e.target.files;
         } else {
-          alert('La cantidad de imágenes que permite su paquete es de 7');
+          alert('La cantidad de imágenes que permite su paquete es de 7, aún puede subir ' + (7 - galeryImages.length) + ' imágenes');
         }
         break;
       case 'INDEPENDIENTEPLATA':
         //Con este paquete se pueden subir 3 fotos para oferta
-        if (e.target.files.length <= 4 || galeryImages.length <= 4) {
+        if (e.target.files.length <= 4 && galeryImages.length < 4 && (e.target.files.length + galeryImages.length) <= 4) {
           this.listaArchivos = e.target.files;
         } else {
-          alert('La cantidad de imágenes que permite su paquete es de 4');
+          alert('La cantidad de imágenes que permite su paquete es de 4, aún puede subir ' + (4 - galeryImages.length) + ' imágenes');
         }
         break;
       default:
@@ -274,47 +274,63 @@ export class PerfilIndependienteComponent implements OnInit {
     const metadata = {
       contentType: 'image/jpeg'
     };
-
-    //Funcion para el almacenamiento de las imagenes en el Storage de la base de datos
-    for (let index = 0; index < this.listaArchivos.length; index++) {
-      const id = Math.random().toString(36).substring(2);
-      this.file = this.listaArchivos[index]; //Archivo a almacenar
-      this.path = 'Independiente'; //Carpeta principal donde se va a almacenar
-      this.filePath = `Galeria/${this.independiente?.nombre}/${this.listaArchivos[index].name}_${id}`; //Dirección de almacenamiento
-      //console.log('paso ' + this.path);
-      const ref = this.storage.ref(this.filePath);
-      const task = this.storage.upload(this.filePath, this.file, metadata); //Funcion de almacenamiento//
-      this.uploadPercent = task.percentageChanges(); //Variable que muestra el porcentaje de carga de las imagenes 
-      task.snapshotChanges().pipe(finalize(() => this.urlGalery = ref.getDownloadURL())).subscribe(); //Obtiene la URL de referencia de la imagen almacenada
-      console.log('paso');
-      //En esta seccion se guardan las URL de referencia de las imagenes en la carpeta de Galeria en la Base de Datos 
-      await timer(4000);
-      task.then(() =>
-        this.urlGalery.forEach(async valor => {
-          console.log(valor);
-          this.refUrl = valor;
-        })
-      )
-      await timer(3000);
-      this.imagen[index] = this.refUrl;
-      this.refUrl = '';
-      console.log(this.refUrl, this.imagen[index]);
-      (await task).state;
-    }
-    this.index = this.index;
-    console.log(this.index, this.imagen);
-    if (galeryImages.length < 7) {
-      for (let index = 0; index < this.imagen.length; index++) {
-        const codigo = Math.random().toString(36).substring(2);
-        this.firestore.createColInDoc({ 'IMG': this.imagen[index] }, 'Independiente', this.id, 'Galeria', this.index.toString());
-        this.firestore.updateCamposDocCollDoc2(this.index.toString(), 'Independiente', this.id, 'Galeria', this.index.toString(), 'uid');
-        this.index++;
+    if (this.listaArchivos.length > 0) {
+      //Funcion para el almacenamiento de las imagenes en el Storage de la base de datos
+      for (let index = 0; index < this.listaArchivos.length; index++) {
+        const id = Math.random().toString(36).substring(2);
+        this.file = this.listaArchivos[index]; //Archivo a almacenar
+        this.path = 'Independiente'; //Carpeta principal donde se va a almacenar
+        this.filePath = `Galeria/${this.independiente?.nombre}/${this.listaArchivos[index].name}_${id}`; //Dirección de almacenamiento
+        //console.log('paso ' + this.path);
+        const ref = this.storage.ref(this.filePath);
+        const task = this.storage.upload(this.filePath, this.file, metadata); //Funcion de almacenamiento//
+        this.uploadPercent = task.percentageChanges(); //Variable que muestra el porcentaje de carga de las imagenes 
+        task.snapshotChanges().pipe(finalize(() => this.urlGalery = ref.getDownloadURL())).subscribe(); //Obtiene la URL de referencia de la imagen almacenada
+        console.log('paso');
+        //En esta seccion se guardan las URL de referencia de las imagenes en la carpeta de Galeria en la Base de Datos 
+        await timer(4000);
+        task.then(() =>
+          this.urlGalery.forEach(async valor => {
+            console.log(valor);
+            this.refUrl = valor;
+          })
+        )
+        await timer(3000);
+        this.imagen[index] = this.refUrl;
+        this.refUrl = '';
+        console.log(this.refUrl, this.imagen[index]);
+        (await task).state;
       }
-    } else if (galeryImages.length >= 7) {
-      alert('No se pueden subir más imágenes');
+      this.index = this.index;
+      console.log(this.index, this.imagen);
+      if (this.tipoPlan == 'INDEPENDIENTEORO') {
+        if (galeryImages.length < 7) {
+          for (let index = 0; index < this.imagen.length; index++) {
+            const codigo = Math.random().toString(36).substring(2);
+            this.firestore.createColInDoc({ 'IMG': this.imagen[index] }, 'Independiente', this.id, 'Galeria', this.index.toString());
+            this.firestore.updateCamposDocCollDoc2(this.index.toString(), 'Independiente', this.id, 'Galeria', this.index.toString(), 'uid');
+            this.index++;
+          }
+        } else if (galeryImages.length >= 7) {
+          alert('No se pueden subir más imágenes');
+        }
+      } else if (this.tipoPlan == 'INDEPENDIENTEPLATA') {
+        if (galeryImages.length < 4) {
+          for (let index = 0; index < this.imagen.length; index++) {
+            const codigo = Math.random().toString(36).substring(2);
+            this.firestore.createColInDoc({ 'IMG': this.imagen[index] }, 'Independiente', this.id, 'Galeria', this.index.toString());
+            this.firestore.updateCamposDocCollDoc2(this.index.toString(), 'Independiente', this.id, 'Galeria', this.index.toString(), 'uid');
+            this.index++;
+          }
+        } else if (galeryImages.length >= 4) {
+          alert('No se pueden subir más imágenes');
+        }
+      }
+      
+
+      this.imagen = [];
     }
 
-    this.imagen = [];
   }
 
   //Funcion para eliminar las imagenes selecionadas
@@ -580,20 +596,30 @@ export class PerfilIndependienteComponent implements OnInit {
           this.galeria = true;
         }
 
+        if (this.index <= galeryImages.length) {
+          this.firestore.getDoc<Independiente>('Independiente', this.id).forEach(res => {
+            if (res) {
+              this.index = parseInt(res?.NumFotos);
+            }
+            console.log(this.index);
+          });
+        }
+
+        this.imageData = galeryImages;
+        this.galeria = true;
+
         if (this.tipoPlan == 'INDEPENDIENTEORO') {
           if (galeryImages.length < 7) {
             this.gallerys = false;
+          } else if (galeryImages.length == 7) {
+            this.gallerys = true;
           }
-        } else if (this.tipoPlan == 'INDEPENDIENTEORO' && galeryImages.length == 10) {
-          this.gallerys = true;
-        }
-
-        if (this.tipoPlan == 'INDEPENDIENTEPLATA') {
-          if (galeryImages.length < 7) {
+        } else if (this.tipoPlan == 'INDEPENDIENTEPLATA') {
+          if (galeryImages.length < 4) {
             this.gallerys = false;
+          } else if (galeryImages.length == 4) {
+            this.gallerys = true;
           }
-        } else if (this.tipoPlan == 'INDEPENDIENTEPLATA' && galeryImages.length == 7) {
-          this.gallerys = true;
         }
 
       });

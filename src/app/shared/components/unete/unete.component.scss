@@ -23,3 +23,22 @@
     box-shadow: 8px 5px 5px 1px rgba(0,0,0,0.5);
     margin: 5px;
 }
+
+.contenido {
+    text-align: justify;
+    font-family: 'Open Sans';
+    src: url(/src/app/fonts/OpenSans-VariableFont_wdth\,wght.ttf) format('truetype');
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+  }
+  
+  .titulo {
+    font-family: 'Geometos';
+    color: #444242;
+  }
+  
+  @font-face {
+    font-family: 'Geometos';
+    src: url(/src/app/fonts/Geometos.ttf) format('truetype');  
+  }

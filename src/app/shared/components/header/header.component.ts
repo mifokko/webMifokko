@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit {
   }
 
   openLogin( ){
-    this.modalService.open(LoginComponent, {size: 'sm', centered: true, backdrop: 'static'});
+    this.modalService.open(LoginComponent, {size: 'sm', centered: true});
   }
 
   Salir(){

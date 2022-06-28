@@ -16,7 +16,7 @@ export interface Empresa {
     estado: boolean,
     id: string,
     rol: string,
-    numFotos: string,
+    NumFotos: string,
     portafolio: string,
     youtubeVideo: string,
     celular: string,

@@ -236,15 +236,15 @@ export class PerfilComponent implements OnInit {
     switch (this.tipoPlan) {
       case 'EMPRESARIALORO':
         //Con este paquete se pueden subir 5 fotos para oferta
-        if (e.target.files.length <= 10 || galeryImages.length <= 10) {
+        if (e.target.files.length <= 10 && galeryImages.length < 10 && (e.target.files.length + galeryImages.length) <= 10) {
           this.listaArchivos = e.target.files;
         } else {
-          alert('La cantidad de imágenes que permite su paquete es de 10');
+          alert('La cantidad de imágenes que permite su paquete es de 10, aún puede subir ' + (10 - galeryImages.length) + ' imágenes');
         }
         break;
       case 'EMPRESARIALPLATA':
         //Con este paquete se pueden subir 3 fotos para oferta
-        if (e.target.files.length <= 6 || galeryImages.length <= 6) {
+        if (e.target.files.length <= 6 || galeryImages.length < 6) {
           this.listaArchivos = e.target.files;
         } else {
           alert('La cantidad de imágenes que permite su paquete es de 3');
@@ -257,52 +257,60 @@ export class PerfilComponent implements OnInit {
     const metadata = {
       contentType: 'image/jpeg'
     };
-
-    //Funcion para el almacenamiento de las imagenes en el Storage de la base de datos
-    for (let index = 0; index < this.listaArchivos.length; index++) {
-      const id = Math.random().toString(36).substring(2);
-      this.file = this.listaArchivos[index]; //Archivo a almacenar
-      this.path = 'Empresas'; //Carpeta principal donde se va a almacenar
-      this.filePath = `Galeria/${this.empresa?.nombre}/${this.listaArchivos[index].name}_${id}`; //Dirección de almacenamiento
-      //console.log('paso ' + this.path);
-      const ref = this.storage.ref(this.filePath);
-      const task = this.storage.upload(this.filePath, this.file, metadata); //Funcion de almacenamiento//
-      this.uploadPercent = task.percentageChanges(); //Variable que muestra el porcentaje de carga de las imagenes 
-      task.snapshotChanges().pipe(finalize(() => this.urlGalery = ref.getDownloadURL())).subscribe(); //Obtiene la URL de referencia de la imagen almacenada
-      console.log('paso');
-      //En esta seccion se guardan las URL de referencia de las imagenes en la carpeta de Galeria en la Base de Datos 
-      await timer(4000);
-      task.then(() =>
-        this.urlGalery.forEach(async valor => {
-          console.log(valor);
-          this.refUrl = valor;
-        })
-      )
-      await timer(3000);
-      this.imagen[index] = this.refUrl;
-      this.refUrl = '';
-      console.log(this.refUrl, this.imagen[index]);
-      (await task).state;
-    }
-    // if (galeryImages.length > 0) {
-    //   this.index = galeryImages.length + 1;
-    // } else {
-    //   this.index = this.index;
-    // }
-    this.index = this.index;
-    console.log(this.index, this.imagen);
-    if (galeryImages.length < 10) {
-      for (let index = 0; index < this.imagen.length; index++) {
-        const codigo = Math.random().toString(36).substring(2);
-        this.firestore.createColInDoc({ 'IMG': this.imagen[index] }, 'Empresas', this.id, 'Galeria', this.index.toString());
-        this.firestore.updateCamposDocCollDoc2(this.index.toString(), 'Empresas', this.id, 'Galeria', this.index.toString(), 'uid');
-        this.index++;
+    if (this.listaArchivos.length > 0) {
+      //Funcion para el almacenamiento de las imagenes en el Storage de la base de datos
+      for (let index = 0; index < this.listaArchivos.length; index++) {
+        const id = Math.random().toString(36).substring(2);
+        this.file = this.listaArchivos[index]; //Archivo a almacenar
+        this.path = 'Empresas'; //Carpeta principal donde se va a almacenar
+        this.filePath = `Galeria/${this.empresa?.nombre}/${this.listaArchivos[index].name}_${id}`; //Dirección de almacenamiento
+        //console.log('paso ' + this.path);
+        const ref = this.storage.ref(this.filePath);
+        const task = this.storage.upload(this.filePath, this.file, metadata); //Funcion de almacenamiento//
+        this.uploadPercent = task.percentageChanges(); //Variable que muestra el porcentaje de carga de las imagenes 
+        task.snapshotChanges().pipe(finalize(() => this.urlGalery = ref.getDownloadURL())).subscribe(); //Obtiene la URL de referencia de la imagen almacenada
+        console.log('paso');
+        //En esta seccion se guardan las URL de referencia de las imagenes en la carpeta de Galeria en la Base de Datos 
+        await timer(4000);
+        task.then(() =>
+          this.urlGalery.forEach(async valor => {
+            console.log(valor);
+            this.refUrl = valor;
+          })
+        )
+        await timer(3000);
+        this.imagen[index] = this.refUrl;
+        this.refUrl = '';
+        console.log(this.refUrl, this.imagen[index]);
+        (await task).state;
       }
-    } else if (galeryImages.length >= 10) {
-      alert('No se pueden subir más imágenes');
-    }
+      this.index = this.index;
+      console.log(this.index, this.imagen);
+      if (this.tipoPlan == 'EMPRESARIALORO') {
+        if (galeryImages.length < 10) {
+          for (let index = 0; index < this.imagen.length; index++) {
+            this.firestore.createColInDoc({ 'IMG': this.imagen[index] }, 'Empresas', this.id, 'Galeria', this.index.toString());
+            this.firestore.updateCamposDocCollDoc2(this.index.toString(), 'Empresas', this.id, 'Galeria', this.index.toString(), 'uid');
+            this.index++;
+          }
+        } else if (galeryImages.length >= 10) {
+          alert('No se pueden subir más imágenes');
+        }
+      } else if (this.tipoPlan == 'EMPRESARIALPLATA') {
+        if (galeryImages.length < 6) {
+          for (let index = 0; index < this.imagen.length; index++) {
+            this.firestore.createColInDoc({ 'IMG': this.imagen[index] }, 'Empresas', this.id, 'Galeria', this.index.toString());
+            this.firestore.updateCamposDocCollDoc2(this.index.toString(), 'Empresas', this.id, 'Galeria', this.index.toString(), 'uid');
+            this.index++;
+          }
+        } else if (galeryImages.length >= 6) {
+          alert('No se pueden subir más imágenes');
+        }
+      }
 
-    this.imagen = [];
+
+      this.imagen = [];
+    }
   }
 
   //Funcion para eliminar las imagenes selecionadas
@@ -485,11 +493,11 @@ export class PerfilComponent implements OnInit {
             } else {
               alert('La localización no fue satisfactoria por la siguiente razón: ' + status);
             }
-            
+
             //console.log(vMarket);
           });
           //console.log(vMarket);
-          
+
         }
       });
 
@@ -582,22 +590,30 @@ export class PerfilComponent implements OnInit {
 
         //console.log(galeryImages.length + ' - ' + this.numFotos);
         //console.log(data);
-        if (this.index == galeryImages.length) {
-          this.firestore.updateCamposDoc(galeryImages.length, this.path, this.id, 'NumFotos');
-          this.numFotos = galeryImages.length;
-        } else if (this.index > galeryImages.length) {
-          this.firestore.updateCamposDoc(this.index, this.path, this.id, 'NumFotos');
-          this.numFotos = this.index;
+        if (this.index <= galeryImages.length) {
+          this.firestore.getDoc<Empresa>('Empresas', this.id).forEach(res => {
+            if (res) {
+              this.index = parseInt(res?.NumFotos);
+            }
+            console.log(this.index);
+          });
         }
+
         this.imageData = galeryImages;
         this.galeria = true;
 
         if (this.tipoPlan == 'EMPRESARIALORO') {
           if (galeryImages.length < 10) {
             this.gallerys = false;
+          } else if (galeryImages.length == 10) {
+            this.gallerys = true;
           }
-        } else if (this.tipoPlan == 'EMPRESARIALORO' && galeryImages.length == 10) {
-          this.gallerys = true;
+        } else if (this.tipoPlan == 'EMPRESARIALPLATA') {
+          if (galeryImages.length < 6) {
+            this.gallerys = false;
+          } else if (galeryImages.length == 6) {
+            this.gallerys = true;
+          }
         }
 
       });

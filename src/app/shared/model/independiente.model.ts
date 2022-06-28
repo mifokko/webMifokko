@@ -14,7 +14,7 @@ export interface Independiente {
     domicilio: string,
     servicios: string,
     estado: boolean,
-    numFotos: string,
+    NumFotos: string,
     portafolio: string,
     fotoPerfilInd: string
 }
