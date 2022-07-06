@@ -7,3 +7,17 @@
     justify-content: center;
     align-items: center;
   }
+
+  //---------------------------------------------------------------------------------------------
+// Tipografia
+//---------------------------------------------------------------------------------------------
+.titulo {
+    font-family: 'Geometos';
+    color: white;
+  }
+  
+  @font-face {
+    font-family: 'Geometos';
+    src: url(/src/app/fonts/Geometos.ttf) format('truetype');  
+  }
+  

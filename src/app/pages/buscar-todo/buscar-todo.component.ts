@@ -160,6 +160,7 @@ export class BuscarTodoComponent implements OnInit {
     this.resultadosE = [];
     this.resultadosI = [];
     this.resultadosO = [];
+    
     //Buscar en empresas
     //console.log(seleccion, palabra);
     if (seleccion == 'empresa') {

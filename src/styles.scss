@@ -9,8 +9,13 @@ body {
     color: #333;
     line-height: 1.6;
 }
+
+@font-face{
+    font-family: 'Open Sans';
+    src: url(/src/app/fonts/OpenSans-VariableFont_wdth\,wght.ttf) format('truetype');
+}
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'Open Sans'; }

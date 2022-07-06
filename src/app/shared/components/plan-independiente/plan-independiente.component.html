@@ -1,40 +1,75 @@
 <!--Panel de planes independiente-->
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalToggleLabel">PLANES</h5>
-          <button type="button" class="btn-close" (click)="modal.close()"></button>
-        </div>
-        <div class="modal-body">
-  
-          <!--Plan independientes oro-->
-          <div>
-            <h5>INDEPENDIENTE ORO</h5>
-            <div class="row center">
-              <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-                <button class="btn btn-warning tamaño" (click)="modal.close()" (click)="openRegisterIndependiente(100000, 'INDEPENDIENTEORO', 'ANUAL')">VALOR $100.000
-                  <br>UNICO PAGO ANUAL
-                </button>
-              </div>
-              <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-                <button class="btn btn-warning tamaño"(click)="modal.close()" (click)="openRegisterIndependiente(40000, 'INDEPENDIENTEORO', '3MENSUALES')">VALOR $40.000
-                  <br>3 PAGOS MENSUALES
-                </button>
-              </div>
-            </div>
-          </div>
-          <!--Plan indeoendientes plata-->
-          <div>
-            <h5>INDEPENDIENTE PLATA</h5>
-            <div class="row center">
-              <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-                <button class="btn btn-warning tamaño" (click)="modal.close()" (click)="openRegisterIndependiente(70000, 'INDEPENDIENTEPLATA', 'ANUAL')">VALOR $70.000
-                  <br>UNICO PAGO ANUAL
-                </button>
-              </div>
-              <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2" >
-                <button class="btn btn-warning tamaño" (click)="modal.close()" (click)="openRegisterIndependiente(28000, 'INDEPENDIENTEPLATA', '3MENSUALES')">VALOR $28.000
-                  <br>3 PAGOS MENSUALES
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalToggleLabel">PLANES</h5>
+  <button type="button" class="btn-close" (click)="modal.close()"></button>
+</div>
+<div class="modal-body">
+
+  <!--Plan independientes oro-->
+  <div>
+    <h5>INDEPENDIENTE ORO</h5>
+    <div class="container col-md-10">
+      <ul>
+        <li>10 FOTOS (GALERIA)</li>
+        <li>2 DISEÑOS PARA PORTADA (ELABORADO POR MIFOKKO CON INFORMACIÓN DEL SERVICIO, SIN LOGO)</li>
+        <li>REDES SOCIALES (YOUTUBE- FACEBOOK-INSTAGRAM- TWITTER)</li>
+        <li>SECCIÓN PROMOCIONES (PUEDES SUBIR TUS OFERTAS EN NUESTRA SECCIÓN PARA QUE PUEDAS TENER UNA MAYOR COBERTURA
+          EN TU
+          VENTA)</li>
+        <li>DIRECCION- CIUDAD-TELEFONO</li>
+        <li>HORARIO DE ATENCIÓN</li>
+        <li>GOOGLE MAPS (COMO LLEGAR)</li>
+        <li>CHAT INTERNO (WHATSAAP- USUARIO vs. CLIENTE)</li>
+        <li>CONTACTO: LLAMADAS CEL-------- WHATSAAP: SOLO MJE Nro-------------</li>
+        <li>COMENTARIOS</li>
+      </ul>
+    </div>
+    <div class="row center">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
+        <button class="btn btn-war tamaño" (click)="modal.close()"
+          (click)="openRegisterIndependiente(120000, 'INDEPENDIENTEORO', 'ANUAL')">VALOR $120.000
+          <br>UNICO PAGO ANUAL
+        </button>
+      </div>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
+        <button class="btn btn-war tamaño" (click)="modal.close()"
+          (click)="openRegisterIndependiente(48000, 'INDEPENDIENTEORO', '1MENSUALES')">VALOR $48.000
+          <br>3 PAGOS MENSUALES
+        </button>
+      </div>
+    </div>
+  </div>
+  <!--Plan indeoendientes plata-->
+  <div>
+    <h5>INDEPENDIENTE PLATA</h5>
+    <div class="container col-md-10">
+      <ul>
+        <li>6 FOTOS (GALERIA)</li>
+        <li>1 DISEÑO PARA PORTADA (ELABORADO POR MIFOKKO CON INFORMACIÓN DEL SERVICIO, SIN LOGO)</li>
+        <li>REDES SOCIALES (FACEBOOK)</li>
+        <li>SECCIÓN PROMOCIONES (PUEDES SUBIR TUS OFERTAS EN NUESTRA SECCIÓN PARA QUE PUEDAS TENER UNA MAYOR COBERTURA EN TU
+          VENTA)</li>
+        <li>DIRECCION- CIUDAD-TELEFONO</li>
+        <li>HORARIO DE ATENCIÓN</li>
+        <li>GOOGLE MAPS (COMO LLEGAR)</li>
+        <li>CHAT INTERNO (WHATSAAP- USUARIO vs. CLIENTE)</li>
+        <li>CONTACTO: LLAMADAS CEL-------- WHATSAAP: SOLO MJE Nro-------------</li>
+        <li>COMENTARIOS</li>
+      </ul>
+    </div>
+    <div class="row center">
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
+        <button class="btn btn-war tamaño" (click)="modal.close()"
+          (click)="openRegisterIndependiente(90000, 'INDEPENDIENTEPLATA', 'ANUAL')">VALOR $90.000
+          <br>UNICO PAGO ANUAL
+        </button>
+      </div>
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
+        <button class="btn btn-war tamaño" (click)="modal.close()"
+          (click)="openRegisterIndependiente(36000, 'INDEPENDIENTEPLATA', '1MENSUALES')">VALOR $36.000
+          <br>3 PAGOS MENSUALES
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

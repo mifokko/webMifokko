@@ -7,8 +7,8 @@
     <!--Imagen de portada por defecto-->
     <div class="img" *ngIf="fotoPor === false">
       <!-- Editar Perfil -->
-      <button class="btn btn-primary rounded-pill editarBtn" (click)="editarPerfil()"
-        *ngIf="rol === 'empresa'">Editar</button>
+      <button class="btn rounded-pill editarBtn" (click)="editarPerfil()"
+        *ngIf="rol === 'empresa'" style="background-color: #444242; color: white;">Editar</button>
       <!-- Botón de agregar Foto de portada -->
       <div class="img2" style="position: absolute; right: 0; margin-bottom: -30%; right: 25%;"
         *ngIf="rol === 'empresa'">
@@ -24,8 +24,8 @@
     <!--Imagen de portada seleccionada por la empresa-->
     <div class="img2 justify-content-center" *ngIf="fotoPor === true">
       <!-- Editar Perfil -->
-      <button class="btn btn-primary rounded-pill editarBtn" (click)="editarPerfil()"
-        *ngIf="rol === 'empresa'">Editar</button>
+      <button class="btn rounded-pill editarBtn" (click)="editarPerfil()"
+        *ngIf="rol === 'empresa'" style="background-color: #444242; color: white;">Editar</button>
       <!-- Imagen de Portada -->
       <img [src]="portadaSafe" class="img2">
       <!-- Botón de agregar Foto de portada -->
@@ -130,7 +130,7 @@
 
     <!--Nombre empresa-->
     <div class="container my-1" *ngIf="empresa">
-      <h2>{{empresa.nombre}}</h2>
+      <h2 class="titulo">{{empresa.nombre}}</h2>
     </div>
 
     <!--Barra informacion de perfil-->
@@ -431,7 +431,7 @@
             </div>
             <div class="form-group col-md-1 col" *ngIf="empresa.celular.length !==  0">
               <a>
-                <img src="./assets/Logo_Telefono.png" class="img-fluid" alt="logo_telefono" (click)="telefono = true">
+                <img src="./assets/Logo_Telefono.png" class="img-fluid" alt="logo_telefono" (click)="telefono = !telefono">
               </a>
               <p *ngIf="telefono" (tapClick)="telefono = false">{{empresa.celular}}</p>
             </div>
@@ -544,7 +544,7 @@
             <p>{{chats.nombre}}: {{chats.comentario}}</p>
           </div>
         </div>
-        <div class="container" *ngIf="rol === 'general'">
+        <!-- <div class="container" *ngIf="rol === 'general'">
           <form #comentariosForm="ngForm" (ngSubmit)="saveComentarios(comentariosForm)">
             <div class="col-md-6 col-sx-12 col-lg-6 b-3">
               <label for="exampleFormControlInput1" class="form-label">Nombre Usuario</label>
@@ -560,7 +560,7 @@
               <button type="submit" class="btn btn-primary rounded-pill" value="Save Comentarios">Enviar</button>
             </div>
           </form>
-        </div>
+        </div> -->
       </div>
     </div>
 

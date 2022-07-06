@@ -149,7 +149,7 @@ export class RegisterIndependienteComponent implements OnInit {
       this.usuario.password = '';
       this.usuario.referencia = this.referenciaPago();
       //Generar fecha de registro de la empresa y fecha de finalizacion de la subscripción
-      if (this.usuario.plan == '3MENSUALES') {
+      if (this.usuario.plan == '1MENSUALES') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
         this.usuario.fechaFin = (this.fecha.getDate() + '/' + (this.fecha.getMonth() + 2) + '/' + this.fecha.getFullYear());
         //console.log(this.usuario.fechaInicio, '-', this.usuario.fechaFin);

@@ -8,3 +8,16 @@
     background-size: cover;
     background-position: center;
 }
+//---------------------------------------------------------------------------------------------
+// Tipografia
+//---------------------------------------------------------------------------------------------
+.titulo {
+    font-family: 'Geometos';
+    color: #444242;
+  }
+  
+  @font-face {
+    font-family: 'Geometos';
+    src: url(/src/app/fonts/Geometos.ttf) format('truetype');  
+  }
+  

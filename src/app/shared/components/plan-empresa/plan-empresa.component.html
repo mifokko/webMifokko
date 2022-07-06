@@ -1,21 +1,38 @@
 <!--Panel de planes empresa-->
 <div class="modal-header">
-  <h5 class="modal-title" id="exampleModalToggleLabel">PLANES</h5>
+  <h5 class="modal-title titulo" id="exampleModalToggleLabel">PLANES</h5>
   <button type="button" class="btn-close" (click)="modal.close()"></button>
 </div>
 <div class="modal-body">
 
   <!--Plan empresarial oro-->
   <div>
-    <h5>EMPRESARIAL ORO</h5>
+    <h5 class="titulo">EMPRESARIAL ORO</h5>
+    <div class="container col-md-10">
+      <ul>
+        <li>10 FOTOS (GALERIA) </li>
+        <li>2 DISEÑOS PARA PORTADA (ELABORADO POR MIFOKKO CON LOGO EMPRESA)</li>
+        <li>REDES SOCIALES (YOUTUBE- FACEBOOK-INSTAGRAM- TWITTER)</li>
+        <li>SECCIÓN PROMOCIONES (PUEDES SUBIR TUS OFERTAS EN NUESTRA SECCIÓN PARA QUE PUEDAS TENER UNA MAYOR COBERTURA
+          EN TU VENTA)</li>
+        <li>DIRECCION- CIUDAD-TELEFONO</li>
+        <li>HORARIO DE ATENCIÓN</li>
+        <li>GOOGLE MAPS (COMO LLEGAR)</li>
+        <li>CHAT INTERNO (WHATSAAP- USUARIO vs. CLIENTE)</li>
+        <li>CONTACTO: LLAMADAS CEL-------- WHATSAAP: SOLO MJE Nro-------------</li>
+        <li>COMENTARIOS</li>
+      </ul>
+    </div>
     <div class="row center">
-      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
-        <button class="btn btn-primary tamaño" (click)="modal.close()" (click)="openRegisterEmpresa(220000, 'EMPRESARIALORO', 'ANUAL')">VALOR $220.000
+      <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-1">
+        <button class="btn btn-primary tamaño" (click)="modal.close()"
+          (click)="openRegisterEmpresa(250000, 'EMPRESARIALORO', 'ANUAL')">VALOR $250.000
           <br>UNICO PAGO ANUAL
         </button>
       </div>
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
-        <button class="btn btn-primary tamaño" (click)="modal.close()" (click)="openRegisterEmpresa(88000, 'EMPRESARIALORO', '3MENSUALES')">VALOR $88.000
+        <button class="btn btn-primary tamaño" (click)="modal.close()"
+          (click)="openRegisterEmpresa(100000, 'EMPRESARIALORO', '1MENSUALES')">VALOR $100.000
           <br>3 PAGOS MENSUALES
         </button>
       </div>
@@ -23,15 +40,31 @@
   </div>
   <!--Plan empresarial plata-->
   <div>
-    <h5>EMPRESARIAL PLATA</h5>
+    <h5 class="titulo">EMPRESARIAL PLATA</h5>
+    <div class="container col-md-10">
+      <ul>
+        <li>6 FOTOS (GALERIA) </li>
+        <li>1 DISEÑO PARA PORTADA (ELABORADO POR MIFOKKO CON LOGO EMPRESA)</li>
+        <li>REDES SOCIALES (FACEBOOK)</li>
+        <li>SECCIÓN PROMOCIONES (PUEDES SUBIR TUS OFERTAS EN NUESTRA SECCIÓN PARA QUE PUEDAS TENER UNA MAYOR COBERTURA EN TU VENTA)</li>
+        <li>DIRECCION- CIUDAD-TELEFONO</li>
+        <li>HORARIO DE ATENCIÓN</li>
+        <li>GOOGLE MAPS (COMO LLEGAR)</li>
+        <li>CHAT INTERNO (WHATSAAP- USUARIO vs. CLIENTE)</li>
+        <li>CONTACTO: LLAMADAS CEL-------- WHATSAAP: SOLO MJE Nro-------------</li>
+        <li>COMENTARIOS</li>
+      </ul>
+    </div>
     <div class="row center">
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
-        <button class="btn btn-primary tamaño" (click)="modal.close()" (click)="openRegisterEmpresa(170000, 'EMPRESARIALPLATA', 'ANUAL')">VALOR $170.000
+        <button class="btn btn-primary tamaño" (click)="modal.close()"
+          (click)="openRegisterEmpresa(200000, 'EMPRESARIALPLATA', 'ANUAL')">VALOR $200.000
           <br>UNICO PAGO ANUAL
         </button>
       </div>
       <div class="col-xs-2 col-sm-8 col-md-4 col-lg-4 p-2">
-        <button class="btn btn-primary tamaño" (click)="modal.close()" (click)="openRegisterEmpresa(68000, 'EMPRESARIALPLATA', '3MENSUALES')">VALOR $68.000
+        <button class="btn btn-primary tamaño" (click)="modal.close()"
+          (click)="openRegisterEmpresa(80000, 'EMPRESARIALPLATA', '1MENSUALES')">VALOR $80.000
           <br>3 PAGOS MENSUALES
         </button>
       </div>

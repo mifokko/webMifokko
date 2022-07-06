@@ -28,7 +28,7 @@
 
         <!--Nombre Oferta-->
         <div class="container my-1" *ngIf="oferta">
-            <h2>{{oferta.nombreOferta}}</h2>
+            <h2 class="titulo">{{oferta.nombreOferta}}</h2>
         </div>
 
         <!--Barra informacion de perfil-->
@@ -185,7 +185,7 @@
                         <p>{{chats.nombre}}: {{chats.comentario}}</p>
                     </div>
                 </div>
-                <div class="container" *ngIf="rol === 'general' || login === false">
+                <!-- <div class="container" *ngIf="rol === 'general' || login === false">
                     <form #comentariosForm="ngForm" (ngSubmit)="saveComentarios(comentariosForm)">
                         <div class="col-md-6 col-sx-12 col-lg-6 b-3">
                             <label for="exampleFormControlInput1" class="form-label">Nombre Usuario</label>
@@ -202,7 +202,7 @@
                                 value="Save Comentarios">Enviar</button>
                         </div>
                     </form>
-                </div>
+                </div> -->
             </div>
         </div>
 

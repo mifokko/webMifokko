@@ -3,9 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlanEmpresaComponent } from 'src/app/shared/components/plan-empresa/plan-empresa.component';
 import { PlanIndependienteComponent } from 'src/app/shared/components/plan-independiente/plan-independiente.component';
-import { RegisterIndependienteComponent } from 'src/app/shared/components/register-independiente/register-independiente.component';
 import { RegisterUsuarioGeneralComponent } from 'src/app/shared/components/register-usuario-general/register-usuario-general.component';
-import { RegisterComponent } from 'src/app/shared/components/register/register.component';
 import { SubscripcionComponent } from 'src/app/shared/components/subscripcion/subscripcion.component';
 import { Empresa } from 'src/app/shared/model/empresa.model';
 import { Independiente } from 'src/app/shared/model/independiente.model';
@@ -14,6 +12,7 @@ import { TablaBusqueda } from 'src/app/shared/model/tablaBusqueda.model';
 import { Usuario } from 'src/app/shared/model/user.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { DataServices } from 'src/app/shared/services/data.service';
+import { UsuarioG } from 'src/app/shared/services/dataRegUsuario.services';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -126,16 +125,26 @@ export class HomeComponent implements OnInit {
     console.log('Entro',this.plan, this.tipoPlan);
     const fecha = new Date();
     let fechaFin = '';
+    let fechaInicio: string[] = [];
     //Se verfica cual es el plan de pago del usuario y que tipo de paquete adquirio
     if (this.tipoPlan == 'EMPRESARIALORO' || this.tipoPlan == 'EMPRESARIALPLATA') {
       this.firestore.updateCamposDoc('empresa', 'Usuarios', this.id, 'perfil');
       //Si acordo pagar mensual 
-      if (this.plan == '3MENSUALES') {
+      if (this.plan.indexOf('MENSUALES') != -1) {
+        this.firestore.getDoc<Usuario>('Usuarios', this.id).subscribe(res => {
+          if (res) {
+            fechaInicio = res.fechaInicio.split('/');
+          }
+        })
         this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
         fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 2) + '/' + fecha.getFullYear());
         this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
         this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
         this.firestore.updateCamposDoc(true, 'Empresas', this.id, 'estadoPago');
+        if (this.plan == '3MENSUALES') {
+          fechaFin = (fechaInicio[0] + '/' + (fecha.getMonth() - 1) + '/' + (fecha.getFullYear() + 1));
+          this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
+        }
       } else if(this.plan == 'ANUAL') {
         //Si acordo pagar anual 
         this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
@@ -176,7 +185,7 @@ export class HomeComponent implements OnInit {
         const fecha = new Date(); //fecha actual 
         this.fechaFin = this.usuarios.fechaFin.split('/'); // Fecha de corte de subscripcion 
         console.log(this.fechaFin);
-        if (this.plan == '3MENSUALES') {
+        if (this.plan.indexOf('MENSUALES') != -1) {
           //Si la fecha del día de hoy es mayor o igual que el día del corte de subscripcion
           if (fecha.getDate() >= parseInt(this.fechaFin[0])) {
             // Si el mes actual es mayor o igual al mes de corte 
@@ -210,7 +219,7 @@ export class HomeComponent implements OnInit {
                   this.usuarios.estadoPago = false;
                   this.firestore.updateCamposDoc(this.usuarios.perfil, 'Usuarios', id, 'perfil');
                   this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
-                  this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
+                  //this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
                   this.alerta = true;
                 }
               }
@@ -231,51 +240,51 @@ export class HomeComponent implements OnInit {
           this.subscripcion = true;
         }
 
-        this.firestore.getCollection<TablaBusqueda>('Busqueda').subscribe(res => {
-          if (res === undefined) {
-            //Guardar lista de servicios y profesiones para las busquedas
-            this.firestore.getCollection<Empresa>('Empresas').subscribe(res => {
-              if (res) {
-                this.empresa = res;
-                for (let index = 0; index < this.empresa.length; index++) {
-                  const services = this.empresa[index].servicios.split(', ');
-                  for (let i = 0; i < services.length; i++) {
-                    const uid = Math.random().toString(9).substring(2);
-                    const ser = services[i].toString();
-                    this.tablaBusqueda.servicios = services[i];
-                    this.tablaBusqueda.idUser = this.empresa[index].id;
-                    this.tablaBusqueda.path = 'Empresas';
-                    this.firestore.createDoc(this.tablaBusqueda, 'Busqueda', uid);
-                  }
-                }
+        // this.firestore.getCollection<TablaBusqueda>('Busqueda').subscribe(res => {
+        //   if (res === undefined) {
+        //     //Guardar lista de servicios y profesiones para las busquedas
+        //     this.firestore.getCollection<Empresa>('Empresas').subscribe(res => {
+        //       if (res) {
+        //         this.empresa = res;
+        //         for (let index = 0; index < this.empresa.length; index++) {
+        //           const services = this.empresa[index].servicios.split(', ');
+        //           for (let i = 0; i < services.length; i++) {
+        //             const uid = Math.random().toString(9).substring(2);
+        //             const ser = services[i].toString();
+        //             this.tablaBusqueda.servicios = services[i];
+        //             this.tablaBusqueda.idUser = this.empresa[index].id;
+        //             this.tablaBusqueda.path = 'Empresas';
+        //             this.firestore.createDoc(this.tablaBusqueda, 'Busqueda', uid);
+        //           }
+        //         }
 
-                this.firestore.getCollection<Independiente>('Independiente').subscribe(res => {
-                  if (res) {
-                    this.independiente = res;
-                    for (let j = 0; j < this.independiente.length; j++) {
-                      const uid = Math.random().toString(9).substring(2);
-                      this.tablaBusqueda.servicios = this.independiente[j].profesion;
-                      this.tablaBusqueda.idUser = this.independiente[j].id;
-                      this.tablaBusqueda.path = 'Independiente';
-                      this.firestore.createDoc(this.tablaBusqueda, 'Busqueda', uid);
+        //         this.firestore.getCollection<Independiente>('Independiente').subscribe(res => {
+        //           if (res) {
+        //             this.independiente = res;
+        //             for (let j = 0; j < this.independiente.length; j++) {
+        //               const uid = Math.random().toString(9).substring(2);
+        //               this.tablaBusqueda.servicios = this.independiente[j].profesion;
+        //               this.tablaBusqueda.idUser = this.independiente[j].id;
+        //               this.tablaBusqueda.path = 'Independiente';
+        //               this.firestore.createDoc(this.tablaBusqueda, 'Busqueda', uid);
 
-                      const service = this.independiente[j].servicios.split(',');
-                      for (let k = 0; k < service.length; k++) {
-                        const uid = Math.random().toString(9).substring(2);
-                        this.tablaBusqueda.servicios = service[k];
-                        this.tablaBusqueda.idUser = this.independiente[j].id;
-                        this.tablaBusqueda.path = 'Independiente';
-                        this.firestore.createDoc(this.tablaBusqueda, 'Busqueda', uid);
-                      }
-                    }
-                  }
-                })
-              }
-            })
-          } else {
-            console.log('Lista de busqueda completa');
-          }
-        })
+        //               const service = this.independiente[j].servicios.split(',');
+        //               for (let k = 0; k < service.length; k++) {
+        //                 const uid = Math.random().toString(9).substring(2);
+        //                 this.tablaBusqueda.servicios = service[k];
+        //                 this.tablaBusqueda.idUser = this.independiente[j].id;
+        //                 this.tablaBusqueda.path = 'Independiente';
+        //                 this.firestore.createDoc(this.tablaBusqueda, 'Busqueda', uid);
+        //               }
+        //             }
+        //           }
+        //         })
+        //       }
+        //     })
+        //   } else {
+        //     console.log('Lista de busqueda completa');
+        //   }
+        // })
 
       }
     })

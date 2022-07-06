@@ -7,8 +7,8 @@
     <!--Imagen de portada por defecto independiente -->
     <div class="img" *ngIf="fotoPor === false">
       <!-- Editar Perfil -->
-      <button class="btn btn-primary rounded-pill editarBtn" (click)="editarPerfil()"
-        *ngIf="rol === 'independiente'">Editar</button>
+      <button class="btn rounded-pill editarBtn" (click)="editarPerfil()"
+        *ngIf="rol === 'independiente'" style="background-color: #444242; color: white;">Editar</button>
       <!-- Botón de agregar Foto de portada -->
       <div class="img2" style="position: absolute; right: 0; margin-bottom: -30%; right: 25%;"
         *ngIf="rol === 'independiente'">
@@ -22,8 +22,8 @@
     <!--Imagen de portada seleccionada por el independiente-->
     <div class="img2" *ngIf="fotoPor === true">
       <!-- Editar Perfil -->
-      <button class="btn btn-primary rounded-pill editarBtn" (click)="editarPerfil()"
-        *ngIf="rol === 'independiente'">Editar</button>
+      <button class="btn rounded-pill editarBtn" (click)="editarPerfil()"
+        *ngIf="rol === 'independiente'" style="background-color: #444242; color: white;">Editar</button>
       <!-- Imagen de Portada -->
       <img [src]="portadaSafe" class="img2">
       <!-- Botón de agregar Foto de portada -->
@@ -133,7 +133,7 @@
 
     <!--Nombre independiente-->
     <div class="container my-1" *ngIf="independiente">
-      <h2>{{independiente.nombre}}</h2>
+      <h2 class="titulo">{{independiente.nombre}}</h2>
     </div>
 
     <!--Barra informacion de perfil-->
@@ -516,7 +516,7 @@
             <p>{{chats.nombre}}: {{chats.comentario}}</p>
           </div>
         </div>
-        <div class="container" *ngIf="rol === 'general'">
+        <!-- <div class="container" *ngIf="rol === 'general'">
           <form #comentariosForm="ngForm" (ngSubmit)="saveComentarios(comentariosForm)">
             <div class="col-md-6 col-sx-12 col-lg-6 b-3">
               <label for="exampleFormControlInput1" class="form-label">Nombre Usuario</label>
@@ -532,7 +532,7 @@
               <button type="submit" class="btn btn-primary rounded-pill" value="Save Comentarios">Enviar</button>
             </div>
           </form>
-        </div>
+        </div> -->
       </div>
     </div>
 

@@ -1,0 +1,14 @@
+//---------------------------------------------------------------------------------------------
+// Tipografia
+//---------------------------------------------------------------------------------------------
+.titulo {
+    font-family: 'Geometos';
+    color: #444242;
+    font-size: 30px;
+  }
+  
+  @font-face {
+    font-family: 'Geometos';
+    src: url(/src/app/fonts/Geometos.ttf) format('truetype');  
+  }
+  

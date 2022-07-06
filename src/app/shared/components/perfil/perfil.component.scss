@@ -136,7 +136,7 @@ div .tamA h5 {
   font-size: medium;
   font-weight: bold;
   //color: #de8f4d;
-  color: #ea924a;
+  color: #db9600;
 }
 
 
@@ -193,7 +193,7 @@ div #div_file{
   position: absolute;
   right: 1em;
   top: 6em;
-  box-shadow: 0 8px 10px -4px rgba(0,0,0,0.6); 
+  box-shadow: 0 8px 10px -4px rgba(255, 255, 255, 0.671); 
 }
 
 //---------------------------------------------------------------------------------------------
@@ -234,5 +234,18 @@ div #div_file{
     width: 100%;
     height: 300px;
   }
+}
+
+//---------------------------------------------------------------------------------------------
+// Tipografia
+//---------------------------------------------------------------------------------------------
+.titulo {
+  font-family: 'Geometos';
+  color: #444242;
+}
+
+@font-face {
+  font-family: 'Geometos';
+  src: url(/src/app/fonts/Geometos.ttf) format('truetype');  
 }
 

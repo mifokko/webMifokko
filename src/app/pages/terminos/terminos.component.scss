@@ -14,4 +14,18 @@
     text-align: justify;
     font-size: 17px;
 }
+
+//---------------------------------------------------------------------------------------------
+// Tipografia
+//---------------------------------------------------------------------------------------------
+.titulo {
+  font-family: 'Geometos';
+  color: white;
+}
+
+@font-face {
+  font-family: 'Geometos';
+  src: url(/src/app/fonts/Geometos.ttf) format('truetype');  
+}
+
   
