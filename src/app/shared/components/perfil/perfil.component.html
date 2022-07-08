@@ -424,7 +424,7 @@
                 <img src="./assets/Logo_Facebook.png" class="img-fluid" alt="logo_Facebook">
               </a>
             </div>
-            <div class="form-group col-md-1 col" *ngIf="network.whatsapp.length !== 0">
+            <div class="form-group col-md-1 col" *ngIf="red === 'mostrar' && network.whatsapp.length !== 0">
               <a href="https://wa.me/{{network.whatsapp}}" target="_blank">
                 <img src="./assets/Logo_Whatsapp.png" class="img-fluid" alt="logo_Whatsapp">
               </a>
@@ -436,7 +436,7 @@
               <p *ngIf="telefono" (tapClick)="telefono = false">{{empresa.celular}}</p>
             </div>
             <div class="form-group col-md-1 col" *ngIf="red === 'vacio' || net === 'save' && rol === 'empresa'">
-              <a (click)="mostrar = true">
+              <a (click)="mostrar = !mostrar">
                 <img src="./assets/agregar.png" class="img-fluid" alt="Boton agregar" style="border-radius: 10px;">
               </a>
             </div>

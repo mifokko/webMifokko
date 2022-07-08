@@ -272,15 +272,6 @@
           </div>
           <!-- Boton de guardar -->
           <div class="modal-footer">
-            <!-- Pago con Wompi -->
-            <form action="https://checkout.wompi.co/p/" method="GET" target="_blank">
-              <input type="hidden" name="public-key" value="pub_test_pxMGkJMTgaNDNQFwQu6Dq1FoB6u2VN9a" />
-              <input type="hidden" name="currency" value="COP" />
-              <input type="hidden" name="amount-in-cents" value="{{precioPlan*100}}" />
-              <input type="hidden" name="reference" value="{{referenciaWompi}}" />
-              <input type="hidden" name="redirect-url" value="https://www.mifokko.com" />
-              <button class="btn btn-primary rounded waynox" type="submit"> Paga con <strong>Wompi</strong></button>
-            </form>
             <!-- Botón de guardar informacion -->
             <button type="submit" class="btn btn-primary rounded-pill">Enviar</button>
           </div>

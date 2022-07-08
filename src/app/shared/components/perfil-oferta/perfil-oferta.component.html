@@ -143,33 +143,33 @@
             <div class="container tamA">
                 <h5>REDES SOCIALES</h5>
                 <div class="container">
-                    <div class="row" *ngIf="network && empresa">
-                        <div class="form-group col-md-1 col-ms-1 col" *ngIf="network.youtube.length !== 0">
+                    <div class="row" *ngIf=" network || empresa || independiente">
+                        <div class="form-group col-md-1 col-ms-1 col" *ngIf="red === 'mostrar' && network.youtube.length !== 0">
                             <a [href]="youtubeSafe" target="_blank">
                                 <img src="./assets/Logo_Youtube.png" class="img-fluid" alt="logo_Youtube">
                             </a>
                         </div>
-                        <div class="form-group col-md-1 col" *ngIf="network.instagram.length !== 0">
+                        <div class="form-group col-md-1 col" *ngIf="red === 'mostrar' && network.instagram.length !== 0">
                             <a [href]="instagramSafe" target="_blank">
                                 <img src="./assets/Logo_Instagram.png" class="img-fluid" alt="logo_Instagram">
                             </a>
                         </div>
-                        <div class="form-group col-md-1 col" *ngIf="network.facebook.length !== 0">
+                        <div class="form-group col-md-1 col" *ngIf="red === 'mostrar' && network.facebook.length !== 0">
                             <a [href]="facebookSafe" target="_blank">
                                 <img src="./assets/Logo_Facebook.png" class="img-fluid" alt="logo_Facebook">
                             </a>
                         </div>
-                        <div class="form-group col-md-1 col" *ngIf="network.whatsapp.length !== 0">
+                        <div class="form-group col-md-1 col" *ngIf="red === 'mostrar' && network.whatsapp.length !== 0">
                             <a href="https://wa.me/{{network.whatsapp}}" target="_blank">
                                 <img src="./assets/Logo_Whatsapp.png" class="img-fluid" alt="logo_Whatsapp">
                             </a>
                         </div>
-                        <div class="form-group col-md-1 col" *ngIf="oferta.celular.length !==  0">
+                        <div class="form-group col-md-1 col" *ngIf="mostrar === true && empresa?.celular?.length !==  0">
                             <a>
                                 <img src="./assets/Logo_Telefono.png" class="img-fluid" alt="logo_telefono"
-                                    (click)="telefono = true">
+                                    (click)="telefono = !telefono">
                             </a>
-                            <p *ngIf="telefono" (tapClick)="telefono = false">{{empresa.celular}}</p>
+                            <p *ngIf="telefono" (tapClick)="telefono = false">{{empresa?.celular}}</p>
                         </div>
                     </div>
                 </div>

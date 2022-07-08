@@ -56,7 +56,6 @@ export class RegisterIndependienteComponent implements OnInit {
 
   //Referencias de pago 
   referenciaWompi = '';
-  referenciaMercadoPago = '';
 
   constructor(private fb: FormBuilder, private dataSvc: DataService1, config: NgbDatepickerConfig, public modal: NgbActiveModal, private data: DataServices, private storage: AngularFireStorage, private afs: AuthService) {
     data.getCollection<Ciudades>('Ciudades').subscribe(res => {
@@ -76,11 +75,13 @@ export class RegisterIndependienteComponent implements OnInit {
     config.maxDate = { year: 2022, month: 12, day: 31 };
     //Referencias de pago
     this.referenciaWompi = this.referenciaPago();
-    this.referenciaMercadoPago = this.referenciaPagoM();
   }
 
   ngOnInit(): void {
     this.initForm();
+    this.usuario.pago = this.precioPlan;
+    this.usuario.plan = this.pagos;
+    this.usuario.tipoPlan = this.passedData;
   }
 
   //Función que carga los municipios en una lista, según el departamento que se ha seleccionado 
@@ -91,13 +92,13 @@ export class RegisterIndependienteComponent implements OnInit {
       if (this.seleccion === this.ciudades[index].departamento) {
         this.municipios[index] = this.ciudades[index].municipio
       } else {
-        console.log('paso');
+        // console.log('paso');
       }
     }
 
     this.municipios = this.municipios.filter(Boolean);
     this.municipios = this.municipios.sort();
-    console.log(this.municipios.length);
+    //console.log(this.municipios.length);
   }
 
   //Función que se encarga de guardar el documento en el almacenamiento 
@@ -119,7 +120,18 @@ export class RegisterIndependienteComponent implements OnInit {
         this.independienteForm.reset()
         this.modal.close();
         //Notificación de confirmación
-        Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
+        Swal.fire({
+          title: 'Registro exitoso',
+          icon: 'success',
+          html: 'Ir a realizar el <b>Pago</b> <br> ' +
+          '<form action="https://checkout.wompi.co/p/" method="GET">' + 
+          '<input type="hidden" name="public-key" value="pub_test_pxMGkJMTgaNDNQFwQu6Dq1FoB6u2VN9a" />'+
+          '<input type="hidden" name="currency" value="COP" />' +
+          '<input type="hidden" name="amount-in-cents" value="'+this.precioPlan*100+'" />' +
+          '<input type="hidden" name="reference" value="'+this.referenciaWompi+'" />'+
+          '<input type="hidden" name="redirect-url" value="https://www.mifokko.com" />'+
+          '<button class="btn btn-primary rounded waynox" type="submit"> Paga con <strong>Wompi</strong></button>'
+        })
       } catch (e) {
         alert(e);
       }
@@ -137,31 +149,34 @@ export class RegisterIndependienteComponent implements OnInit {
   //Creacion del Usuario, y almacenamiento de la información del independiente 
   async registrar() {
     const formValue = this.independienteForm.value;
-    console.log('datos -> ', this.usuario);
-    //Creación de cuenta con el correo y contraseña
+    // console.log('datos -> ', this.usuario);
+    const correo = this.usuario.correo;
+    // Creación de cuenta con el correo y contraseña
     const res = await this.afs.register(this.usuario).catch(error => {
       console.log('error');
     });
     if (res) {
       console.log('Exito al crear el usuario');
+      this.usuario.correo = correo;
       const id = res.user!.uid;
       this.usuario.uid = id;
       this.usuario.password = '';
-      this.usuario.referencia = this.referenciaPago();
+      this.usuario.referencia = this.referenciaWompi;
       //Generar fecha de registro de la empresa y fecha de finalizacion de la subscripción
       if (this.usuario.plan == '1MENSUALES') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
-        this.usuario.fechaFin = (this.fecha.getDate() + '/' + (this.fecha.getMonth() + 2) + '/' + this.fecha.getFullYear());
+        this.fecha.setMonth(this.fecha.getMonth() + 1);
+        this.usuario.fechaFin = this.fecha.toLocaleDateString();
         //console.log(this.usuario.fechaInicio, '-', this.usuario.fechaFin);
       } else if (this.usuario.plan == 'ANUAL') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
-        this.fecha.setDate(this.fecha.getFullYear() + 1);
+        this.fecha.setFullYear(this.fecha.getFullYear() + 1);
         this.usuario.fechaFin = this.fecha.toLocaleDateString();
         //console.log(this.usuario.fechaFin);
       }
       //Se guarda la información de Usuario de la empresa y se guarda la información de la empresa
       await this.data.createDoc(this.usuario, 'Usuarios', id);
-      await this.dataSvc.onSaveIndependiente(formValue, this.usuario, id);
+      await this.dataSvc.onSaveIndependiente(formValue, id);
 
       //Guardar la referencia del archivo de documento 
       this.urlFotoDoc.forEach(async value => {
@@ -220,15 +235,15 @@ export class RegisterIndependienteComponent implements OnInit {
   }
 
   //Se obtiene la referencia de pago
-  referenciaPagoM() {
-    let result = 'MP';
-    const numeros = '0123456789';
-    for (let i = 0; i < 6; i++) {
-      result += numeros.charAt(Math.floor(Math.random() * numeros.length));
-    }
-    console.log('Referencia de pago -> ', result)
-    return result;
-  }
+  // referenciaPagoM() {
+  //   let result = 'MP';
+  //   const numeros = '0123456789';
+  //   for (let i = 0; i < 6; i++) {
+  //     result += numeros.charAt(Math.floor(Math.random() * numeros.length));
+  //   }
+  //   console.log('Referencia de pago -> ', result)
+  //   return result;
+  // }
 
   //Ver contraseña
   toggleFieldTextType() {

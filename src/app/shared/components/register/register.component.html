@@ -83,7 +83,7 @@
           <!-- Correo electronicc -->
           <div class="form-group p-1">
             <input type="email" class="form-control" placeholder="Correo" formControlName="correo"
-              [class]="isValidField('correo')" [(ngModel)]="usuario.correo">
+              [class]="isValidField('correo')" [(ngModel)]="usuario.correo" name="correo">
             <div class="invalid-feedback" *ngIf="empresaForm.get('correo')?.hasError('required')">
               Por favor ingrese email.
             </div>
@@ -95,7 +95,7 @@
           <div class="form-group input-group p-1">
             <input [type]="fieldTextType ? 'text' : 'password'" class="form-control"
               placeholder="Crear Contraseña - 9 Caracteres" formControlName="contraseña"
-              [class]="isValidField('contraseña')" [(ngModel)]="usuario.password">
+              [class]="isValidField('contraseña')" [(ngModel)]="usuario.password" name="password">
             <span class="input-group-text" (click)="toggleFieldTextType()">
               <svg *ngIf="fieldTextType === false" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                 fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
@@ -152,19 +152,19 @@
             <div class="form-group col-md-4">
               <!-- Hora mañana -->
               <input type="time" class="form-control" name="inicio" min="00:00" max="11:59" value="08:00"
-                formControlName="horaMañanaInicio" [class]="notRequiredHasValue('horaMañanaInicio')">
+                formControlName="horaMInicio" [class]="notRequiredHasValue('horaMInicio')">
               <!-- Hora Tarde -->
               <input type="time" class="form-control my-2" name="inicio" min="12:00" max="18:00" value="14:00"
-                formControlName="horaTardeInicio" [class]="notRequiredHasValue('horaTardeInicio')">
+                formControlName="horaTInicio" [class]="notRequiredHasValue('horaTInicio')">
             </div>
             <!-- Horas de Fin de jornada -->
             <div class="form-group col-md-4">
               <!-- Hora mañana  -->
               <input type="time" class="form-control" name="fin" min="00:00" max="11:59" value="12:00"
-                formControlName="horaMañanaFin" [class]="notRequiredHasValue('horaMañanaFin')">
+                formControlName="horaMFin" [class]="notRequiredHasValue('horaMFin')">
               <!-- Hora Tarde -->
               <input type="time" class="form-control my-2" name="fin" min="12:00" max="18:00" value="18:00"
-                formControlName="horaTardeFin" [class]="notRequiredHasValue('horaTardeFin')">
+                formControlName="horaTFin" [class]="notRequiredHasValue('horaTFin')">
             </div>
           </div>
           <!-- Servicio a domicilio -->
@@ -280,15 +280,6 @@
             </div>
           </div>
           <div class="modal-footer">
-            <!-- Pago con Wompi -->
-            <form action="https://checkout.wompi.co/p/" method="GET" target="_blank">
-              <input type="hidden" name="public-key" value="pub_test_pxMGkJMTgaNDNQFwQu6Dq1FoB6u2VN9a" />
-              <input type="hidden" name="currency" value="COP" />
-              <input type="hidden" name="amount-in-cents" value="{{precioPlan*100}}" />
-              <input type="hidden" name="reference" value="{{referenciaWompi}}" />
-              <input type="hidden" name="redirect-url" value="https://www.mifokko.com" />
-              <button class="btn btn-primary rounded waynox" type="submit"> Paga con <strong>Wompi</strong></button>
-            </form>
             <!-- Botón de guardar informacion -->
             <button type="submit" class="btn btn-primary rounded-pill">Enviar</button>
           </div>

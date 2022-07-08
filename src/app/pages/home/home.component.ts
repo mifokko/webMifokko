@@ -8,11 +8,10 @@ import { SubscripcionComponent } from 'src/app/shared/components/subscripcion/su
 import { Empresa } from 'src/app/shared/model/empresa.model';
 import { Independiente } from 'src/app/shared/model/independiente.model';
 import { Ofertas } from 'src/app/shared/model/oferta.model';
-import { TablaBusqueda } from 'src/app/shared/model/tablaBusqueda.model';
+import { Pagos } from 'src/app/shared/model/pagos.model';
 import { Usuario } from 'src/app/shared/model/user.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { DataServices } from 'src/app/shared/services/data.service';
-import { UsuarioG } from 'src/app/shared/services/dataRegUsuario.services';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -37,7 +36,7 @@ export class HomeComponent implements OnInit {
   fechaFin: string[] = [] //Lista donde se deivide la el objeto fecha
   usuarios!: Usuario; // Se almacena la informacion del usuario 
   alerta: boolean = false;
-  
+
   empresa: Empresa[] = [];
   independiente: Independiente[] = [];
   ofertas: Ofertas[] = []
@@ -49,11 +48,16 @@ export class HomeComponent implements OnInit {
     path: ''
   }
 
+  metodoPago: boolean = false; // Esta se encarga de informar si se debe realizar el pago de nuevo
+  referenciaWompi = ''; // Se usa para generar una nueva referencia de pago
+  estadoPago!: boolean;
+  pagos: Pagos[] = []; // Se usa para almacenar la inormacion de los pagos, pensando que se puede haber realizado mas de un pago al tiempo
+
   //Ver perfil independiente
   verPaginaBuscar(seleccion: string, palabra: string, ciudad: string) {
     if (seleccion.length == 0) {
       Swal.fire('Debe seleccionar un filtro', 'Volver a intentar', 'error');
-    }else{
+    } else {
       this.router.navigate(['/buscar', ciudad, seleccion, palabra]);
     }
     //console.log(seleccion + '/ ' + palabra);
@@ -90,7 +94,7 @@ export class HomeComponent implements OnInit {
 
       //console.log(this.municipios);
     });
-
+    this.referenciaWompi = this.referenciaPago();
   }
 
   ngOnInit(): void {
@@ -114,15 +118,16 @@ export class HomeComponent implements OnInit {
     const modalRef2 = this.modalService.open(RegisterUsuarioGeneralComponent);
   }
   //Abrir modal de actualizacion de subscripcion 
-  openActualizarSub(){
-    const modalRef = this.modalService.open(SubscripcionComponent);
+  openActualizarSub() {
+    const modalRef = this.modalService.open(SubscripcionComponent, { size: 'sm' });
     modalRef.componentInstance.pago = this.usuarios.pago;
-    modalRef.componentInstance.referencia = this.usuarios.referencia;
+    modalRef.componentInstance.referencia = this.referenciaWompi;
+    this.firestore.updateCamposDoc(this.referenciaWompi, 'Usuarios', this.id, 'referencia');
   }
 
   //Estado de subscripción 
   actualizarSubs() {
-    console.log('Entro',this.plan, this.tipoPlan);
+    console.log('Entro', this.plan, this.tipoPlan);
     const fecha = new Date();
     let fechaFin = '';
     let fechaInicio: string[] = [];
@@ -137,39 +142,64 @@ export class HomeComponent implements OnInit {
           }
         })
         this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
-        fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 2) + '/' + fecha.getFullYear());
+        fecha.setMonth(fecha.getMonth() + 1);
+        fechaFin = fecha.toLocaleDateString();
+        if (this.plan == '1MENSUALES') {
+          this.firestore.updateCamposDoc('2MENSUALES', 'Usuarios', this.id, 'plan');
+        }
+        if (this.plan == '2MENSUALES') {
+          this.firestore.updateCamposDoc('3MENSUALES', 'Usuarios', this.id, 'plan');
+        }
         this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
-        this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
-        this.firestore.updateCamposDoc(true, 'Empresas', this.id, 'estadoPago');
+        this.firestore.updateCamposDoc(this.referenciaWompi, 'Usuarios', this.id, 'referencia');
+        //this.firestore.updateCamposDoc(true, 'Empresas', this.id, 'estadoPago');
         if (this.plan == '3MENSUALES') {
           fechaFin = (fechaInicio[0] + '/' + (fecha.getMonth() - 1) + '/' + (fecha.getFullYear() + 1));
           this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
+          this.firestore.updateCamposDoc('1MENSUALES', 'Usuarios', this.id, 'plan');
         }
-      } else if(this.plan == 'ANUAL') {
-        //Si acordo pagar anual 
-        this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
-        fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 1) + '/' + (fecha.getFullYear() + 1));
-        this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
-        this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
-        this.firestore.updateCamposDoc(true, 'Empresas', this.id, 'estadoPago');
-      }
-      //Se verfica cual es el plan de pago del usuario y que tipo de paquete adquirio
-    } else if (this.tipoPlan == 'INDEPENDIENTEORO' || this.tipoPlan == 'INDEPENDIENTEPLATA') {
-      this.firestore.updateCamposDoc('independiente', 'Usuarios', this.id, 'perfil');
-      //Si acordo pagar mensual
-      if (this.plan == '3MENSUALES') {
-        this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
-        fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 2) + '/' + fecha.getFullYear());
-        this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
-        this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
-        this.firestore.updateCamposDoc(true, 'Independiente', this.id, 'estadoPago');
       } else if (this.plan == 'ANUAL') {
         //Si acordo pagar anual 
         this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
         fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 1) + '/' + (fecha.getFullYear() + 1));
         this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
-        this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
-        this.firestore.updateCamposDoc(true, 'Independiente', this.id, 'estadoPago');
+        this.firestore.updateCamposDoc(this.referenciaWompi, 'Usuarios', this.id, 'referencia');
+        //this.firestore.updateCamposDoc(true, 'Empresas', this.id, 'estadoPago');
+      }
+      //Se verfica cual es el plan de pago del usuario y que tipo de paquete adquirio
+    } else if (this.tipoPlan == 'INDEPENDIENTEORO' || this.tipoPlan == 'INDEPENDIENTEPLATA') {
+      this.firestore.updateCamposDoc('independiente', 'Usuarios', this.id, 'perfil');
+      //Si acordo pagar mensual
+      if (this.plan.indexOf('MENSUALES') != -1) {
+        this.firestore.getDoc<Usuario>('Usuarios', this.id).subscribe(res => {
+          if (res) {
+            fechaInicio = res.fechaInicio.split('/');
+          }
+        })
+        this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
+        fecha.setMonth(fecha.getMonth() + 1);
+        fechaFin = fecha.toLocaleDateString();
+        if (this.plan == '1MENSUALES') {
+          this.firestore.updateCamposDoc('2MENSUALES', 'Usuarios', this.id, 'plan');
+        }
+        if (this.plan == '2MENSUALES') {
+          this.firestore.updateCamposDoc('3MENSUALES', 'Usuarios', this.id, 'plan');
+        }
+        this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
+        this.firestore.updateCamposDoc(this.referenciaWompi, 'Usuarios', this.id, 'referencia');
+        //this.firestore.updateCamposDoc(true, 'Independiente', this.id, 'estadoPago');
+        if (this.plan == '3MENSUALES') {
+          fechaFin = (fechaInicio[0] + '/' + (fecha.getMonth() - 1) + '/' + (fecha.getFullYear() + 1));
+          this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
+          this.firestore.updateCamposDoc('1MENSUALES', 'Usuarios', this.id, 'plan');
+        }
+      } else if (this.plan == 'ANUAL') {
+        //Si acordo pagar anual 
+        this.firestore.updateCamposDoc(fecha.toLocaleDateString(), 'Usuarios', this.id, 'fechaInicio');
+        fechaFin = (fecha.getDate() + '/' + (fecha.getMonth() + 1) + '/' + (fecha.getFullYear() + 1));
+        this.firestore.updateCamposDoc(fechaFin, 'Usuarios', this.id, 'fechaFin');
+        this.firestore.updateCamposDoc(this.referenciaWompi, 'Usuarios', this.id, 'referencia');
+        //this.firestore.updateCamposDoc(true, 'Independiente', this.id, 'estadoPago');
       }
 
     }
@@ -182,111 +212,123 @@ export class HomeComponent implements OnInit {
     this.firestore.getDoc<Usuario>(path, id).subscribe(res => {
       if (res) {
         this.usuarios = res;
-        const fecha = new Date(); //fecha actual 
-        this.fechaFin = this.usuarios.fechaFin.split('/'); // Fecha de corte de subscripcion 
-        console.log(this.fechaFin);
-        if (this.plan.indexOf('MENSUALES') != -1) {
-          //Si la fecha del día de hoy es mayor o igual que el día del corte de subscripcion
-          if (fecha.getDate() >= parseInt(this.fechaFin[0])) {
-            // Si el mes actual es mayor o igual al mes de corte 
-            if ((fecha.getMonth() + 1) >= parseInt(this.fechaFin[1])) {
-              //Si el año actual es igual al año de corte y el estado de pago del usuario es true
-              if (fecha.getFullYear() == parseInt(this.fechaFin[2]) && this.usuarios.estadoPago == true) {
-                if (this.alerta == false) {
-                  alert('Tu subscripción esta vencida');
-                  this.usuarios.perfil = 'general';
-                  this.usuarios.estadoPago = false;
-                  this.firestore.updateCamposDoc(this.usuarios.perfil, 'Usuarios', id, 'perfil');
-                  this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
-                  this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
-                  this.alerta = true;
+        if (this.usuarios.perfil != 'general' || this.usuarios.plan != undefined) {
+          this.plan = this.usuarios.plan;
+          this.estadoPago = this.usuarios.estadoPago;
+          this.tipoPlan = this.usuarios.tipoPlan;
+          const fecha = new Date(); //fecha actual 
+          console.log(this.usuarios.fechaFin <= fecha.toLocaleDateString());
+          this.fechaFin = this.usuarios.fechaFin.split('/'); // Fecha de corte de subscripcion 
+          console.log(this.fechaFin);
+          if (this.usuarios.fechaInicio == fecha.toLocaleDateString() && this.estadoPago == false) {
+            this.metodoPago = true;
+          }
+          if (this.usuarios.estadoPago == false && this.usuarios.fechaInicio == fecha.toLocaleDateString()) {
+            this.consultarEstadoPago();
+          }
+          console.log(this.plan);
+          if (this.plan.indexOf('MENSUALES') != -1) {
+            //Si la fecha del día de hoy es mayor o igual que el día del corte de subscripcion
+            if (fecha.getDate() >= parseInt(this.fechaFin[0])) {
+              // Si el mes actual es mayor o igual al mes de corte 
+              if ((fecha.getMonth() + 1) >= parseInt(this.fechaFin[1])) {
+                //Si el año actual es igual al año de corte y el estado de pago del usuario es true
+                if (fecha.getFullYear() == parseInt(this.fechaFin[2]) && this.usuarios.estadoPago == true) {
+                  if (this.alerta == false) {
+                    Swal.fire('Subscripción vencida', 'Debes actualizarla', 'info');
+                    this.usuarios.perfil = 'general';
+                    this.usuarios.estadoPago = false;
+                    this.firestore.updateCamposDoc(this.usuarios.perfil, 'Usuarios', id, 'perfil');
+                    this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
+                    this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
+                    this.alerta = true;
+                  }
                 }
               }
+              this.rol = res.perfil;
+            } else {
+              this.rol = res.perfil;
             }
-            this.rol = res.perfil;
-          } else {
-            this.rol = res.perfil;
-          }
-        } else if (this.plan == 'ANUAL') {
-          if (fecha.getDate() >= parseInt(this.fechaFin[0])) {
-            // Si el mes actual es mayor o igual al mes de corte 
-            if ((fecha.getMonth() + 1) >= parseInt(this.fechaFin[1])) {
-              //Si el año actual es igual al año de corte y el estado de pago del usuario es true
-              if (fecha.getFullYear() >= parseInt(this.fechaFin[2]) && this.usuarios.estadoPago == true) {
-                if (this.alerta == false) {
-                  alert('Tu subscripción esta vencida');
-                  this.usuarios.perfil = 'general';
-                  this.usuarios.estadoPago = false;
-                  this.firestore.updateCamposDoc(this.usuarios.perfil, 'Usuarios', id, 'perfil');
-                  this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
-                  //this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
-                  this.alerta = true;
+          } else if (this.plan == 'ANUAL') {
+            if (fecha.getDate() >= parseInt(this.fechaFin[0])) {
+              // Si el mes actual es mayor o igual al mes de corte 
+              if ((fecha.getMonth() + 1) >= parseInt(this.fechaFin[1])) {
+                //Si el año actual es igual al año de corte y el estado de pago del usuario es true
+                if (fecha.getFullYear() >= parseInt(this.fechaFin[2]) && this.usuarios.estadoPago == true) {
+                  if (this.alerta == false) {
+                    Swal.fire('Subscripción vencida', 'Debes actualizarla', 'info');
+                    this.usuarios.perfil = 'general';
+                    this.usuarios.estadoPago = false;
+                    this.firestore.updateCamposDoc(this.usuarios.perfil, 'Usuarios', id, 'perfil');
+                    this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
+                    //this.firestore.updateCamposDoc(this.usuarios.estadoPago, 'Usuarios', id, 'estadoPago');
+                    this.alerta = true;
+                  }
                 }
               }
+              this.rol = res.perfil;
+            } else {
+              this.rol = res.perfil;
             }
-            this.rol = res.perfil;
-          } else {
-            this.rol = res.perfil;
           }
-        }
-       
 
-        //Se verifica si el usuario tiene su subscripcion al dia 
-        if (res.plan != 'general' && res.perfil == 'general') {
-          this.subscripcion = false;
-          this.plan = res.plan;
-          this.tipoPlan = res.tipoPlan;
+
+          //Se verifica si el usuario tiene su subscripcion al dia 
+          if (res.plan != 'general' && res.perfil == 'general') {
+            this.subscripcion = false;
+            this.plan = res.plan;
+            this.tipoPlan = res.tipoPlan;
+          } else {
+            this.subscripcion = true;
+          }
         } else {
-          this.subscripcion = true;
+          this.rol = this.usuarios.perfil;
         }
-
-        // this.firestore.getCollection<TablaBusqueda>('Busqueda').subscribe(res => {
-        //   if (res === undefined) {
-        //     //Guardar lista de servicios y profesiones para las busquedas
-        //     this.firestore.getCollection<Empresa>('Empresas').subscribe(res => {
-        //       if (res) {
-        //         this.empresa = res;
-        //         for (let index = 0; index < this.empresa.length; index++) {
-        //           const services = this.empresa[index].servicios.split(', ');
-        //           for (let i = 0; i < services.length; i++) {
-        //             const uid = Math.random().toString(9).substring(2);
-        //             const ser = services[i].toString();
-        //             this.tablaBusqueda.servicios = services[i];
-        //             this.tablaBusqueda.idUser = this.empresa[index].id;
-        //             this.tablaBusqueda.path = 'Empresas';
-        //             this.firestore.createDoc(this.tablaBusqueda, 'Busqueda', uid);
-        //           }
-        //         }
-
-        //         this.firestore.getCollection<Independiente>('Independiente').subscribe(res => {
-        //           if (res) {
-        //             this.independiente = res;
-        //             for (let j = 0; j < this.independiente.length; j++) {
-        //               const uid = Math.random().toString(9).substring(2);
-        //               this.tablaBusqueda.servicios = this.independiente[j].profesion;
-        //               this.tablaBusqueda.idUser = this.independiente[j].id;
-        //               this.tablaBusqueda.path = 'Independiente';
-        //               this.firestore.createDoc(this.tablaBusqueda, 'Busqueda', uid);
-
-        //               const service = this.independiente[j].servicios.split(',');
-        //               for (let k = 0; k < service.length; k++) {
-        //                 const uid = Math.random().toString(9).substring(2);
-        //                 this.tablaBusqueda.servicios = service[k];
-        //                 this.tablaBusqueda.idUser = this.independiente[j].id;
-        //                 this.tablaBusqueda.path = 'Independiente';
-        //                 this.firestore.createDoc(this.tablaBusqueda, 'Busqueda', uid);
-        //               }
-        //             }
-        //           }
-        //         })
-        //       }
-        //     })
-        //   } else {
-        //     console.log('Lista de busqueda completa');
-        //   }
-        // })
 
       }
     })
+  }
+
+
+  consultarEstadoPago() {
+    this.firestore.getCollection<Pagos>('Pagos').subscribe(res => {
+      if (res) {
+        console.log('Paso Consulta');
+        this.pagos = res;
+        for (let index = 0; index < this.pagos.length; index++) {
+          let fecha = this.pagos[index].fecha.slice(0, -14);
+          const fechaPago = fecha.split('-');
+          fecha = Number(fechaPago[2]) + '/' + Number(fechaPago[1]) + '/' + fechaPago[0];
+          //console.log('FWP' + fecha, 'FUSU' + this.usuarios.fechaInicio, 'RWP' + this.pagos[index].referencia, 'RUSU' + this.usuarios.referencia)
+          if (this.pagos[index].referencia == this.usuarios.referencia && this.pagos[index].status == 'APPROVED' && fecha == this.usuarios.fechaInicio) {
+            Swal.fire('Pago Exitoso', 'Ir al inicio', 'success');
+            this.metodoPago = false;
+            this.firestore.updateCamposDoc(true, 'Usuarios', this.id, 'estadoPago');
+            this.firestore.deleteDoc('Pagos', this.pagos[index].id);
+            // this.firestore.updateCamposDocPago('', 'Pagos', '1');
+          } else if (this.pagos[index].referencia == this.usuarios.referencia && this.pagos[index].status == 'DECLINED' && fecha == this.usuarios.fechaInicio) {
+            Swal.fire('Pago Declinado', 'Intente pagar de nuevo', 'error');
+            this.usuarios.referencia = this.referenciaPago();
+            this.referenciaWompi = this.usuarios.referencia;
+            this.metodoPago = true;
+            this.firestore.updateCamposDoc(this.usuarios.referencia, 'Usuarios', this.id, 'referencia');
+            this.firestore.deleteDoc('Pagos', this.pagos[index].id);
+          }
+        }
+      } else {
+        console.log('Paso la consulta de estado pago');
+      }
+    });
+  }
+
+  //Se obtiene la referencia de pago Wompi
+  referenciaPago() {
+    let result = 'WP';
+    const numeros = '0123456789';
+    for (let i = 0; i < 6; i++) {
+      result += numeros.charAt(Math.floor(Math.random() * numeros.length));
+    }
+    //console.log('Referencia de pago -> ', result)
+    return result;
   }
 }

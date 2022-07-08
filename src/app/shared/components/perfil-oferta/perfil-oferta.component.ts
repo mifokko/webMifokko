@@ -62,6 +62,8 @@ export class PerfilOfertaComponent implements OnInit {
   chat: Comentario[] = [];
   numFotos!: string;
 
+  red: 'vacio' | 'mostrar' | undefined;
+  mostrar: boolean = false;
   editarInfo: boolean = false; //Se encarga de habiliatar y deshabilitar las areas de edición del perfil
 
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
@@ -172,6 +174,7 @@ export class PerfilOfertaComponent implements OnInit {
         //Obteniendo datos de la empresa
         this.firestore.getDoc<Empresa>('Empresas', id).subscribe(res => {
           this.empresa = res;
+          this.mostrar = true;
           console.log(this.empresa?.celular)
         });
 
@@ -181,6 +184,7 @@ export class PerfilOfertaComponent implements OnInit {
           if (res == undefined) {
             console.log('La empresa no a registrado sus redes sociales');
           } else {
+            this.red === 'mostrar'
             this.network = res;
             this.network.whatsapp = this.network.whatsapp.slice(1, this.network.whatsapp.length).replace(/\s+/g, '');
             this.youtubeSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.youtube);
@@ -218,11 +222,11 @@ export class PerfilOfertaComponent implements OnInit {
 
         //Obteniendo informacion de oferta 
         this.firestore.getDocColDoc2<Ofertas>('Empresas', id, 'Ofertas', idOfert).subscribe(res => {
-          console.log(res);
+          //console.log(res);
           if (res) {
             this.oferta = res;
             this.fecha = this.oferta?.fechaFin.day.toString() + '/' + this.oferta?.fechaFin.month.toString() + '/' + this.oferta?.fechaFin.year.toString();
-            console.log(this.oferta);
+            //console.log(this.oferta);
 
             //obtener dirección de almacenamiento imágenes de la galeria y mostrarlas
             this.imagenes = this.oferta.imagenes

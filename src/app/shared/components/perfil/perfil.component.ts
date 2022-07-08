@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Gallery, GalleryItem, ImageItem, ThumbnailsPosition, ThumbnailsView } from 'ng-gallery';
 import { Lightbox } from 'ng-gallery/lightbox';
@@ -8,16 +8,15 @@ import { Redes } from '../../model/redes.model';
 import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
-import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/compat/storage';
-import { finalize, Observable, takeLast } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { finalize, Observable } from 'rxjs';
 import { Perfil } from '../../model/perfil.model';
-import { GaleriaImage, Image } from '../../model/galeria.model';
+import { GaleriaImage} from '../../model/galeria.model';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Comentario } from '../../model/comentario.model';
 import { deleteObject, getStorage, ref } from 'firebase/storage';
-import { Loader } from '@googlemaps/js-api-loader';
-import $ from "jquery";
+
 
 
 @Component({
@@ -269,23 +268,23 @@ export class PerfilComponent implements OnInit {
         const task = this.storage.upload(this.filePath, this.file, metadata); //Funcion de almacenamiento//
         this.uploadPercent = task.percentageChanges(); //Variable que muestra el porcentaje de carga de las imagenes 
         task.snapshotChanges().pipe(finalize(() => this.urlGalery = ref.getDownloadURL())).subscribe(); //Obtiene la URL de referencia de la imagen almacenada
-        console.log('paso');
+        // console.log('paso');
         //En esta seccion se guardan las URL de referencia de las imagenes en la carpeta de Galeria en la Base de Datos 
         await timer(4000);
         task.then(() =>
           this.urlGalery.forEach(async valor => {
-            console.log(valor);
+            // console.log(valor);
             this.refUrl = valor;
           })
         )
         await timer(3000);
         this.imagen[index] = this.refUrl;
         this.refUrl = '';
-        console.log(this.refUrl, this.imagen[index]);
+        // console.log(this.refUrl, this.imagen[index]);
         (await task).state;
       }
       this.index = this.index;
-      console.log(this.index, this.imagen);
+      // console.log(this.index, this.imagen);
       if (this.tipoPlan == 'EMPRESARIALORO') {
         if (galeryImages.length < 10) {
           for (let index = 0; index < this.imagen.length; index++) {
@@ -325,7 +324,7 @@ export class PerfilComponent implements OnInit {
       });
     }
     Swal.fire('Imágenes eliminadas', 'Regresar al perfil', 'success');
-    console.log(this.checksImagenes);
+    // console.log(this.checksImagenes);
   }
 
   agregar(data: string, e: any, index: string) { // Agregamos el elemento
@@ -337,7 +336,7 @@ export class PerfilComponent implements OnInit {
       this.checksImagenes = this.checksImagenes.filter(s => s !== data);
       this.idsImagenes = this.idsImagenes.filter(s => s !== index);
     }
-    console.log(this.checksImagenes);
+    // console.log(this.checksImagenes);
   }
 
 
@@ -414,7 +413,7 @@ export class PerfilComponent implements OnInit {
       if (this.comentarios.nombre == '') {
         this.comentarios.nombre = 'Anónimo';
       }
-      console.log(this.comentarios);
+      // console.log(this.comentarios);
       if (this.coment == 0) {
         this.firestore.createColInDoc(this.comentarios, 'Empresas', this.id, 'Comentarios', this.coment.toString());
         this.coment = this.coment + 1;
@@ -476,11 +475,11 @@ export class PerfilComponent implements OnInit {
           const ciudad = this.empresa.ciudad;
           const departamento = this.empresa.departamento;
           const inputAddress = this.empresa.direccion + ' ' + ciudad + ' ' + departamento;
-          console.log(inputAddress);
+          // console.log(inputAddress);
           geocoder.geocode({ 'address': inputAddress }, (results, status) => {
-            console.log(this.ubicacion);
+            // console.log(this.ubicacion);
             if (status === google.maps.GeocoderStatus.OK) {
-              console.log(results);
+              // console.log(results);
               if (results) {
                 navigator.geolocation.getCurrentPosition((position) => {
                   this.center = {
@@ -503,13 +502,13 @@ export class PerfilComponent implements OnInit {
 
       //Obteniendo las redes sociales de la BD
       this.firestore.getDocColDoc<Redes>('Empresas', id, 'Redes').subscribe(res => {
-        //console.log(res);
+        // console.log(res);
         if (res == undefined) {
           //console.log(res)
           this.red = 'vacio';
           this.mostrar = false;
           this.net = undefined;
-          //console.log(this.red);
+          // console.log('paso');
         } else {
           //console.log('paso');
           this.red = 'mostrar';
@@ -562,7 +561,7 @@ export class PerfilComponent implements OnInit {
         if (res == undefined) {
           this.galeria = false;
           this.gallerys = false;
-          console.log(res);
+          // console.log(res);
         } else {
           if (res.length < 10) {
             this.gallerys = false;
@@ -570,7 +569,7 @@ export class PerfilComponent implements OnInit {
             this.gallerys = true;
           }
           this.imagenes = res;
-          console.log(res);
+          // console.log(res);
           for (let index = 0; index < this.imagenes.length; index++) {
             galeryImages[index] = {
               srcUrl: this.imagenes[index].IMG,
@@ -595,7 +594,7 @@ export class PerfilComponent implements OnInit {
             if (res) {
               this.index = parseInt(res?.NumFotos);
             }
-            console.log(this.index);
+            // console.log(this.index);
           });
         }
 
@@ -634,7 +633,7 @@ export class PerfilComponent implements OnInit {
 
   async redesSocialesR() {
     this.mostrar = false;
-    console.log(this.redes);
+    // console.log(this.redes);
     if (this.redes) {
       try {
         let path = 'Empresas';
@@ -659,7 +658,7 @@ export class PerfilComponent implements OnInit {
   //Funcion que muestra las areas para editar la informacion del perfil
   editarPerfil() {
     this.editarInfo = !this.editarInfo;
-    console.log(this.editarInfo);
+    // console.log(this.editarInfo);
   }
 
   //Funcion que guarada en la base de datos la informacion editada del perfil 

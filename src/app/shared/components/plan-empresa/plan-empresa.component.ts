@@ -23,6 +23,7 @@ export class PlanEmpresaComponent implements OnInit {
     const modalRef = this.modalService.open(RegisterComponent, {backdrop: 'static'});
     modalRef.componentInstance.passedData = tipoPlan;
     modalRef.componentInstance.precioPlan = e;
+    modalRef.componentInstance.pagos = numPagos;
   }
 
 

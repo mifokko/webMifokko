@@ -38,14 +38,13 @@ export class DataService {
     }
 
 
-    async onSaveEmpresa (empresaForm: Empresa, data2: any, id: string): Promise<void> {
+    async onSaveEmpresa (empresaForm: Empresa, id: string): Promise<void> {
         return new Promise(async (resolve, reject) => {
             try {
                 const rol = 'empresa';
                 const data = {id,rol,...empresaForm};
                 const result = this.empresaCollection.doc(id).set(data);
                 resolve(result);
-                await this.empresaCollection.doc(id).collection('User').doc(id).set(data2);
             } catch (error) {
                 reject(error);
             }

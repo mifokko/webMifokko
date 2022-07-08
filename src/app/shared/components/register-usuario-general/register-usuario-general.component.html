@@ -113,10 +113,9 @@
             <div class="form-group col-md-6">
               <label for="inputStateDep">Departamento</label>
               <select id="inputStateDep" class="form-control" formControlName="departamento"
-                [class]="isValidField('departamento')">
-                <option selected>Seleccione...</option>
-                <option>Caldas</option>
-                <option>Valle del Cauca</option>
+                [class]="isValidField('departamento')" [(ngModel)]="seleccion" (change)="uploadMunicipios()">
+                <option selected value>Seleccione...</option>
+                <option *ngFor="let dep of departamento">{{dep}}</option>
               </select>
               <div class="invalid-feedback" *ngIf="usuarioForm.get('departamento')?.hasError('required')">
                 Seleccione un departamento.
@@ -127,8 +126,7 @@
               <label for="inputStateCiu">Ciudad</label>
               <select id="inputStateCiu" class="form-control" formControlName="ciudad" [class]="isValidField('ciudad')">
                 <option selected>Seleccione...</option>
-                <option>Andalucia</option>
-                <option>Tuluá</option>
+                <option *ngFor="let mun of municipios">{{mun}}</option>
               </select>
               <div class="invalid-feedback" *ngIf="usuarioForm.get('ciudad')?.hasError('required')">
                 Seleccione una ciudad.

@@ -7,6 +7,7 @@ import { Usuario } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
 import { DataServices } from '../../services/data.service';
 import { Ciudades } from '../../model/ciudades.model';
+import { Pagos } from '../../model/pagos.model';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +20,7 @@ export class RegisterComponent implements OnInit {
   private isNIT = "^([0-9]{0,15}[0-9]{1})?$"; // Validar estructura del NIT
   private isCel = "\(3[0-9]{2}\)[0-9]{3}[0-9]{4}"; //Validar estructura del celular
   private isEmail = /\S+@\S+\.\S+/; // Validar estructura de correo
-  fecha = new Date; // Variable para conocer la fecha actual 
+  fecha = new Date(); // Variable para conocer la fecha actual 
 
   //Datos de plan, # de pagos y precio del plan
   passedData!: string;
@@ -42,6 +43,7 @@ export class RegisterComponent implements OnInit {
   }
 
   fieldTextType: boolean = false; //Ver contraseña
+  pagar: boolean = false; // Se usa para habilitar boton de pago 
 
   ciudades: Ciudades[] = [];
   municipios: string[] = [];
@@ -56,15 +58,6 @@ export class RegisterComponent implements OnInit {
   //Precio del plan a pagar 
   precio!: number;
 
-  //Datos pago con mercadopago
-  datos = {
-    title: 'Empresa',
-    description: `${this.referenciaMercadoPago}`,
-    quantity: 1,
-    currency_id: "COP",
-    unit_price: this.precioPlan
-  }
-
   constructor(public modal: NgbActiveModal, private fb: FormBuilder, private dataSvc: DataService, private afs: AuthService, private data: DataServices) {
     data.getCollection<Ciudades>('Ciudades').subscribe(res => {
       //console.log(res);
@@ -78,15 +71,23 @@ export class RegisterComponent implements OnInit {
 
       this.departamento = this.departamento.sort();
       //this.municipios = this.municipios.sort();
-      console.log(this.departamento);
+      //console.log(this.departamento);
     })
     //console.log(this.municipios);
     this.referenciaWompi = this.referenciaPago();
-    this.referenciaMercadoPago = this.referenciaPagoM();
+    // this.referenciaMercadoPago = this.referenciaPagoM();
+
+    // this.fecha.setMonth(this.fecha.getMonth() + 1);
+    // console.log(this.fecha.toLocaleDateString());
+    
   }
 
   ngOnInit(): void {
     this.initForm();
+    //console.log(this.passedData,this.pagos,this.precioPlan);
+    this.usuario.pago = this.precioPlan;
+    this.usuario.plan = this.pagos;
+    this.usuario.tipoPlan = this.passedData;
   }
 
   //Función que carga los municipios en una lista, según el departamento que se ha seleccionado 
@@ -96,13 +97,13 @@ export class RegisterComponent implements OnInit {
       if (this.seleccion === this.ciudades[index].departamento) {
         this.municipios[index] = this.ciudades[index].municipio
       } else {
-        console.log('paso');
+        //console.log('paso');
       }
     }
 
     this.municipios = this.municipios.filter(Boolean);
     this.municipios = this.municipios.sort();
-    console.log(this.municipios.length);
+    //console.log(this.municipios.length);
   }
 
   //Función que llama a la funcion de almacenamiento y es la encargada de resetear los formularios
@@ -114,7 +115,19 @@ export class RegisterComponent implements OnInit {
         this.empresaForm.reset()
         this.modal.close();
         //Notificación de confirmación
-        Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
+        Swal.fire({
+          title: 'Registro exitoso',
+          icon: 'success',
+          html: 'Ir a realizar el <b>Pago</b> <br> ' +
+          '<form action="https://checkout.wompi.co/p/" method="GET">' + 
+          '<input type="hidden" name="public-key" value="pub_test_pxMGkJMTgaNDNQFwQu6Dq1FoB6u2VN9a" />'+
+          '<input type="hidden" name="currency" value="COP" />' +
+          '<input type="hidden" name="amount-in-cents" value="'+this.precioPlan*100+'" />' +
+          '<input type="hidden" name="reference" value="'+this.referenciaWompi+'" />'+
+          '<input type="hidden" name="redirect-url" value="https://www.mifokko.com" />'+
+          '<button class="btn btn-primary rounded waynox" type="submit"> Paga con <strong>Wompi</strong></button>'
+        })
+        this.pagar = true;
       } catch (e) {
         alert(e);
       }
@@ -132,31 +145,35 @@ export class RegisterComponent implements OnInit {
   //Creacion del Usuario, y almacenamiento de la información de la empresa 
   async registrar() {
     const formValue = this.empresaForm.value;
-    console.log('datos -> ', this.usuario);
+    //console.log(formValue, this.usuario);
+    //console.log('datos -> ', this.usuario.correo);
+    const correo = this.usuario.correo;
     //Creación de cuenta con el correo y contraseña
     const res = await this.afs.register(this.usuario).catch(error => {
       console.log('error');
     });
     if (res) {
       console.log('Exito al crear el usuario');
+      this.usuario.correo = correo;
       const id = res.user!.uid;
       this.usuario.uid = id;
       this.usuario.password = '';
-      this.usuario.referencia = this.referenciaPago();
+      this.usuario.referencia = this.referenciaWompi;
       //Generar fecha de registro de la empresa y fecha de finalizacion de la subscripción
       if (this.usuario.plan == '1MENSUALES') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
-        this.usuario.fechaFin = (this.fecha.getDate() + '/' + (this.fecha.getMonth() + 2) + '/' + this.fecha.getFullYear());
-        console.log(this.usuario.fechaInicio, '-', this.usuario.fechaFin);
+        this.fecha.setMonth(this.fecha.getMonth() + 1);
+        this.usuario.fechaFin = this.fecha.toLocaleDateString();
+        //console.log(this.usuario.fechaInicio, '-', this.usuario.fechaFin);
       } else if (this.usuario.plan == 'ANUAL') {
         this.usuario.fechaInicio = this.fecha.toLocaleDateString();
-        this.fecha.setDate(this.fecha.getFullYear() + 1);
+        this.fecha.setFullYear(this.fecha.getFullYear() + 1);
         this.usuario.fechaFin = this.fecha.toLocaleDateString();
-        console.log(this.usuario.fechaFin);
+        //console.log(this.usuario.fechaFin);
       }
       //Se guarda la información de Usuario de la empresa y se guarda la información de la empresa
       await this.data.createDoc(this.usuario, 'Usuarios', id);
-      await this.dataSvc.onSaveEmpresa(formValue, this.usuario, id);
+      await this.dataSvc.onSaveEmpresa(formValue, id);
     }
   }
 
@@ -186,10 +203,10 @@ export class RegisterComponent implements OnInit {
       contraseña: ['', [Validators.required, Validators.minLength(8)]],
       actividadPrincipal: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
       descripcion: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
-      horaMañanaInicio: [''],
-      horaMañanaFin: [''],
-      horaTardeInicio: [''],
-      horaTardeFin: [''],
+      horaMInicio: [''],
+      horaMFin: [''],
+      horaTInicio: [''],
+      horaTFin: [''],
       domicilio: [''],
       servicios: ['', [Validators.required]],
       informacionAdicional: [''],
@@ -216,19 +233,18 @@ export class RegisterComponent implements OnInit {
     return result;
   }
 
-  referenciaPagoM() {
-    let result = 'MP';
-    const numeros = '0123456789';
-    for (let i = 0; i < 6; i++) {
-      result += numeros.charAt(Math.floor(Math.random() * numeros.length));
-    }
-    console.log('Referencia de pago -> ', result)
-    return result;
-  }
+  // referenciaPagoM() {
+  //   let result = 'MP';
+  //   const numeros = '0123456789';
+  //   for (let i = 0; i < 6; i++) {
+  //     result += numeros.charAt(Math.floor(Math.random() * numeros.length));
+  //   }
+  //   console.log('Referencia de pago -> ', result)
+  //   return result;
+  // }
 
   //Ver contraseña
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
   }
-
 }
