@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EstadisticasOfertaComponent } from './shared/components/estadisticas-oferta/estadisticas-oferta.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 import { PerfilIndependienteComponent } from './shared/components/perfil-independiente/perfil-independiente.component';
 import { PerfilOfertaComponent } from './shared/components/perfil-oferta/perfil-oferta.component';
 import { PerfilComponent } from './shared/components/perfil/perfil.component';
@@ -18,7 +19,7 @@ const routes: Routes = [
   { path: 'perfilOferta/:id', component: PerfilOfertaComponent },
   { path: 'perfilOfertas/:uid/:id', component: PerfilOfertaComponent },
   { path: 'perfilIndependiente/:id', component: PerfilIndependienteComponent },
-  { path: 'estadisticas/:mes/:anio/:id/:idOfert', component: EstadisticasOfertaComponent }
+  { path: 'estadisticas/:mes/:anio/:id/:idOfert', component: EstadisticasOfertaComponent },
 ];
 
 @NgModule({

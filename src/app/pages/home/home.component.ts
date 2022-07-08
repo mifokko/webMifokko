@@ -212,6 +212,7 @@ export class HomeComponent implements OnInit {
     this.firestore.getDoc<Usuario>(path, id).subscribe(res => {
       if (res) {
         this.usuarios = res;
+        this.rol = this.usuarios.perfil
         if (this.usuarios.perfil != 'general' || this.usuarios.plan != undefined) {
           this.plan = this.usuarios.plan;
           this.estadoPago = this.usuarios.estadoPago;
@@ -226,7 +227,7 @@ export class HomeComponent implements OnInit {
           if (this.usuarios.estadoPago == false && this.usuarios.fechaInicio == fecha.toLocaleDateString()) {
             this.consultarEstadoPago();
           }
-          console.log(this.plan);
+          console.log(this.plan, this.rol);
           if (this.plan.indexOf('MENSUALES') != -1) {
             //Si la fecha del día de hoy es mayor o igual que el día del corte de subscripcion
             if (fecha.getDate() >= parseInt(this.fechaFin[0])) {
@@ -245,9 +246,9 @@ export class HomeComponent implements OnInit {
                   }
                 }
               }
-              this.rol = res.perfil;
+              this.rol = this.usuarios.perfil;
             } else {
-              this.rol = res.perfil;
+              this.rol = this.usuarios.perfil;
             }
           } else if (this.plan == 'ANUAL') {
             if (fecha.getDate() >= parseInt(this.fechaFin[0])) {

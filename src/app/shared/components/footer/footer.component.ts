@@ -63,11 +63,11 @@ export class FooterComponent implements OnInit {
 
   // Funcion que llama el modal de Beneficios y lo muestra
   openBeneficios() {
-    this.modalService.open(BeneficiosComponent, { size: 'md', centered: true });
+    this.modalService.open(BeneficiosComponent, { size: 'sm', centered: true });
   }
   // Funcion que llama el modal de Informacion y lo muestra
   openInformacion() {
-    this.modalService.open(InformacionComponent, { size: 'md', centered: true });
+    this.modalService.open(InformacionComponent, { size: 'sm', centered: true });
   }
   // Funcion que se utiliza para consultar y obtener los datos del usuario registrado
   getDatosUser(uid: string) {

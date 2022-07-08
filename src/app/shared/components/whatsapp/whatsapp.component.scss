@@ -1,22 +1,19 @@
 .btn-wsp {
     position: fixed;
-    width: 45px;
-    height: 45px;
-    bottom: 20px;
-    right: 20px;
+    width: 8%;
+    bottom: 10px;
+    right: 8px;
     line-height: 35px;
-    //background: #15f00d;
-    background-image: url(/assets/btn_whatsApp.png);
-    //color: #fff;
-    border-radius: 50px;
-    text-align: center;
-    font-size: 30px;
-    box-shadow: 8px 5px 5px 1px rgba(0,0,0,0.5);
     z-index: 100;
 }
 
-.btn-wsp:hover {
-    text-decoration: none;
-    color: #15f00d;
-    background: #fff;
+@media all and (min-width: 300px) and (max-width: 500px) {
+    .btn-wsp {
+        position: fixed;
+        width: 23%;
+        bottom: 10px;
+        right: 8px;
+        line-height: 35px;
+        z-index: 100;
+    }
 }

@@ -137,18 +137,18 @@ export class SubirOfertaComponent implements OnInit {
         break;
       case 'INDEPENDIENTEORO':
         //Con este paquete se pueden subir 4 fotos para oferta
-        if (e.target.files.length <= 4) {
+        if (e.target.files.length <= 5) {
           this.listaArchivos = e.target.files;
         } else {
-          alert('La cantidad de imágenes que permite su paquete es de 4');
+          alert('La cantidad de imágenes que permite su paquete es de 5');
         }
         break;
       case 'INDEPENDIENTEPLATA':
         //Con este paquete se pueden subir 2 fotos para oferta
-        if (e.target.files.length <= 2) {
+        if (e.target.files.length <= 3) {
           this.listaArchivos = e.target.files;
         } else {
-          alert('La cantidad de imágenes que permite su paquete es de 2');
+          alert('La cantidad de imágenes que permite su paquete es de 3');
         }
         break;
       default:

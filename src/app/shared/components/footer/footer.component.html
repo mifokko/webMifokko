@@ -89,7 +89,7 @@
               </svg> Ofertas</a>
           </li>
           <li class="mb-2">
-            <a class="text-white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            <a class="text-white" [routerLink]="'/terminos-y-condiciones'"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-caret-right" viewBox="0 0 16 16">
                 <path
                   d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
@@ -133,7 +133,7 @@
               </svg> Terminos y condiciones</a>
           </li>
           <li class="mb-2">
-            <a type="button" href="#!" class="text-white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+            <a type="button" [routerLink]="'/terminos-y-condiciones'" class="text-white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                 fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
                 <path
                   d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
@@ -148,13 +148,13 @@
         <h5 class="text-uppercase mb-2 text-center titulo">Contactanos</h5>
         <ul class="list-unstyled">
           <li>
-            <p> Correo: tecnologia@mifokko.com</p>
+            <p> Correo: servicioalcliente@mifokko.com</p>
           </li>
           <li>
             <p> Cel: +57 313 5824488</p>
           </li>
         </ul>
-        <form action="https://formsubmit.co/nataliadiazc@hotmail.com" method="post">
+        <form method="post">
           <div class="form-group mb-1">
             <input type="text" class="form-control"  id="nombre" placeholder="Nombre completo" required [(ngModel)]="contacto.nombre" name="nombre">
           </div>

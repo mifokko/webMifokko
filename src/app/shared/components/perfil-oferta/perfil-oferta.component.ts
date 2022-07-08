@@ -65,6 +65,8 @@ export class PerfilOfertaComponent implements OnInit {
   red: 'vacio' | 'mostrar' | undefined;
   mostrar: boolean = false;
   editarInfo: boolean = false; //Se encarga de habiliatar y deshabilitar las areas de edición del perfil
+  twitterSafe!: SafeUrl;
+  celularG = '';
 
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
     activatedRoute.params.subscribe(prm => {
@@ -72,7 +74,7 @@ export class PerfilOfertaComponent implements OnInit {
       console.log(`El id es: ${prm['id']}`);
       this.idOfert = JSON.stringify(prm['id']).toString();
       this.idOfert = this.idOfert.substring(1, this.idOfert.length - 1);
-      console.log(this.idOfert);
+      //console.log(this.idOfert);
       this.id = JSON.stringify(prm['uid']).toString();
       this.id = this.id.substring(1, this.id.length - 1);
 
@@ -173,9 +175,12 @@ export class PerfilOfertaComponent implements OnInit {
         this.path = 'Empresas';
         //Obteniendo datos de la empresa
         this.firestore.getDoc<Empresa>('Empresas', id).subscribe(res => {
-          this.empresa = res;
-          this.mostrar = true;
-          console.log(this.empresa?.celular)
+          if (res) {
+            this.empresa = res;
+            this.celularG = this.empresa.celular;
+            this.mostrar = true;
+            console.log(this.empresa?.celular)
+          }
         });
 
         //Obteniendo las redes sociales de la BD
@@ -190,6 +195,7 @@ export class PerfilOfertaComponent implements OnInit {
             this.youtubeSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.youtube);
             this.facebookSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.facebook);
             this.instagramSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.instagram);
+            this.twitterSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.twitter);
             //console.log(this.network.whatsapp);
           }
         });
@@ -233,7 +239,7 @@ export class PerfilOfertaComponent implements OnInit {
             //console.log(this.imagenes);
             if (this.imagenes.length < 5) {
               this.galeria = false;
-            }else if (this.imagenes.length == 5) {
+            } else if (this.imagenes.length == 5) {
               this.galeria = true;
             }
             for (let index = 0; index < this.imagenes.length; index++) {
@@ -253,21 +259,31 @@ export class PerfilOfertaComponent implements OnInit {
           console.log(this.chat);
         })
 
-      //Obteniendo datos de la oferta si el usuario es un independiente
+        //Obteniendo datos de la oferta si el usuario es un independiente
       } else if (this.rol == 'independiente') {
         this.path = 'Independiente';
         console.log('paso ' + idOfert);
         this.firestore.getDoc<Independiente>('Independiente', id).subscribe(res => {
-          this.independiente = res;
+          if (res) {
+            this.independiente = res;
+            this.mostrar = true;
+            this.celularG = this.independiente.celular;
+          }
+
         });
         this.firestore.getDocColDoc<Redes>('Independiente', id, 'Redes').subscribe(res => {
+          console.log(res);
           if (res == undefined) {
             console.log(res)
           } else {
+            console.log('paso a redes');
+            this.red = 'mostrar';
             this.network = res;
+            console.log(this.independiente?.celular);
             this.youtubeSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.youtube);
             this.facebookSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.facebook);
             this.instagramSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.instagram);
+            this.twitterSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.twitter);
           }
         });
 
@@ -303,15 +319,18 @@ export class PerfilOfertaComponent implements OnInit {
             //console.log(this.oferta);
 
             //obtener dirección de almacenamiento imágenes de la galeria y mostrarlas
-            this.imagenes = this.oferta.imagenes
-            console.log(this.imagenes);
-            for (let index = 0; index < this.imagenes.length; index++) {
-              galeryImages[index] = {
-                srcUrl: this.imagenes[index],
-                previewUrl: this.imagenes[index]
-              };
+            if (this.oferta.imagenes != undefined) {
+              this.imagenes = this.oferta.imagenes
+              console.log(this.imagenes);
+              for (let index = 0; index < this.imagenes.length; index++) {
+                galeryImages[index] = {
+                  srcUrl: this.imagenes[index],
+                  previewUrl: this.imagenes[index]
+                };
 
+              }
             }
+
           }
         })
 

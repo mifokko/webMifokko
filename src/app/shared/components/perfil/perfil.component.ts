@@ -37,7 +37,8 @@ export class PerfilComponent implements OnInit {
     youtube: '',
     instagram: '',
     whatsapp: '',
-    facebook: ''
+    facebook: '',
+    twitter: ''
   }
 
   //Esta estructura se usa para conocer y validar que campos de redes sociales no se han llenado
@@ -45,7 +46,8 @@ export class PerfilComponent implements OnInit {
     youtube: '',
     instagram: '',
     whatsapp: '',
-    facebook: ''
+    facebook: '',
+    twitter: '',
   }
 
   //Estructura para almacenar los comentarios
@@ -79,6 +81,7 @@ export class PerfilComponent implements OnInit {
   youtubeSafe!: SafeUrl; //Variable que contiene el link de youtube del usuario a mostrar
   facebookSafe!: SafeUrl; //Variable que contiene el link de fecebook del usuario a mostrar
   instagramSafe!: SafeUrl; //Variable que contiene el link de instagram del usuario a mostrar
+  twitterSafe!: SafeUrl; //Variable que contiene el link de instagram del usuario a mostrar
 
   fotoP: boolean = false; //Nos dice si hay o no en la base de datos imagen de perfil de la empresa
   fotoPor: boolean = false; //Nos dice si hay o no en la base de datos imagen de portada de la empresa
@@ -396,6 +399,9 @@ export class PerfilComponent implements OnInit {
       if (this.redes.whatsapp != '') {
         this.firestore.updateCamposDocCollDoc(this.redes.whatsapp, path, this.id, 'Redes', 'whatsapp');
       }
+      if (this.redes.twitter != '') {
+        this.firestore.updateCamposDocCollDoc(this.redes.twitter, path, this.id, 'Redes', 'twitter');
+      }
       Swal.fire('Redes Actualizadas', 'Regresa al perfil', 'success');
     } catch (error) {
       Swal.fire(
@@ -514,12 +520,13 @@ export class PerfilComponent implements OnInit {
           this.red = 'mostrar';
           //console.log(res);
           this.network = res;
-          if (!this.network.facebook.length || !this.network.instagram.length || !this.network.whatsapp.length || !this.network.youtube.length) {
+          if (!this.network.facebook.length || !this.network.instagram.length || !this.network.whatsapp.length || !this.network.youtube.length || !this.network.twitter.length) {
             this.net = 'save';
             this.networks.facebook = this.network.facebook;
             this.networks.youtube = this.network.youtube;
             this.networks.instagram = this.network.instagram;
-            this.networks.whatsapp = this.network.whatsapp
+            this.networks.whatsapp = this.network.whatsapp;
+            this.networks.twitter = this.network.twitter;
           } else {
             this.net = undefined;
           }
@@ -527,6 +534,7 @@ export class PerfilComponent implements OnInit {
           this.youtubeSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.youtube);
           this.facebookSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.facebook);
           this.instagramSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.instagram);
+          this.twitterSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.twitter);
         }
       });
 

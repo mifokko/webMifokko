@@ -37,7 +37,8 @@ export class PerfilIndependienteComponent implements OnInit {
     youtube: '',
     instagram: '',
     whatsapp: '',
-    facebook: ''
+    facebook: '',
+    twitter: ''
   }
 
   //Esta estructura se usa para conocer y validar que campos de redes sociales no se han llenado
@@ -45,7 +46,8 @@ export class PerfilIndependienteComponent implements OnInit {
     youtube: '',
     instagram: '',
     whatsapp: '',
-    facebook: ''
+    facebook: '',
+    twitter: ''
   }
 
   //Estructura para almacenar los comentarios
@@ -79,6 +81,7 @@ export class PerfilIndependienteComponent implements OnInit {
   youtubeSafe!: SafeUrl; //Variable que contiene el link de youtube del usuario a mostrar
   facebookSafe!: SafeUrl; //Variable que contiene el link de fecebook del usuario a mostrar
   instagramSafe!: SafeUrl; //Variable que contiene el link de instagram del usuario a mostrar
+  twitterSafe!: SafeUrl; //Variable que contiene el link de twitter del usuario a mostrar
 
   fotoP: boolean = false; //Nos dice si hay o no en la base de datos imagen de perfil de la empresa
   fotoPor: boolean = false; //Nos dice si hay o no en la base de datos imagen de portada de la empresa
@@ -122,6 +125,7 @@ export class PerfilIndependienteComponent implements OnInit {
   map!: google.maps.Map; // Variable que inicializa el maps
   zoom!: number; //Zoom del maps
   center!: google.maps.LatLngLiteral; // Lat y Lng del mapa 
+  ubicacion: boolean = false; //Variable para mostrar spinner
 
 
   constructor(private sanitizer: DomSanitizer, private authService: AuthService, private firestore: DataServices, public gallery: Gallery, public lightbox: Lightbox, private storage: AngularFireStorage, private activatedRoute: ActivatedRoute) {
@@ -186,17 +190,6 @@ export class PerfilIndependienteComponent implements OnInit {
     lightboxRef.load(this.items);
   }
 
-  //Cargar Maps
-  ubicacion(lat: string, lng: string) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.center = {
-        lat: parseFloat(lat),
-        lng: parseFloat(lng),
-      }
-    })
-    console.log(this.center);
-  }
-
   //Cargar Imagen de Perfil
   onUpload(e: any) {
     const id = Math.random().toString(36).substring(2);
@@ -252,18 +245,18 @@ export class PerfilIndependienteComponent implements OnInit {
     switch (this.tipoPlan) {
       case 'INDEPENDIENTEORO':
         //Con este paquete se pueden subir 5 fotos para oferta
-        if (e.target.files.length <= 7 && galeryImages.length < 7 && (e.target.files.length + galeryImages.length) <= 7) {
+        if (e.target.files.length <= 10 && galeryImages.length < 10 && (e.target.files.length + galeryImages.length) <= 10) {
           this.listaArchivos = e.target.files;
         } else {
-          alert('La cantidad de imágenes que permite su paquete es de 7, aún puede subir ' + (7 - galeryImages.length) + ' imágenes');
+          alert('La cantidad de imágenes que permite su paquete es de 10, aún puede subir ' + (10 - galeryImages.length) + ' imágenes');
         }
         break;
       case 'INDEPENDIENTEPLATA':
         //Con este paquete se pueden subir 3 fotos para oferta
-        if (e.target.files.length <= 4 && galeryImages.length < 4 && (e.target.files.length + galeryImages.length) <= 4) {
+        if (e.target.files.length <= 6 && galeryImages.length < 6 && (e.target.files.length + galeryImages.length) <= 6) {
           this.listaArchivos = e.target.files;
         } else {
-          alert('La cantidad de imágenes que permite su paquete es de 4, aún puede subir ' + (4 - galeryImages.length) + ' imágenes');
+          alert('La cantidad de imágenes que permite su paquete es de 6, aún puede subir ' + (6 - galeryImages.length) + ' imágenes');
         }
         break;
       default:
@@ -311,7 +304,7 @@ export class PerfilIndependienteComponent implements OnInit {
             this.firestore.updateCamposDocCollDoc2(this.index.toString(), 'Independiente', this.id, 'Galeria', this.index.toString(), 'uid');
             this.index++;
           }
-        } else if (galeryImages.length >= 7) {
+        } else if (galeryImages.length >= 10) {
           alert('No se pueden subir más imágenes');
         }
       } else if (this.tipoPlan == 'INDEPENDIENTEPLATA') {
@@ -322,7 +315,7 @@ export class PerfilIndependienteComponent implements OnInit {
             this.firestore.updateCamposDocCollDoc2(this.index.toString(), 'Independiente', this.id, 'Galeria', this.index.toString(), 'uid');
             this.index++;
           }
-        } else if (galeryImages.length >= 4) {
+        } else if (galeryImages.length >= 6) {
           alert('No se pueden subir más imágenes');
         }
       }
@@ -418,6 +411,9 @@ export class PerfilIndependienteComponent implements OnInit {
       if (this.redes.whatsapp != '') {
         this.firestore.updateCamposDocCollDoc(this.redes.whatsapp, path, this.id, 'Redes', 'whatsapp');
       }
+      if (this.redes.twitter != '') {
+        this.firestore.updateCamposDocCollDoc(this.redes.twitter, path, this.id, 'Redes', 'twitter');
+      }
       Swal.fire('Redes Actualizadas', 'Regresa al perfil', 'success');
     } catch (error) {
       Swal.fire(
@@ -493,49 +489,65 @@ export class PerfilIndependienteComponent implements OnInit {
 
         //Cargar direcciones en maps
         if (this.independiente) {
-          if (!this.independiente.direccion.length) {
-            const geocoder = new google.maps.Geocoder();
-            const ciudad = this.independiente.ciudad;
-            const departamento = this.independiente.departamento;
-            const inputAddress = this.independiente.direccion + ' ' + ciudad + ' ' + departamento;
-            console.log(inputAddress);
-            geocoder.geocode({ 'address': inputAddress }, (results, status) => {
-
-              if (status === google.maps.GeocoderStatus.OK) {
-                console.log(results);
-                if (results) {
-                  this.ubicacion(results[0].geometry.location.lat().toString(), results[0].geometry.location.lng().toString());
-                }
-              } else {
-                alert('La localización no fue satisfactoria por la siguiente razón: ' + status);
+          this.ubicacion = false;
+          const geocoder = new google.maps.Geocoder();
+          const ciudad = this.independiente.ciudad;
+          const departamento = this.independiente.departamento;
+          const inputAddress = this.independiente.direccion + ' ' + ciudad + ' ' + departamento;
+          // console.log(inputAddress);
+          geocoder.geocode({ 'address': inputAddress }, (results, status) => {
+            // console.log(this.ubicacion);
+            if (status === google.maps.GeocoderStatus.OK) {
+              // console.log(results);
+              if (results) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                  this.center = {
+                    lat: results[0].geometry.location.lat(),
+                    lng: results[0].geometry.location.lng(),
+                  }
+                })
               }
+              this.ubicacion = true;
+            } else {
+              alert('La localización no fue satisfactoria por la siguiente razón: ' + status);
+            }
 
-              //console.log(vMarket);
-            });
             //console.log(vMarket);
-          }
+          });
+          //console.log(vMarket);
+
         }
 
       });
       //Obteniendo las redes sociales de la BD
       this.firestore.getDocColDoc<Redes>('Independiente', id, 'Redes').subscribe(res => {
+        // console.log(res);
         if (res == undefined) {
           //console.log(res)
           this.red = 'vacio';
           this.mostrar = false;
-          //console.log(this.red);
+          this.net = undefined;
+          // console.log('paso');
         } else {
           //console.log('paso');
           this.red = 'mostrar';
           //console.log(res);
           this.network = res;
-          if (!this.network.facebook.length || !this.network.instagram.length || !this.network.whatsapp.length || !this.network.youtube.length) {
+          if (!this.network.facebook.length || !this.network.instagram.length || !this.network.whatsapp.length || !this.network.youtube.length || !this.network.twitter.length) {
             this.net = 'save';
+            this.networks.facebook = this.network.facebook;
+            this.networks.youtube = this.network.youtube;
+            this.networks.instagram = this.network.instagram;
+            this.networks.whatsapp = this.network.whatsapp;
+            this.networks.twitter = this.network.twitter;
+          } else {
+            this.net = undefined;
           }
           this.network.whatsapp = this.network.whatsapp.slice(1, this.network.whatsapp.length).replace(/\s+/g, '');
           this.youtubeSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.youtube);
           this.facebookSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.facebook);
           this.instagramSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.instagram);
+          this.twitterSafe = this.sanitizer.bypassSecurityTrustUrl(this.network.twitter);
         }
       });
 
@@ -609,15 +621,15 @@ export class PerfilIndependienteComponent implements OnInit {
         this.galeria = true;
 
         if (this.tipoPlan == 'INDEPENDIENTEORO') {
-          if (galeryImages.length < 7) {
+          if (galeryImages.length < 10) {
             this.gallerys = false;
-          } else if (galeryImages.length == 7) {
+          } else if (galeryImages.length == 10) {
             this.gallerys = true;
           }
         } else if (this.tipoPlan == 'INDEPENDIENTEPLATA') {
-          if (galeryImages.length < 4) {
+          if (galeryImages.length < 6) {
             this.gallerys = false;
-          } else if (galeryImages.length == 4) {
+          } else if (galeryImages.length == 6) {
             this.gallerys = true;
           }
         }

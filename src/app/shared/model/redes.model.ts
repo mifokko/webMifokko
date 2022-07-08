@@ -6,4 +6,5 @@ export interface Redes {
     facebook: string,
     instagram: string,
     whatsapp: string,
+    twitter: string
 }

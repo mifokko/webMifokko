@@ -69,15 +69,19 @@ export class HeaderComponent implements OnInit {
   }
 
   openBeneficios() {
-    this.modalService.open(BeneficiosComponent, {size: 'md', centered: true, backdrop: 'static'});
+    this.modalService.open(BeneficiosComponent, {size: 'sm', centered: true});
   }
 
   openInformacion() {
-    this.modalService.open(InformacionComponent,{size: 'md', centered: true, backdrop: 'static'});
+    this.modalService.open(InformacionComponent,{size: 'sm', centered: true});
   }
 
   openLogin( ){
     this.modalService.open(LoginComponent, {size: 'sm', centered: true});
+  }
+
+  reportarproblema( ){
+    window.scrollTo(0, document.body.scrollHeight);
   }
 
   Salir(){
