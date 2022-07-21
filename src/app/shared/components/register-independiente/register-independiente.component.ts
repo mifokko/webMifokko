@@ -54,8 +54,11 @@ export class RegisterIndependienteComponent implements OnInit {
   departamentos: string[] = []; //Lista de los departamentos de Colombia 
   departamento: string[] = [];
 
+  listaComunidades: string[] = ['Afro (negro, mulato)', 'Poblacion LGBTI+', 'Madres cabeza de familia', 'Población desplazada', 'Adulto Mayor', 'Indígenas', 'Gitanos', 'Raizal (San Andrés y Providencia)', 'Otro']; 
   //Referencias de pago 
   referenciaWompi = '';
+
+  discapacidad: boolean = false;
 
   constructor(private fb: FormBuilder, private dataSvc: DataService1, config: NgbDatepickerConfig, public modal: NgbActiveModal, private data: DataServices, private storage: AngularFireStorage, private afs: AuthService) {
     data.getCollection<Ciudades>('Ciudades').subscribe(res => {
@@ -75,6 +78,7 @@ export class RegisterIndependienteComponent implements OnInit {
     config.maxDate = { year: 2022, month: 12, day: 31 };
     //Referencias de pago
     this.referenciaWompi = this.referenciaPago();
+    //this.listaComunidades.sort();
   }
 
   ngOnInit(): void {
@@ -82,6 +86,7 @@ export class RegisterIndependienteComponent implements OnInit {
     this.usuario.pago = this.precioPlan;
     this.usuario.plan = this.pagos;
     this.usuario.tipoPlan = this.passedData;
+    console.log(this.discapacidad);
   }
 
   //Función que carga los municipios en una lista, según el departamento que se ha seleccionado 
@@ -125,7 +130,7 @@ export class RegisterIndependienteComponent implements OnInit {
           icon: 'success',
           html: 'Ir a realizar el <b>Pago</b> <br> ' +
           '<form action="https://checkout.wompi.co/p/" method="GET">' + 
-          '<input type="hidden" name="public-key" value="pub_test_pxMGkJMTgaNDNQFwQu6Dq1FoB6u2VN9a" />'+
+          '<input type="hidden" name="public-key" value="pub_prod_ZzTFAcflAIrOqJjbnqSixGFUnF36fefa" />'+
           '<input type="hidden" name="currency" value="COP" />' +
           '<input type="hidden" name="amount-in-cents" value="'+this.precioPlan*100+'" />' +
           '<input type="hidden" name="reference" value="'+this.referenciaWompi+'" />'+
@@ -203,6 +208,8 @@ export class RegisterIndependienteComponent implements OnInit {
       tipoDocumento: ['', [Validators.required]],
       fotoDoc: ['', [Validators.required]],
       fechanacimiento: [''],
+      comunidad: ['', [Validators.required]],
+      discapacidad: ['', [Validators.required]],
       profesion: ['', [Validators.required]],
       departamento: ['', [Validators.required]],
       ciudad: ['', [Validators.required]],

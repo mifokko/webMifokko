@@ -120,13 +120,14 @@ export class RegisterComponent implements OnInit {
           icon: 'success',
           html: 'Ir a realizar el <b>Pago</b> <br> ' +
           '<form action="https://checkout.wompi.co/p/" method="GET">' + 
-          '<input type="hidden" name="public-key" value="pub_test_pxMGkJMTgaNDNQFwQu6Dq1FoB6u2VN9a" />'+
+          '<input type="hidden" name="public-key" value="pub_prod_ZzTFAcflAIrOqJjbnqSixGFUnF36fefa" />'+
           '<input type="hidden" name="currency" value="COP" />' +
           '<input type="hidden" name="amount-in-cents" value="'+this.precioPlan*100+'" />' +
           '<input type="hidden" name="reference" value="'+this.referenciaWompi+'" />'+
           '<input type="hidden" name="redirect-url" value="https://www.mifokko.com" />'+
           '<button class="btn btn-primary rounded waynox" type="submit"> Paga con <strong>Wompi</strong></button>'
-        })
+        }) 
+
         this.pagar = true;
       } catch (e) {
         alert(e);

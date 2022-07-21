@@ -1,0 +1,29 @@
+.bg-primary {
+    background-image: url(https://github.com/mifokko/webMifokko/blob/master/src/assets/FondoAmarillo.jpg?raw=true);
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-blanco {
+    background-image: url(https://github.com/mifokko/webMifokko/blob/master/src/assets/FondoBlanco.jpg?raw=true);
+    background-size: cover;
+    background-position: center;
+}
+
+//---------------------------------------------------------------------------------------------
+// Tipografia
+//---------------------------------------------------------------------------------------------
+.titulo {
+    font-family: 'Geometos';
+    color: white;
+  }
+  
+  @font-face {
+    font-family: 'Geometos';
+    src: url(/src/app/fonts/Geometos.ttf) format('truetype');  
+  }
+  
+  .terminos h4 {
+    font-family: 'Geometos';
+    color: #444242;
+  }

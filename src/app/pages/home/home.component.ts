@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { InfosocialComponent } from 'src/app/shared/components/infosocial/infosocial.component';
 import { PlanEmpresaComponent } from 'src/app/shared/components/plan-empresa/plan-empresa.component';
 import { PlanIndependienteComponent } from 'src/app/shared/components/plan-independiente/plan-independiente.component';
 import { RegisterUsuarioGeneralComponent } from 'src/app/shared/components/register-usuario-general/register-usuario-general.component';
@@ -73,6 +74,7 @@ export class HomeComponent implements OnInit {
       } else {
         //console.log('No esta logeado');
         this.login = false;
+        //this.openInfoSocial();
       }
     });
 
@@ -123,6 +125,11 @@ export class HomeComponent implements OnInit {
     modalRef.componentInstance.pago = this.usuarios.pago;
     modalRef.componentInstance.referencia = this.referenciaWompi;
     this.firestore.updateCamposDoc(this.referenciaWompi, 'Usuarios', this.id, 'referencia');
+  }
+
+  // Abrir modal informacion social
+  openInfoSocial() {
+    this.modalService.open(InfosocialComponent, {size: 'md', centered: true});
   }
 
   //Estado de subscripción 

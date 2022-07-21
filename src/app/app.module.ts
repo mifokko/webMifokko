@@ -45,6 +45,8 @@ import { FooterModule } from './shared/components/footer/footer.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { SubscripcionModule } from './shared/components/subscripcion/subscripcion.module';
+import { InfosocialComponent } from './shared/components/infosocial/infosocial.component';
+import { SocialComponent } from './shared/components/social/social.component';
 
 
 @NgModule({
@@ -65,6 +67,8 @@ import { SubscripcionModule } from './shared/components/subscripcion/subscripcio
     PerfilOfertaComponent,
     PerfilIndependienteComponent,
     EstadisticasOfertaComponent,
+    InfosocialComponent,
+    SocialComponent,
   ],
   imports: [
     BrowserModule,

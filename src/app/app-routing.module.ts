@@ -5,6 +5,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { PerfilIndependienteComponent } from './shared/components/perfil-independiente/perfil-independiente.component';
 import { PerfilOfertaComponent } from './shared/components/perfil-oferta/perfil-oferta.component';
 import { PerfilComponent } from './shared/components/perfil/perfil.component';
+import { SocialComponent } from './shared/components/social/social.component';
 import { VerOfertasComponent } from './shared/components/ver-ofertas/ver-ofertas.component';
 
 
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'perfilOfertas/:uid/:id', component: PerfilOfertaComponent },
   { path: 'perfilIndependiente/:id', component: PerfilIndependienteComponent },
   { path: 'estadisticas/:mes/:anio/:id/:idOfert', component: EstadisticasOfertaComponent },
+  { path: 'mifokkoSocial', component: SocialComponent},
 ];
 
 @NgModule({

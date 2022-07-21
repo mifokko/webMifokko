@@ -77,6 +77,41 @@
               Por favor ingrese fecha de nacimiento.
             </div>
           </div>
+          <!-- Comunidades y discapacidad -->
+          <div class="row g-3 p-1">
+            <div class="row mt-3">
+              <div class="form-group col-md-5">
+                <label for="">A que comunidad perteneces: </label>
+              </div>
+              <div class="form-group col">
+                <select id="inputStateComunidad" class="form-control" formControlName="comunidad"
+                  [class]="isValidField('comunidad')">
+                  <option selected>Seleccione...</option>
+                  <option *ngFor="let comunidad of listaComunidades">{{comunidad}}</option>
+                </select>
+                <div class="invalid-feedback" *ngIf="independienteForm.get('comunidad')?.hasError('required')">
+                  Seleccione una comunidad.
+                </div>
+              </div>
+            </div>
+            <!-- Discapacidad -->
+            <div class="row mt-2">
+              <div class="form-group col-md-6 col-sx-6">
+                <label class="mr-1">Tiene alguna discapacidad:</label>
+              </div>
+              <div class="form-group col-md-6">
+                <select id="inputStateDiscapacidad" class="form-control" formControlName="discapacidad"
+                  [class]="isValidField('discapacidad')">
+                  <option selected>Seleccione...</option>
+                  <option>Si</option>
+                  <option>No</option>
+                </select>
+                <div class="invalid-feedback" *ngIf="independienteForm.get('discapacidad')?.hasError('required')">
+                  Seleccione una opción.
+                </div>
+              </div>
+            </div>
+          </div>
           <!-- Profesón -->
           <div class="form-group p-1">
             <input type="text" class="form-control" placeholder="Profesión" formControlName="profesion"
@@ -189,7 +224,8 @@
               Por favor ingrese la descripción.
             </div>
             <div class="invalid-feedback" *ngIf="independienteForm.get('descripcion')?.hasError('minlength')">
-              Debe ser mayor a {{independienteForm.get('descripcion')?.errors?.['minlength'].requiredLength}} caracteres
+              Debe ser mayor a {{independienteForm.get('descripcion')?.errors?.['minlength'].requiredLength}}
+              caracteres
             </div>
             <div class="invalid-feedback" *ngIf="independienteForm.get('descripcion')?.hasError('maxlength')">
               Debe ser menor o igual a {{independienteForm.get('descripcion')?.errors?.['maxlength'].requiredLength}}
