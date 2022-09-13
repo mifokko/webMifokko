@@ -1,7 +1,7 @@
 export interface Oferta {
     nombreOferta: string,
-    fechaInicio: {day: number, month: number, year: number},
-    fechaFin: {day: number, month: number, year: number},
+    fechaInicio: string
+    fechaFin: string,
     estado: string,
     id: string
 }
@@ -14,8 +14,8 @@ export interface Fecha {
 
 export interface Ofertas {
     nombreOferta: string,
-    fechaInicio: {day: number, month: number, year: number},
-    fechaFin: {day: number, month: number, year: number},
+    fechaInicio: string,
+    fechaFin: string,
     estado: string,
     descripcion: string,
     alcance: string,

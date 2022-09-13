@@ -3,6 +3,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SafeUrl } from '@angular/platform-browser';
 import { NgbActiveModal, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import { clearGlobalAppDefaultCred } from 'firebase-admin/lib/app/credential-factory';
 import { finalize, Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Oferta } from '../../model/oferta.model';
@@ -62,6 +63,10 @@ export class SubirOfertaComponent implements OnInit {
         this.modal.close();
         const formValue = this.ofertaForm.value;
         console.log('datos ->', this.ofertaForm);
+        const { fechaInicio, fechaFin } = this.ofertaForm.value;
+        //console.log(fechaInicio.day + '/' + fechaInicio.month + '/' + fechaInicio.year);
+        const fechaI = fechaInicio.day + '/' + fechaInicio.month + '/' + fechaInicio.year;
+        const fechaF = fechaFin.day + '/' + fechaFin.month + '/' + fechaFin.year
         let path = '';
         if (this.rol == 'empresa') {
           path = 'Empresas';
@@ -98,6 +103,8 @@ export class SubirOfertaComponent implements OnInit {
         }
         await this.data.createColInDoc(formValue, path, this.uid, subpath, id);
         await this.data.updateCamposDocCollDoc2(id, path, this.uid, subpath, id, 'id');
+        await this.data.updateCamposDocCollDoc2(fechaI, path, this.uid, subpath, id, 'fechaInicio');
+        await this.data.updateCamposDocCollDoc2(fechaF, path, this.uid, subpath, id, 'fechaFin');
         this.firestore.updateCamposDocCollDoc2(this.listaImagenes, path, this.uid, subpath, id,'imagenes');
         Swal.fire('Registro exitoso', 'Volver al inicio', 'success');
         this.ofertaForm.reset()

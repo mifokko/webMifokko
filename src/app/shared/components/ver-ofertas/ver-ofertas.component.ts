@@ -122,12 +122,13 @@ export class VerOfertasComponent implements OnInit {
           this.oferta = res;
           console.log(this.oferta);
           for (let index = 0; index < this.oferta.length; index++) {
-            const fecha = this.oferta[index].fechaInicio.day.toString() + '/' + this.oferta[index].fechaInicio.month.toString() + '/' + this.oferta[index].fechaInicio.year.toString();
+            const fecha = this.oferta[index].fechaInicio.split('/');
+            const fechaF = this.oferta[index].fechaFin.split('/');
             //console.log(fecha);
             //console.log(this.oferta[index].fechaInicio.month.toLocaleString() + ', ' + this.mes);
-            if (this.oferta[index].fechaInicio.month.toLocaleString() === this.mes && this.oferta[index].fechaInicio.year.toLocaleString() === this.anio){
+            if (fecha[1] === this.mes && fecha[2] === this.anio){
               //console.log(true);
-              if(this.date.getDate() >= this.oferta[index].fechaInicio.day && this.date.getDate() <= this.oferta[index].fechaFin.day){
+              if(this.date.getDate() >= parseInt(fecha[0]) && this.date.getDate() <= parseInt(fechaF[0])){
                 this.oferta[index].estado = 'Activo';
                 //this.firestore.updateCamposDocCollDoc2(this.oferta[index].estado, path, this.uid, 'Ofertas', this.oferta[index].id , 'estado');
               }else{

@@ -52,7 +52,7 @@ export class RegisterUsuarioGeneralComponent implements OnInit {
 
       this.departamento = this.departamento.sort();
       //this.municipios = this.municipios.sort();
-      //console.log(this.departamento);
+      console.log(this.departamento);
     })
   }
 

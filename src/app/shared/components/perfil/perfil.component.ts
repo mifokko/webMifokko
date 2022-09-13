@@ -188,7 +188,7 @@ export class PerfilComponent implements OnInit {
   onUpload(e: any) {
     const id = Math.random().toString(36).substring(2);
     const file = e.target.files[0];
-    const filePath = `uploads/${id}`;
+    const filePath = `uploads/${id}_perfil`;
     const ref = this.storage.ref(filePath);
     const task = this.storage.upload(filePath, file);
     this.uploadPercent = task.percentageChanges();
@@ -211,7 +211,7 @@ export class PerfilComponent implements OnInit {
   onPortada(e: any) {
     const id = Math.random().toString(36).substring(2);
     const file = e.target.files[0];
-    const filePath = `uploads/${id}`;
+    const filePath = `uploads/${id}_portada`;
     const ref = this.storage.ref(filePath);
     const task = this.storage.upload(filePath, file);
     this.uploadPercentP = task.percentageChanges();

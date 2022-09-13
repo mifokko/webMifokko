@@ -110,7 +110,7 @@ export class RegisterIndependienteComponent implements OnInit {
   onUpload(e: any) {
     const id = Math.random().toString(36).substring(2);
     const file = e.target.files[0];
-    const filePath = `Documentos/${id}`;
+    const filePath = `Documentos/${id}-${file.name}`;
     const ref = this.storage.ref(filePath);
     const task = this.storage.upload(filePath, file);
     this.uploadPercent = task.percentageChanges();
